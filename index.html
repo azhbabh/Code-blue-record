@@ -524,6 +524,42 @@
   }
   .cpr-cycle-count span { color: var(--blue); font-weight: 700; }
 
+  /* INITIAL RESPONSE CHECKLIST */
+  .init-checklist {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;
+  }
+  .init-item {
+    background: var(--surface2); border: 2px solid var(--border);
+    border-radius: 9px; overflow: hidden; transition: all 0.2s; cursor: pointer;
+    user-select: none;
+  }
+  .init-item:hover { border-color: var(--blue-mid); background: var(--blue-light); }
+  .init-item.checked {
+    border-color: var(--green); background: var(--green-light);
+    box-shadow: 0 0 0 2px var(--green-mid);
+  }
+  .init-item-inner {
+    display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+  }
+  .init-item input[type="checkbox"] {
+    width: 16px; height: 16px; accent-color: var(--green); flex-shrink: 0;
+    cursor: pointer; padding: 0; border: none; background: none; box-shadow: none;
+  }
+  .init-icon { font-size: 20px; flex-shrink: 0; }
+  .init-info { flex: 1; }
+  .init-name {
+    font-size: 13px; font-weight: 700; color: var(--text);
+    font-family: var(--head); letter-spacing: 0.5px;
+  }
+  .init-item.checked .init-name { color: var(--green); }
+  .init-desc { font-size: 10px; color: var(--text-dim); margin-top: 1px; }
+  .init-time-badge {
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    background: var(--green-light); color: var(--green);
+    border: 1px solid var(--green-mid); border-radius: 5px;
+    padding: 3px 9px; white-space: nowrap; flex-shrink: 0;
+  }
+
   /* PROCEDURE CHECKLIST */
   .proc-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
   .proc-item {
@@ -889,46 +925,71 @@
       </div>
     </div>
 
-    <!-- DATE & TIME -->
-    <div class="section-title">🕐 Date &amp; Time of Event</div>
-    <div class="form-grid three" style="margin-bottom:10px">
-      <div class="form-group">
-        <label>Date of Event *</label>
-        <input type="date" id="eventDate">
+    <!-- CPR TIMER -->
+    <div class="section-title">💓 CPR Timer</div>
+    <div class="cpr-timer-wrap" id="cprTimerWrap">
+      <div class="cpr-timer-left">
+        <button class="btn-cpr-start" id="btnCprStart" onclick="startCPR()">
+          <span class="cpr-icon">💓</span>
+          <span>Start CPR Timer</span>
+        </button>
+        <button class="btn-cpr-stop" id="btnCprStop" onclick="stopCPR()" style="display:none">
+          <span class="cpr-icon">⏹</span>
+          <span>Stop CPR</span>
+        </button>
       </div>
-      <div class="form-group">
-        <label>CPR Start Time *</label>
-        <input type="time" id="timeStart">
+      <div class="cpr-timer-display" id="cprTimerDisplay" style="display:none">
+        <div class="cpr-label">CPR IN PROGRESS</div>
+        <div class="cpr-countdown" id="cprCountdown">2:00</div>
+        <div class="cpr-bar-track"><div class="cpr-bar-fill" id="cprBarFill"></div></div>
+        <div class="cpr-cycle-count">Cycle <span id="cprCycle">1</span></div>
       </div>
-      <div class="form-group">
-        <label>CPR End Time</label>
-        <input type="time" id="timeEnd">
+    </div>
+
+    <!-- CPR CYCLE LOG -->
+    <div class="cycle-log-wrap" id="cycleLogWrap" style="display:none">
+      <div class="cycle-log-header">
+        <span class="cycle-log-title">📋 CPR Cycle Log</span>
+        <span class="cycle-log-total">Total: <span id="cycleTotalMin">0</span> min</span>
       </div>
+      <div class="cycle-log-list" id="cycleLogList"></div>
+    </div>
+
+    <!-- INITIAL RESPONSE CHECKLIST -->
+    <div class="section-title">🚨 Initial Response Checklist</div>
+    <div class="init-checklist">
+
+      <!-- BVM Ventilation O2 -->
+      <div class="init-item" id="init-bvm" onclick="toggleInit('bvm')">
+        <div class="init-item-inner">
+          <input type="checkbox" id="chk-init-bvm" onclick="event.stopPropagation();toggleInit('bvm',this.checked)">
+          <span class="init-icon">🫁</span>
+          <div class="init-info">
+            <div class="init-name">BVM Ventilation O₂</div>
+            <div class="init-desc">Bag-valve-mask with oxygen</div>
+          </div>
+          <span class="init-time-badge" id="ibadge-bvm" style="display:none"></span>
+        </div>
+      </div>
+
+      <!-- Attach Monitor -->
+      <div class="init-item" id="init-monitor" onclick="toggleInit('monitor')">
+        <div class="init-item-inner">
+          <input type="checkbox" id="chk-init-monitor" onclick="event.stopPropagation();toggleInit('monitor',this.checked)">
+          <span class="init-icon">📟</span>
+          <div class="init-info">
+            <div class="init-name">Attach Monitor</div>
+            <div class="init-desc">ECG leads &amp; defibrillator pads</div>
+          </div>
+          <span class="init-time-badge" id="ibadge-monitor" style="display:none"></span>
+        </div>
+      </div>
+
     </div>
 
     <!-- PROCEDURE CHECKLIST -->
     <div class="section-title">✅ Procedure Checklist</div>
     <div class="proc-list" id="procList">
-
-      <!-- BVM Ventilation -->
-      <div class="proc-item" id="proc-bvm">
-        <div class="proc-header" onclick="toggleProc('bvm')">
-          <input type="checkbox" id="chk-proc-bvm" onclick="event.stopPropagation();toggleProc('bvm',this.checked)">
-          <span class="proc-icon">🫁</span>
-          <span class="proc-name">BVM Ventilation</span>
-          <span class="proc-time-badge" id="badge-bvm" style="display:none"></span>
-        </div>
-      </div>
-
-      <!-- Attach Monitor -->
-      <div class="proc-item" id="proc-monitor">
-        <div class="proc-header" onclick="toggleProc('monitor')">
-          <input type="checkbox" id="chk-proc-monitor" onclick="event.stopPropagation();toggleProc('monitor',this.checked)">
-          <span class="proc-icon">📟</span>
-          <span class="proc-name">Attach Monitor</span>
-          <span class="proc-time-badge" id="badge-monitor" style="display:none"></span>
-        </div>
-      </div>
 
       <!-- IV Access -->
       <div class="proc-item" id="proc-iv">
@@ -1013,35 +1074,6 @@
         </div>
       </div>
 
-    </div>
-
-    <!-- CPR TIMER -->
-    <div class="cpr-timer-wrap" id="cprTimerWrap">
-      <div class="cpr-timer-left">
-        <button class="btn-cpr-start" id="btnCprStart" onclick="startCPR()">
-          <span class="cpr-icon">💓</span>
-          <span>Start CPR Timer</span>
-        </button>
-        <button class="btn-cpr-stop" id="btnCprStop" onclick="stopCPR()" style="display:none">
-          <span class="cpr-icon">⏹</span>
-          <span>Stop CPR</span>
-        </button>
-      </div>
-      <div class="cpr-timer-display" id="cprTimerDisplay" style="display:none">
-        <div class="cpr-label">CPR IN PROGRESS</div>
-        <div class="cpr-countdown" id="cprCountdown">2:00</div>
-        <div class="cpr-bar-track"><div class="cpr-bar-fill" id="cprBarFill"></div></div>
-        <div class="cpr-cycle-count">Cycle <span id="cprCycle">1</span></div>
-      </div>
-    </div>
-
-    <!-- CPR CYCLE LOG -->
-    <div class="cycle-log-wrap" id="cycleLogWrap" style="display:none">
-      <div class="cycle-log-header">
-        <span class="cycle-log-title">📋 CPR Cycle Log</span>
-        <span class="cycle-log-total">Total: <span id="cycleTotalMin">0</span> min</span>
-      </div>
-      <div class="cycle-log-list" id="cycleLogList"></div>
     </div>
 
     <!-- CLINICAL DETAILS -->
@@ -1353,12 +1385,6 @@
   }
   setInterval(updateClock, 1000); updateClock();
 
-  (function() {
-    const now = new Date();
-    document.getElementById('eventDate').value = now.toISOString().slice(0,10);
-    document.getElementById('timeStart').value = now.toTimeString().slice(0,5);
-  })();
-
   // ── Event Log ──
   let eventLog = []; // [{time, dot, text}]
 
@@ -1622,9 +1648,33 @@
     return labels[selectedRhythm] || selectedRhythm || '';
   }
 
+  // ── Initial Response Checklist ──
+  const initState = { bvm: null, monitor: null };
+
+  function toggleInit(key, checked) {
+    const item  = document.getElementById('init-'+key);
+    const chk   = document.getElementById('chk-init-'+key);
+    const badge = document.getElementById('ibadge-'+key);
+    const isOn  = (checked !== undefined) ? checked : !chk.checked;
+    chk.checked = isOn;
+    if (isOn) {
+      const t = nowTime();
+      initState[key] = { time: t };
+      item.classList.add('checked');
+      badge.textContent = t;
+      badge.style.display = '';
+      if (key === 'bvm')     logEvent('dot-bvm', `<strong>BVM Ventilation O₂</strong> — initiated`);
+      if (key === 'monitor') logEvent('dot-bvm', `<strong>Monitor</strong> attached`);
+    } else {
+      initState[key] = null;
+      item.classList.remove('checked');
+      badge.style.display = 'none';
+    }
+  }
+
   // ── Procedure Checklist ──
-  const procState = { bvm: null, monitor: null, iv: null, ett: null };
-  const procLabels = { bvm:'BVM Ventilation', monitor:'Attach Monitor', iv:'IV Access', ett:'Intubation (ETT)' };
+  const procState = { iv: null, ett: null };
+  const procLabels = { iv:'IV Access', ett:'Intubation (ETT)' };
 
   function toggleProc(key, checked) {
     const item  = document.getElementById('proc-'+key);
@@ -1643,8 +1693,6 @@
       if (body) body.style.display = '';
 
       // Detailed log per procedure
-      if (key === 'bvm')     logEvent('dot-bvm', `<strong>BVM Ventilation</strong> given`);
-      if (key === 'monitor') logEvent('dot-bvm', `<strong>Monitor</strong> attached`);
       if (key === 'iv')      logEvent('dot-bvm', `<strong>IV Access</strong> established — select cannula size and site below`);
       // ETT log handled by setEttResult
 
@@ -1713,8 +1761,8 @@
 
   function getProcData() {
     const data = {};
-    if (procState.bvm)     data.bvm     = { time: procState.bvm.time };
-    if (procState.monitor) data.monitor = { time: procState.monitor.time };
+    if (initState.bvm)     data.bvm     = { time: initState.bvm.time };
+    if (initState.monitor) data.monitor = { time: initState.monitor.time };
     if (procState.iv) data.iv = {
       time:    procState.iv.time,
       cannula: document.getElementById('iv-cannula').value,
@@ -1734,13 +1782,16 @@
   let cprInterval = null;
   let cprSecondsLeft = 120;
   let cprCycleCount = 1;
-  let cprCycleLog = [];   // [{cycle, startTime, endTime, duration}]
+  let cprCycleLog = [];
   let cprCycleStartTime = null;
+  let cprStartTime = null;
+  let cprEndTime = null;
   const CPR_DURATION = 120;
 
   function startCPR() {
     const now = new Date();
-    document.getElementById('timeStart').value = now.toTimeString().slice(0,5);
+    cprStartTime = now;
+    cprEndTime = null;
     cprSecondsLeft = CPR_DURATION;
     cprCycleCount = 1;
     cprCycleLog = [];
@@ -1753,7 +1804,7 @@
     addCycleEntry(cprCycleCount, cprCycleStartTime, null);
     updateCPRDisplay();
     cprInterval = setInterval(tickCPR, 1000);
-    logEvent('dot-cpr', `<strong>CPR Started</strong> — Cycle 1 begins`);
+    logEvent('dot-cpr', `<strong>CPR Started</strong> — ${now.toTimeString().slice(0,5)}, Cycle 1 begins`);
   }
 
   function tickCPR() {
@@ -1864,20 +1915,18 @@
   function stopCPR() {
     clearInterval(cprInterval);
     finaliseCycleEntry(cprCycleCount);
-    const now = new Date();
-    document.getElementById('timeEnd').value = now.toTimeString().slice(0,5);
+    cprEndTime = new Date();
     resetCPRUI();
-    logEvent('dot-cpr', `<strong>CPR Stopped</strong> — ${cprCycleCount} cycle${cprCycleCount>1?'s':''} completed`);
+    logEvent('dot-cpr', `<strong>CPR Stopped</strong> — ${cprEndTime.toTimeString().slice(0,5)}, ${cprCycleCount} cycle${cprCycleCount>1?'s':''} completed`);
   }
 
   function stopCPRFromAlert() {
     document.getElementById('pulseOverlay').classList.remove('open');
     clearInterval(cprInterval);
     finaliseCycleEntry(cprCycleCount);
-    const now = new Date();
-    document.getElementById('timeEnd').value = now.toTimeString().slice(0,5);
+    cprEndTime = new Date();
     resetCPRUI();
-    logEvent('dot-cpr', `<strong>Resuscitation Stopped</strong> — ${cprCycleCount} cycle${cprCycleCount>1?'s':''} completed`);
+    logEvent('dot-cpr', `<strong>Resuscitation Stopped</strong> — ${cprEndTime.toTimeString().slice(0,5)}, ${cprCycleCount} cycle${cprCycleCount>1?'s':''} completed`);
   }
 
   function resetCPRUI() {
@@ -1928,10 +1977,8 @@
   // ── Save ──
   function saveRecord() {
     const name = document.getElementById('patientName').value.trim();
-    const date = document.getElementById('eventDate').value;
-    const timeStart = document.getElementById('timeStart').value;
-    if (!name || !date || !timeStart) {
-      showToast('⚠ Please fill required fields: Name, Date & Start Time', '#92400e', '#fffbeb', '#fde68a');
+    if (!name) {
+      showToast('⚠ Please fill required fields: Patient Name', '#92400e', '#fffbeb', '#fde68a');
       return;
     }
     const record = {
@@ -1939,8 +1986,9 @@
       rn: document.getElementById('rnNumber').value.trim(),
       announced:    selectedAnnounce,
       announceTime: selectedAnnounce === 'yes' ? document.getElementById('announceTime').value : '',
-      date, timeStart,
-      timeEnd:  document.getElementById('timeEnd').value,
+      date: new Date().toISOString().slice(0,10),
+      timeStart: cprStartTime ? cprStartTime.toTimeString().slice(0,5) : '',
+      timeEnd:   cprEndTime   ? cprEndTime.toTimeString().slice(0,5)   : '',
       rhythm:   selectedRhythm,
       rhythmDisplay: getRhythmDisplay(),
       defibShocks: [...defibShocks],
@@ -1966,10 +2014,16 @@
 
   // ── Clear ──
   function clearForm() {
-    ['patientName','rnNumber','timeEnd','officer','notes','rhythmOthers','announceTime','defibBy','ett-by']
+    ['patientName','rnNumber','officer','notes','rhythmOthers','announceTime','defibBy','ett-by']
       .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    cprStartTime = null; cprEndTime = null;
+    // Reset initial response checklist
+    ['bvm','monitor'].forEach(key => {
+      toggleInit(key, false);
+      document.getElementById('chk-init-'+key).checked = false;
+    });
     // Reset procedure checklist
-    ['bvm','monitor','iv','ett'].forEach(key => {
+    ['iv','ett'].forEach(key => {
       toggleProc(key, false);
       document.getElementById('chk-proc-'+key).checked = false;
     });
@@ -1990,7 +2044,6 @@
     document.getElementById('rnPanel').classList.remove('open');
     document.getElementById('nameConfirmedWrap').style.display = 'none';
     const now = new Date();
-    document.getElementById('eventDate').value = now.toISOString().slice(0,10);
     document.getElementById('timeStart').value = now.toTimeString().slice(0,5);
     document.querySelectorAll('#interventionList input').forEach(c => c.checked = false);
     document.querySelectorAll('.outcome-btn').forEach(b => b.className = 'outcome-btn');
