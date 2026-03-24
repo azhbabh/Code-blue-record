@@ -161,6 +161,75 @@
   .announce-time-wrap.visible { display: flex; }
   @keyframes fadeIn { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:none} }
 
+  /* ECG RHYTHM CARD - separated shockable/non-shockable */
+  .rhythm-category {
+    border-radius: 8px; padding: 10px 12px;
+    border: 1.5px solid var(--border);
+  }
+  .rhythm-shockable {
+    background: #fff9f9; border-color: var(--red-mid);
+  }
+  .rhythm-nonshockable {
+    background: #f8f9ff; border-color: var(--blue-mid);
+  }
+  .rhythm-cat-header {
+    display: flex; align-items: center; gap: 7px; margin-bottom: 9px;
+  }
+  .rhythm-cat-icon { font-size: 13px; }
+  .rhythm-cat-label {
+    font-family: var(--head); font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-mid); flex: 1;
+  }
+  .rhythm-cat-tag {
+    font-family: var(--mono); font-size: 8px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 3px;
+  }
+  .rhythm-tag-shock   { background: var(--red-light); color: var(--red); border: 1px solid var(--red-mid); }
+  .rhythm-tag-noshock { background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-mid); }
+
+  .rhythm-cat-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  .rhythm-btn-shock, .rhythm-btn-noshock {
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    padding: 8px 12px; border-radius: 7px;
+    border: 1.5px solid var(--border-strong); background: var(--surface);
+    cursor: pointer; transition: all 0.18s; flex: 1; min-width: 72px;
+  }
+  .rbb-icon { font-size: 14px; }
+  .rbb-name {
+    font-family: var(--mono); font-size: 12px; font-weight: 700;
+    color: var(--text); letter-spacing: 0.5px;
+  }
+  .rbb-desc {
+    font-size: 9px; color: var(--text-dim); font-family: var(--body); font-weight: 400;
+    text-align: center; line-height: 1.3;
+  }
+
+  /* Shockable hover/active */
+  .rhythm-btn-shock:hover { border-color: var(--red); background: var(--red-light); }
+  .rhythm-btn-shock:hover .rbb-name { color: var(--red); }
+  .rhythm-btn-shock.active-vf,
+  .rhythm-btn-shock.active-vt {
+    background: var(--red-light); border-color: var(--red);
+    box-shadow: 0 0 0 2px var(--red-mid);
+  }
+  .rhythm-btn-shock.active-vf .rbb-name,
+  .rhythm-btn-shock.active-vt .rbb-name { color: var(--red); }
+
+  /* Non-shockable hover/active */
+  .rhythm-btn-noshock:hover { border-color: var(--blue); background: var(--blue-light); }
+  .rhythm-btn-noshock:hover .rbb-name { color: var(--blue); }
+  .rhythm-btn-noshock.active-pea,
+  .rhythm-btn-noshock.active-asy,
+  .rhythm-btn-noshock.active-oth {
+    background: var(--blue-light); border-color: var(--blue);
+    box-shadow: 0 0 0 2px var(--blue-mid);
+  }
+  .rhythm-btn-noshock.active-pea .rbb-name,
+  .rhythm-btn-noshock.active-asy .rbb-name,
+  .rhythm-btn-noshock.active-oth .rbb-name { color: var(--blue); }
+
   /* ECG RHYTHM BUTTONS */
   .rhythm-group { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
   .rhythm-btn {
@@ -404,6 +473,138 @@
   }
   .nc-edit:hover { background: var(--border); color: var(--text); }
 
+  /* PATIENT INFO CARD */
+  .patient-info-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    margin-bottom: 14px; box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+  }
+  .patient-info-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--red), var(--blue), var(--green));
+  }
+  .patient-info-body {
+    padding: 10px 14px 10px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .pi-card-label {
+    font-family: var(--head); font-size: 9px; font-weight: 700;
+    letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .pi-divider { width: 1px; height: 20px; background: var(--border-strong); flex-shrink: 0; }
+  .pi-field { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .pi-label {
+    font-size: 8px; font-weight: 700; color: var(--text-dim);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .pi-input {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 5px;
+    color: var(--text); font-family: var(--body); font-size: 12px; padding: 5px 8px;
+    outline: none; transition: border-color 0.15s, box-shadow 0.15s; font-weight: 600;
+    width: 100%;
+  }
+  .pi-input:focus { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(26,86,219,0.12); background: #fff; }
+  .pi-name-field { flex: 2; min-width: 160px; }
+  .pi-rn-field   { flex: 1.2; min-width: 130px; }
+  .pi-zone-field { flex-shrink: 0; }
+
+  /* ZONING BUTTONS */
+  .zone-group { display: flex; gap: 5px; }
+  .zone-btn {
+    padding: 5px 10px; border-radius: 5px;
+    border: 1.5px solid var(--border-strong); cursor: pointer;
+    font-family: var(--head); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.8px; text-transform: uppercase; transition: all 0.15s;
+    display: flex; align-items: center; gap: 4px;
+    background: var(--surface2); color: var(--text-dim); white-space: nowrap;
+  }
+  .zone-btn:hover { border-color: var(--blue-mid); color: var(--text); background: var(--blue-light); }
+  .zone-btn.active-red    { background: var(--red-light);    border-color: var(--red);    color: var(--red);    box-shadow: 0 0 0 2px var(--red-mid); }
+  .zone-btn.active-yellow { background: var(--yellow-light); border-color: #b45309;       color: #b45309;       box-shadow: 0 0 0 2px var(--yellow-mid); }
+  .zone-btn.active-green  { background: var(--green-light);  border-color: var(--green);  color: var(--green);  box-shadow: 0 0 0 2px var(--green-mid); }
+  .zone-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 4px; font-family: var(--mono);
+    font-size: 9px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase;
+  }
+  .zone-badge-red    { background: var(--red-light);    color: var(--red);    border: 1px solid var(--red-mid); }
+  .zone-badge-yellow { background: var(--yellow-light); color: #b45309;       border: 1px solid var(--yellow-mid); }
+  .zone-badge-green  { background: var(--green-light);  color: var(--green);  border: 1px solid var(--green-mid); }
+
+  /* IMMEDIATE ACTIONS CHECKLIST - compact pill style */
+  .imm-pill {
+    display: flex; align-items: center; gap: 7px;
+    padding: 4px 10px 4px 6px; border-radius: 6px;
+    border: 1.5px solid var(--border-strong); background: var(--surface2);
+    cursor: pointer; transition: all 0.18s; user-select: none; flex-shrink: 0;
+  }
+  .imm-pill:hover { border-color: var(--blue); background: var(--blue-light); }
+  .imm-pill.checked { background: var(--green-light); border-color: var(--green); box-shadow: 0 0 0 2px var(--green-mid); }
+
+  .imm-pill-box {
+    width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0;
+    border: 1.5px solid var(--border-strong); background: #fff;
+    display: flex; align-items: center; justify-content: center; transition: all 0.18s;
+  }
+  .imm-pill.checked .imm-pill-box { background: var(--green); border-color: var(--green); }
+
+  .imm-tick-svg {
+    width: 10px; height: 10px; color: #fff; opacity: 0;
+    transform: scale(0.4); transition: all 0.18s;
+  }
+  .imm-pill.checked .imm-tick-svg { opacity: 1; transform: scale(1); }
+
+  .imm-pill-icon { font-size: 14px; flex-shrink: 0; }
+  .imm-pill-info { display: flex; flex-direction: column; gap: 1px; }
+  .imm-pill-label {
+    font-size: 11px; font-weight: 600; color: var(--text); white-space: nowrap;
+    transition: color 0.18s;
+  }
+  .imm-pill.checked .imm-pill-label { color: var(--green); }
+
+  .imm-pill-time {
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    color: var(--green); display: none; animation: fadeIn 0.2s ease;
+  }
+  .imm-pill.checked .imm-pill-time { display: block; }
+
+  .imm-pill-cpr {
+    background: linear-gradient(135deg, #057a55, #059669);
+    border-color: #057a55;
+    padding: 9px 20px 9px 12px;
+    box-shadow: 0 3px 10px rgba(5,122,85,0.35);
+    gap: 10px;
+  }
+  .imm-pill-cpr .imm-pill-box {
+    width: 22px; height: 22px; border-radius: 5px;
+    border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.2);
+  }
+  .imm-pill-cpr .imm-tick-svg { width: 12px; height: 12px; }
+  .imm-pill-cpr .imm-pill-icon { font-size: 18px; }
+  .imm-pill-cpr .imm-pill-label { color: #fff; font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+  .imm-pill-cpr .imm-pill-time { color: rgba(255,255,255,0.85); }
+  .imm-pill-cpr:hover { background: linear-gradient(135deg, #065f46, #047857); border-color: #065f46; transform: translateY(-1px); box-shadow: 0 5px 16px rgba(5,122,85,0.45); }
+  .imm-pill-cpr.checked { background: linear-gradient(135deg, #065f46, #047857); border-color: #065f46; box-shadow: 0 3px 10px rgba(5,122,85,0.4); }
+  .imm-pill-cpr.checked .imm-pill-label { color: #fff; }
+  .imm-pill-cpr.checked .imm-pill-box { background: rgba(255,255,255,0.35); border-color: rgba(255,255,255,0.6); }
+  .imm-pill-cpr.checked .imm-tick-svg { color: #fff; }
+
+  .imm-progress-pill {
+    display: flex; align-items: center; gap: 7px; flex-shrink: 0;
+  }
+  .imm-progress-bar-wrap {
+    width: 60px; height: 4px; background: var(--border); border-radius: 10px; overflow: hidden;
+  }
+  .imm-progress-bar {
+    height: 100%; background: linear-gradient(90deg, var(--green), #34d399);
+    border-radius: 10px; transition: width 0.4s cubic-bezier(.4,0,.2,1);
+  }
+  .imm-footer {
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    color: var(--text-dim); white-space: nowrap;
+  }
+
   /* BVM / MONITOR CHECKLIST */
   .bvm-checklist-row {
     display: flex; gap: 8px; flex-wrap: wrap;
@@ -432,7 +633,7 @@
   /* CYCLE LOG */
   .cycle-log-wrap {
     background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 8px; padding: 10px 14px; margin-top: 8px;
+    border-radius: 8px; padding: 10px 14px;
     animation: fadeIn 0.22s ease;
   }
   .cycle-log-header {
@@ -448,7 +649,7 @@
     font-weight: 600;
   }
   .cycle-log-total span { color: var(--text); font-weight: 700; }
-  .cycle-log-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cycle-log-list { display: flex; flex-direction: column; gap: 4px; }
   .cycle-entry {
     display: flex; align-items: center; gap: 6px;
     background: #fff; border: 1px solid var(--border-strong);
@@ -470,10 +671,14 @@
   .cycle-entry.active .cycle-entry-time { color: var(--green); }
 
   /* CPR TIMER */
+  .cpr-layout {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start;
+  }
+  @media (max-width: 720px) { .cpr-layout { grid-template-columns: 1fr; } }
   .cpr-timer-wrap {
     display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
     background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 8px; padding: 12px 16px; margin-bottom: 14px;
+    border-radius: 8px; padding: 12px 16px;
   }
   .cpr-timer-left { display: flex; gap: 8px; }
   .btn-cpr-start {
@@ -643,6 +848,17 @@
   .dot-pulse    { background: var(--yellow); }
   .dot-cycle    { background: var(--text-dim); }
 
+  /* EVENT LOG PATIENT BLOCK */
+  .event-patient-block {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 10px; margin-bottom: 6px;
+    animation: fadeIn 0.2s ease;
+  }
+  .event-patient-sentence {
+    font-size: 11px; color: var(--text); font-weight: 500; line-height: 1.5;
+  }
+
+
   /* INLINE DEFIB LOG */
   .inline-defib-log {
     margin-top: 10px;
@@ -763,62 +979,85 @@
   }
   .defib-btn-close:hover { background: var(--green-mid); }
 
-  /* PULSE CHECK ALERT */
+  /* PULSE CHECK OVERLAY */
   .pulse-overlay {
     position: fixed; inset: 0; z-index: 500;
-    background: rgba(0,0,0,0.6);
+    background: rgba(15,23,42,0.55);
     display: none; align-items: center; justify-content: center;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(5px);
     animation: fadeIn 0.2s ease;
   }
   .pulse-overlay.open { display: flex; }
   .pulse-modal {
-    background: #fff; border-radius: 16px;
-    padding: 36px 32px; width: 90%; max-width: 380px;
-    text-align: center;
+    background: #fff; border-radius: 14px;
+    width: 90%; max-width: 460px;
     box-shadow: 0 24px 60px rgba(0,0,0,0.25);
-    animation: pulseModalIn 0.3s cubic-bezier(.4,0,.2,1);
+    overflow: hidden;
+    animation: pulseModalIn 0.28s cubic-bezier(.4,0,.2,1);
   }
-  @keyframes pulseModalIn { from{opacity:0;transform:scale(0.88)} to{opacity:1;transform:none} }
-  .pulse-icon-ring {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: var(--red-light); border: 3px solid var(--red-mid);
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 16px;
-    animation: pulseRing 0.7s ease-in-out infinite;
+  @keyframes pulseModalIn { from{opacity:0;transform:scale(0.9)} to{opacity:1;transform:none} }
+  .pulse-modal-header {
+    background: linear-gradient(135deg, #b91c2e, #d62839);
+    padding: 16px 20px; display: flex; align-items: center; gap: 12px;
   }
-  @keyframes pulseRing {
-    0%,100% { box-shadow: 0 0 0 0 rgba(214,40,57,0.3); }
-    50%      { box-shadow: 0 0 0 14px rgba(214,40,57,0); }
+  .pulse-modal-icon {
+    font-size: 26px; animation: pulseRing 0.7s ease-in-out infinite;
   }
-  .pulse-icon-inner { font-size: 32px; }
-  .pulse-title {
-    font-family: var(--head); font-size: 22px; font-weight: 700;
-    color: var(--red); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;
+  .pulse-modal-title {
+    font-family: var(--head); font-size: 18px; font-weight: 700;
+    color: #fff; letter-spacing: 2px; text-transform: uppercase;
   }
-  .pulse-subtitle {
-    font-family: var(--body); font-size: 12px; color: var(--text-mid); margin-bottom: 6px;
+  .pulse-modal-sub { font-size: 10px; color: rgba(255,255,255,0.8); margin-top: 2px; }
+  .pulse-modal-body { padding: 16px 20px; }
+  .pulse-modal-cycle {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    background: var(--red-light); color: var(--red);
+    border: 1px solid var(--red-mid); border-radius: 5px;
+    padding: 4px 10px; display: inline-block; margin-bottom: 14px;
   }
-  .pulse-cycle-info {
-    font-family: var(--mono); font-size: 11px; color: var(--text-dim);
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 5px; padding: 5px 12px; display: inline-block; margin-bottom: 22px;
+  .pulse-rhythm-label {
+    font-size: 10px; font-weight: 700; color: var(--text-mid);
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
   }
-  .pulse-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .pulse-rhythm-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 14px;
+  }
+  .pulse-rhythm-btn {
+    padding: 10px 8px; border-radius: 8px; border: 2px solid var(--border-strong);
+    background: var(--surface2); cursor: pointer; transition: all 0.15s;
+    font-family: var(--head); font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; text-align: center;
+  }
+  .pulse-rhythm-btn .prb-icon { font-size: 18px; display: block; margin-bottom: 3px; }
+  .pulse-rhythm-btn .prb-name { font-size: 12px; color: var(--text); display: block; }
+  .pulse-rhythm-btn .prb-desc { font-size: 9px; color: var(--text-dim); font-weight: 400; font-family: var(--body); letter-spacing: 0; display: block; margin-top: 1px; }
+  .pulse-rhythm-btn:hover { border-color: var(--blue); background: var(--blue-light); }
+  .pulse-rhythm-btn:hover .prb-name { color: var(--blue); }
+  .pulse-rhythm-btn.vf-btn:hover, .pulse-rhythm-btn.pvt-btn:hover { border-color: var(--red); background: var(--red-light); }
+  .pulse-rhythm-btn.vf-btn:hover .prb-name, .pulse-rhythm-btn.pvt-btn:hover .prb-name { color: var(--red); }
+  .pulse-modal-divider { height: 1px; background: var(--border); margin: 0 0 14px; }
+  .pulse-cpr-actions { display: flex; gap: 8px; flex-wrap: wrap; }
   .pulse-btn {
-    padding: 9px 20px; border-radius: 8px; border: none; cursor: pointer;
-    font-family: var(--head); font-size: 12px; font-weight: 700;
-    letter-spacing: 1px; text-transform: uppercase; transition: all 0.18s;
+    flex: 1; padding: 8px 12px; border-radius: 7px; border: none; cursor: pointer;
+    font-family: var(--head); font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; transition: all 0.18s; text-align: center;
   }
   .pulse-btn-continue {
     background: linear-gradient(135deg, #057a55, #059669); color: #fff;
-    box-shadow: 0 3px 10px rgba(5,122,85,0.35);
+    box-shadow: 0 2px 8px rgba(5,122,85,0.35);
   }
-  .pulse-btn-continue:hover { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(5,122,85,0.45); }
+  .pulse-btn-continue:hover { transform: translateY(-1px); }
   .pulse-btn-stop {
     background: var(--red-light); color: var(--red); border: 1.5px solid var(--red-mid);
   }
   .pulse-btn-stop:hover { background: var(--red-mid); }
+  .pulse-btn-skip {
+    background: var(--surface2); color: var(--text-mid); border: 1.5px solid var(--border-strong);
+  }
+  .pulse-btn-skip:hover { background: var(--border); color: var(--text); }
+
+  /* PULSE CHECK INLINE PANEL - kept as hidden placeholder */
+  .pulse-panel { display: none; }
 
   /* PRINT */
   @media print {
@@ -834,7 +1073,132 @@
     table { font-size: 10px; }
     th, td { padding: 6px 8px; }
     .live-clock { font-size: 12px; }
+    .cpr-combined-grid { grid-template-columns: 1fr !important; }
   }
+
+  /* ── PROC OVERLAY (IV + ETT) ── */
+  .proc-overlay {
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(0,0,0,0.55);
+    display: none; align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .proc-overlay.open { display: flex; }
+  .proc-modal {
+    background: #fff; border-radius: 16px;
+    width: 92%; max-width: 400px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+    overflow: hidden;
+    animation: pulseModalIn 0.25s cubic-bezier(.4,0,.2,1);
+  }
+  .proc-modal-header {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px;
+  }
+  .proc-modal-icon-ring {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .proc-modal-title {
+    font-family: var(--head); font-size: 17px; font-weight: 700;
+    color: #fff; letter-spacing: 1.5px; text-transform: uppercase;
+  }
+  .proc-modal-sub {
+    font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 2px;
+  }
+  .proc-modal-body { padding: 16px 20px 20px; }
+  .proc-modal-label {
+    font-size: 10px; font-weight: 700; color: var(--text-mid);
+    text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px;
+  }
+  .proc-option-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .proc-option-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 12px 8px; border-radius: 10px;
+    border: 2px solid var(--border-strong); background: var(--surface2);
+    cursor: pointer; transition: all 0.18s;
+    font-family: var(--head); font-weight: 700; text-align: center;
+  }
+  .proc-option-btn:hover { border-color: var(--blue); background: var(--blue-light); transform: translateY(-1px); }
+  .proc-option-btn:active { transform: translateY(0); }
+  .proc-option-btn .opt-icon { font-size: 22px; }
+  .proc-option-btn .opt-label { font-size: 12px; color: var(--text); letter-spacing: 0.5px; }
+  .proc-option-btn .opt-sub { font-size: 9px; color: var(--text-dim); font-family: var(--body); font-weight: 400; }
+  .proc-option-btn.selected { border-color: var(--blue); background: var(--blue-light); box-shadow: 0 0 0 2px var(--blue-mid); }
+  .proc-option-btn.selected .opt-label { color: var(--blue); }
+
+  /* ETT result buttons in overlay */
+  .ett-result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .ett-result-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    padding: 14px 10px; border-radius: 10px;
+    border: 2px solid var(--border-strong); background: var(--surface2);
+    cursor: pointer; transition: all 0.18s; font-family: var(--head); font-weight: 700;
+  }
+  .ett-result-btn .er-icon { font-size: 28px; }
+  .ett-result-btn .er-label { font-size: 13px; letter-spacing: 0.5px; color: var(--text); }
+  .ett-result-btn:hover { transform: translateY(-1px); }
+  .ett-result-btn.succeed:hover, .ett-result-btn.succeed.active { border-color: var(--green); background: var(--green-light); box-shadow: 0 0 0 2px var(--green-mid); }
+  .ett-result-btn.succeed:hover .er-label, .ett-result-btn.succeed.active .er-label { color: var(--green); }
+  .ett-result-btn.failed:hover, .ett-result-btn.failed.active { border-color: var(--red); background: var(--red-light); box-shadow: 0 0 0 2px var(--red-mid); }
+  .ett-result-btn.failed:hover .er-label, .ett-result-btn.failed.active .er-label { color: var(--red); }
+
+  /* IV cannula card grid — same style as ETT */
+  .iv-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 4px; }
+  .iv-card-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    padding: 14px 6px; border-radius: 10px;
+    border: 2px solid var(--border-strong); background: var(--surface2);
+    cursor: pointer; transition: all 0.18s; font-family: var(--head); font-weight: 700;
+  }
+  .iv-card-btn .ic-dot {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 3px solid rgba(0,0,0,0.12); flex-shrink: 0;
+  }
+  .iv-card-btn .ic-gauge { font-size: 14px; font-family: var(--mono); font-weight: 700; color: var(--text); }
+  .iv-card-btn .ic-color { font-size: 9px; color: var(--text-dim); font-family: var(--body); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+  .iv-card-btn:hover { transform: translateY(-1px); border-color: var(--cyan); background: var(--cyan-light); box-shadow: 0 0 0 2px var(--cyan-mid); }
+  .iv-card-btn:hover .ic-gauge { color: var(--cyan); }
+  .iv-card-btn.selected { border-color: var(--cyan); background: var(--cyan-light); box-shadow: 0 0 0 2px var(--cyan-mid); }
+  .iv-card-btn.selected .ic-gauge { color: var(--cyan); }
+
+  /* IV site card grid */
+  .iv-site-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+  .iv-site-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 12px 8px; border-radius: 10px;
+    border: 2px solid var(--border-strong); background: var(--surface2);
+    cursor: pointer; transition: all 0.18s; font-family: var(--head); font-weight: 700;
+    text-align: center;
+  }
+  .iv-site-btn .is-icon { font-size: 22px; }
+  .iv-site-btn .is-label { font-size: 11px; color: var(--text); letter-spacing: 0.3px; line-height: 1.3; }
+  .iv-site-btn .is-sub { font-size: 9px; color: var(--text-dim); font-family: var(--body); font-weight: 400; }
+  .iv-site-btn:hover { transform: translateY(-1px); border-color: var(--cyan); background: var(--cyan-light); box-shadow: 0 0 0 2px var(--cyan-mid); }
+  .iv-site-btn:hover .is-label { color: var(--cyan); }
+
+  .proc-modal-fields { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .proc-modal-field { display: flex; flex-direction: column; gap: 5px; }
+  .proc-modal-field label { font-size: 10px; font-weight: 700; color: var(--text-mid); text-transform: uppercase; letter-spacing: 0.8px; }
+  .proc-modal-field select, .proc-modal-field input { font-size: 13px; padding: 8px 10px; border-radius: 7px; }
+
+  .proc-modal-footer { display: flex; gap: 8px; padding: 0 20px 18px; }
+  .proc-modal-btn-confirm {
+    flex: 1; padding: 10px; border-radius: 8px; border: none; cursor: pointer;
+    font-family: var(--head); font-size: 12px; font-weight: 700;
+    letter-spacing: 1.2px; text-transform: uppercase; transition: all 0.15s;
+  }
+  .proc-modal-btn-cancel {
+    padding: 10px 18px; border-radius: 8px; cursor: pointer;
+    background: var(--surface2); border: 1.5px solid var(--border-strong);
+    color: var(--text-mid); font-family: var(--head); font-size: 12px;
+    font-weight: 700; letter-spacing: 0.5px; transition: all 0.15s;
+  }
+  .proc-modal-btn-cancel:hover { background: var(--border); color: var(--text); }
 </style>
 </head>
 <body>
@@ -864,142 +1228,269 @@
     <span>Code Blue Record System — Ministry of Health Malaysia</span>
   </div>
 
-  <!-- FORM -->
-  <div class="form-card">
+  <!-- PATIENT INFORMATION CARD -->
+  <div class="patient-info-card">
+    <div class="patient-info-body">
+      <span class="pi-card-label">👤 Patient</span>
+      <div class="pi-divider"></div>
+      <!-- Full Name -->
+      <div class="pi-field pi-name-field">
+        <div class="pi-label">Full Name *</div>
+        <input type="text" class="pi-input" id="patientName" placeholder="Patient full name" autocomplete="off"
+          oninput="renderEventLog()"
+          onkeydown="if(event.key==='Enter')document.getElementById('rnNumber').focus()">
+      </div>
+      <!-- RN Number -->
+      <div class="pi-field pi-rn-field">
+        <div class="pi-label">RN Number</div>
+        <input type="text" class="pi-input" id="rnNumber" placeholder="e.g. RN-2024-00001" autocomplete="off"
+          oninput="renderEventLog()">
+      </div>
+      <div class="pi-divider"></div>
+      <!-- Zoning -->
+      <div class="pi-field pi-zone-field">
+        <div class="pi-label">Triage Zone</div>
+        <div class="zone-group">
+          <button class="zone-btn" id="zoneRed"    onclick="setZone('red')">🔴 Red</button>
+          <button class="zone-btn" id="zoneYellow" onclick="setZone('yellow')">🟡 Yellow</button>
+          <button class="zone-btn" id="zoneGreen"  onclick="setZone('green')">🟢 Green</button>
+        </div>
+        <input type="hidden" id="zone" value="">
+      </div>
+    </div>
+  </div>
 
-    <!-- PATIENT INFO -->
-    <div class="section-title">📋 Patient Information</div>
-    <div class="name-row">
-      <div class="form-group" style="flex:1">
-        <label>Full Name *</label>
-        <div style="display:flex;gap:8px;align-items:center">
-          <input type="text" id="patientName" placeholder="Patient full name" autocomplete="off"
-            onkeydown="if(event.key==='Enter')doneName()" style="flex:1">
-          <button class="btn-done-name" id="btnDoneName" onclick="doneName()">Done ✓</button>
+  <!-- INITIAL ACTIONS CHECKLIST -->
+  <div class="patient-info-card" style="margin-bottom:14px;">
+
+    <!-- ROW 1: Start CPR -->
+    <div class="patient-info-body" style="gap:8px; padding-bottom:8px; border-bottom:1px solid var(--border);">
+      <span class="pi-card-label">⚡ Initial Actions</span>
+      <div class="pi-divider"></div>
+      <div class="imm-pill imm-pill-cpr" id="immCard-cpr" onclick="toggleImmCheck('cpr')">
+        <div class="imm-pill-box" id="immBox-cpr">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="imm-tick-svg" id="immTick-cpr"><polyline points="2,7 6,11 12,3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="imm-pill-icon">💓</span>
+        <div class="imm-pill-info">
+          <div class="imm-pill-label">Start CPR</div>
+          <span class="imm-pill-time" id="immBadge-cpr"></span>
+        </div>
+      </div>
+      <div style="flex:1"></div>
+      <div class="imm-progress-pill">
+        <div class="imm-progress-bar-wrap" id="immProgressWrap">
+          <div class="imm-progress-bar" id="immProgressBar" style="width:0%"></div>
+        </div>
+        <span class="imm-footer" id="immFooterText">0/3</span>
+      </div>
+    </div>
+
+    <!-- ROW 2: BVM + Monitor -->
+    <div class="patient-info-body" style="gap:8px; padding-top:8px;">
+      <span class="pi-card-label" style="opacity:0; pointer-events:none;">⚡ Initial Actions</span>
+      <div class="pi-divider" style="opacity:0"></div>
+      <!-- BVM VENTILATION -->
+      <div class="imm-pill" id="immCard-bvm" onclick="toggleImmCheck('bvm')">
+        <div class="imm-pill-box" id="immBox-bvm">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="imm-tick-svg" id="immTick-bvm"><polyline points="2,7 6,11 12,3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="imm-pill-icon">🫁</span>
+        <div class="imm-pill-info">
+          <div class="imm-pill-label">BVM Ventilation O₂</div>
+          <span class="imm-pill-time" id="immBadge-bvm"></span>
+        </div>
+      </div>
+      <div class="pi-divider"></div>
+      <!-- ATTACH MONITOR -->
+      <div class="imm-pill" id="immCard-monitor" onclick="toggleImmCheck('monitor')">
+        <div class="imm-pill-box" id="immBox-monitor">
+          <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="imm-tick-svg" id="immTick-monitor"><polyline points="2,7 6,11 12,3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="imm-pill-icon">📟</span>
+        <div class="imm-pill-info">
+          <div class="imm-pill-label">Attach Monitor</div>
+          <span class="imm-pill-time" id="immBadge-monitor"></span>
         </div>
       </div>
     </div>
 
-    <!-- RN INLINE PANEL (hidden until name done) -->
-    <div class="rn-panel" id="rnPanel">
-      <div class="rn-panel-inner">
-        <div class="rn-panel-left">
-          <div class="rn-confirmed-name" id="rnConfirmedName"></div>
-          <div class="rn-label-text">Enter RN Number for this patient</div>
+  </div>
+
+  <!-- ECG INITIAL RHYTHM CARD -->
+  <div class="form-card" style="padding:14px 18px; margin-bottom:14px;">
+    <div class="section-title">📈 ECG Rhythm (Initial Rhythm)</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+
+      <!-- SHOCKABLE -->
+      <div class="rhythm-category rhythm-shockable">
+        <div class="rhythm-cat-header">
+          <span class="rhythm-cat-icon">⚡</span>
+          <span class="rhythm-cat-label">Shockable</span>
+          <span class="rhythm-cat-tag rhythm-tag-shock">DEFIBRILLATE</span>
         </div>
-        <div class="rn-panel-right">
-          <input type="text" id="rnNumber" placeholder="e.g. RN-2024-00001" autocomplete="off"
-            style="width:200px" onkeydown="if(event.key==='Enter')confirmRN()">
-          <button class="btn-rn-confirm" onclick="confirmRN()">✓ Confirm</button>
-          <button class="btn-rn-skip" onclick="skipRN()">Skip →</button>
+        <div class="rhythm-cat-btns">
+          <button class="rhythm-btn rhythm-btn-shock" data-val="VF" onclick="setRhythm(this)">
+            <span class="rbb-icon">⚡</span>
+            <span class="rbb-name">VF</span>
+            <span class="rbb-desc">Ventricular Fibrillation</span>
+          </button>
+          <button class="rhythm-btn rhythm-btn-shock" data-val="pVT" onclick="setRhythm(this)">
+            <span class="rbb-icon">⚡</span>
+            <span class="rbb-name">pVT</span>
+            <span class="rbb-desc">Pulseless VT</span>
+          </button>
         </div>
       </div>
-    </div>
 
-    <!-- NAME + RN CONFIRMED BADGE -->
-    <div class="name-confirmed-wrap" id="nameConfirmedWrap" style="display:none">
-      <div class="name-confirmed-badge">
-        <span class="nc-icon">👤</span>
-        <span class="nc-name" id="ncName"></span>
-        <span class="nc-rn" id="ncRN"></span>
-        <button class="nc-edit" onclick="editName()">✎ Edit</button>
-      </div>
-    </div>
-
-    <!-- CODE ANNOUNCED -->
-    <div class="section-title">📢 Code Announced</div>
-    <div style="margin-bottom:22px">
-      <div class="form-group">
-        <label>Was Code Blue Announced? *</label>
-        <div class="toggle-group" style="margin-top:4px">
-          <button class="toggle-btn" id="announceYes" onclick="setAnnounce('yes')">✅ YES</button>
-          <button class="toggle-btn" id="announceNo"  onclick="setAnnounce('no')">❌ NO</button>
+      <!-- NON-SHOCKABLE -->
+      <div class="rhythm-category rhythm-nonshockable">
+        <div class="rhythm-cat-header">
+          <span class="rhythm-cat-icon">〰️</span>
+          <span class="rhythm-cat-label">Non-Shockable</span>
+          <span class="rhythm-cat-tag rhythm-tag-noshock">CPR ONLY</span>
         </div>
-        <div class="announce-time-wrap" id="announceTimeWrap">
-          <div style="display:flex;flex-direction:column;gap:5px">
-            <label>Time of Announcement</label>
-            <input type="time" id="announceTime" style="max-width:200px" onchange="onAnnounceTimeDone()">
+        <div class="rhythm-cat-btns">
+          <button class="rhythm-btn rhythm-btn-noshock" data-val="PEA" onclick="setRhythm(this)">
+            <span class="rbb-icon">📉</span>
+            <span class="rbb-name">PEA</span>
+            <span class="rbb-desc">Pulseless Electrical Activity</span>
+          </button>
+          <button class="rhythm-btn rhythm-btn-noshock" data-val="Asystole" onclick="setRhythm(this)">
+            <span class="rbb-icon">〰️</span>
+            <span class="rbb-name">Asystole</span>
+            <span class="rbb-desc">Flatline</span>
+          </button>
+          <button class="rhythm-btn rhythm-btn-noshock" data-val="Others" onclick="setRhythm(this)">
+            <span class="rbb-icon">…</span>
+            <span class="rbb-name">Others</span>
+            <span class="rbb-desc">Specify below</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="rhythm-others-input" id="rhythmOthersWrap" style="margin-top:10px;">
+      <input type="text" id="rhythmOthers" placeholder="Specify other rhythm..." style="max-width:320px">
+    </div>
+    <input type="hidden" id="rhythm" value="">
+
+    <!-- INLINE DEFIB LOG -->
+    <div class="inline-defib-log" id="inlineDefibLog" style="display:none; margin-top:10px;">
+      <div class="inline-defib-header">
+        <span class="inline-defib-title">⚡ Defibrillation Record</span>
+        <button class="inline-defib-add" onclick="openDefib(selectedRhythm)">+ Add Shock</button>
+      </div>
+      <div class="inline-shock-list" id="inlineShockList"></div>
+    </div>
+  </div>
+
+  <!-- CPR TIMER + CYCLE LOG CARD -->
+  <div class="form-card" style="padding:12px 16px; margin-bottom:14px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; align-items:start;">
+
+      <!-- CPR TIMER -->
+      <div>
+        <div class="section-title" style="margin-bottom:10px;">💓 CPR Timer</div>
+        <div class="cpr-timer-wrap" id="cprTimerWrap">
+          <div class="cpr-timer-left">
+            <button class="btn-cpr-start" id="btnCprStart" onclick="startCPR()">
+              <span class="cpr-icon">💓</span>
+              <span>Start CPR Timer</span>
+            </button>
+            <button class="btn-cpr-stop" id="btnCprStop" onclick="stopCPR()" style="display:none">
+              <span class="cpr-icon">⏹</span>
+              <span>Stop CPR</span>
+            </button>
+          </div>
+          <div class="cpr-timer-display" id="cprTimerDisplay" style="display:none">
+            <div class="cpr-label">CPR IN PROGRESS</div>
+            <div class="cpr-countdown" id="cprCountdown">2:00</div>
+            <div class="cpr-bar-track"><div class="cpr-bar-fill" id="cprBarFill"></div></div>
+            <div class="cpr-cycle-count">Cycle <span id="cprCycle">1</span></div>
           </div>
         </div>
-        <input type="hidden" id="announced" value="">
+      </div>
+
+      <!-- CPR CYCLE LOG -->
+      <div>
+        <div class="section-title" style="margin-bottom:10px;">📋 Cycle Log</div>
+        <div class="cycle-log-wrap" id="cycleLogWrap" style="margin-top:0">
+          <div class="cycle-log-header">
+            <span class="cycle-log-title"></span>
+            <span class="cycle-log-total">Total: <span id="cycleTotalMin">0</span> min</span>
+          </div>
+          <div class="cycle-log-list" id="cycleLogList"><span style="font-size:10px;color:var(--text-dim);font-style:italic">No cycles recorded yet.</span></div>
+        </div>
+      </div>
+
+    </div>
+    <!-- PULSE CHECK INLINE PANEL (hidden) -->
+    <div class="pulse-panel" id="pulsePanelInline"></div>
+  </div>
+
+<!-- PULSE CHECK OVERLAY -->
+<div class="pulse-overlay" id="pulseOverlay">
+  <div class="pulse-modal">
+    <div class="pulse-modal-header">
+      <span class="pulse-modal-icon">🫀</span>
+      <div>
+        <div class="pulse-modal-title">Check Rhythm &amp; Pulse</div>
+        <div class="pulse-modal-sub">2-Minute CPR Cycle Complete</div>
       </div>
     </div>
+    <div class="pulse-modal-body">
+      <div class="pulse-modal-cycle">Cycle <span id="pulseAlertCycle">1</span> done — Assess now</div>
 
-    <!-- CPR TIMER -->
-    <div class="section-title">💓 CPR Timer</div>
-    <div class="cpr-timer-wrap" id="cprTimerWrap">
-      <div class="cpr-timer-left">
-        <button class="btn-cpr-start" id="btnCprStart" onclick="startCPR()">
-          <span class="cpr-icon">💓</span>
-          <span>Start CPR Timer</span>
+      <div class="pulse-rhythm-label">⚡ Select ECG Rhythm</div>
+      <div class="pulse-rhythm-grid">
+        <button class="pulse-rhythm-btn vf-btn" onclick="selectPulseRhythm('VF')">
+          <span class="prb-icon">⚡</span>
+          <span class="prb-name">VF</span>
+          <span class="prb-desc">Ventricular Fibrillation</span>
         </button>
-        <button class="btn-cpr-stop" id="btnCprStop" onclick="stopCPR()" style="display:none">
-          <span class="cpr-icon">⏹</span>
-          <span>Stop CPR</span>
+        <button class="pulse-rhythm-btn pvt-btn" onclick="selectPulseRhythm('pVT')">
+          <span class="prb-icon">⚡</span>
+          <span class="prb-name">pVT</span>
+          <span class="prb-desc">Pulseless VT</span>
+        </button>
+        <button class="pulse-rhythm-btn" onclick="selectPulseRhythm('Asystole')">
+          <span class="prb-icon">〰️</span>
+          <span class="prb-name">Asystole</span>
+          <span class="prb-desc">Flatline</span>
+        </button>
+        <button class="pulse-rhythm-btn" onclick="selectPulseRhythm('PEA')">
+          <span class="prb-icon">📉</span>
+          <span class="prb-name">PEA</span>
+          <span class="prb-desc">Pulseless Electrical Activity</span>
         </button>
       </div>
-      <div class="cpr-timer-display" id="cprTimerDisplay" style="display:none">
-        <div class="cpr-label">CPR IN PROGRESS</div>
-        <div class="cpr-countdown" id="cprCountdown">2:00</div>
-        <div class="cpr-bar-track"><div class="cpr-bar-fill" id="cprBarFill"></div></div>
-        <div class="cpr-cycle-count">Cycle <span id="cprCycle">1</span></div>
+
+      <div class="pulse-modal-divider"></div>
+      <div class="pulse-cpr-actions">
+        <button class="pulse-btn pulse-btn-continue" onclick="continueCPR()">💓 Continue CPR</button>
+        <button class="pulse-btn pulse-btn-stop" onclick="stopCPRFromAlert()">⏹ Stop Resuscitation</button>
+        <button class="pulse-btn pulse-btn-skip" onclick="skipPulseRhythm()">↩ Skip</button>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- CPR CYCLE LOG -->
-    <div class="cycle-log-wrap" id="cycleLogWrap" style="display:none">
-      <div class="cycle-log-header">
-        <span class="cycle-log-title">📋 CPR Cycle Log</span>
-        <span class="cycle-log-total">Total: <span id="cycleTotalMin">0</span> min</span>
-      </div>
-      <div class="cycle-log-list" id="cycleLogList"></div>
-    </div>
-
-    <!-- INITIAL RESPONSE CHECKLIST -->
-    <div class="section-title">🚨 Initial Response Checklist</div>
-    <div class="init-checklist">
-
-      <!-- BVM Ventilation O2 -->
-      <div class="init-item" id="init-bvm" onclick="toggleInit('bvm')">
-        <div class="init-item-inner">
-          <input type="checkbox" id="chk-init-bvm" onclick="event.stopPropagation();toggleInit('bvm',this.checked)">
-          <span class="init-icon">🫁</span>
-          <div class="init-info">
-            <div class="init-name">BVM Ventilation O₂</div>
-            <div class="init-desc">Bag-valve-mask with oxygen</div>
-          </div>
-          <span class="init-time-badge" id="ibadge-bvm" style="display:none"></span>
-        </div>
-      </div>
-
-      <!-- Attach Monitor -->
-      <div class="init-item" id="init-monitor" onclick="toggleInit('monitor')">
-        <div class="init-item-inner">
-          <input type="checkbox" id="chk-init-monitor" onclick="event.stopPropagation();toggleInit('monitor',this.checked)">
-          <span class="init-icon">📟</span>
-          <div class="init-info">
-            <div class="init-name">Attach Monitor</div>
-            <div class="init-desc">ECG leads &amp; defibrillator pads</div>
-          </div>
-          <span class="init-time-badge" id="ibadge-monitor" style="display:none"></span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- PROCEDURE CHECKLIST -->
+  <!-- PROCEDURE CHECKLIST CARD -->
+  <div class="form-card" style="margin-bottom:14px;">
     <div class="section-title">✅ Procedure Checklist</div>
     <div class="proc-list" id="procList">
 
       <!-- IV Access -->
       <div class="proc-item" id="proc-iv">
         <div class="proc-header" onclick="toggleProc('iv')">
-          <input type="checkbox" id="chk-proc-iv" onclick="event.stopPropagation();toggleProc('iv',this.checked)">
+          <input type="checkbox" id="chk-proc-iv" onclick="event.stopPropagation()">
           <span class="proc-icon">💉</span>
           <span class="proc-name">IV Access</span>
           <span class="proc-time-badge" id="badge-iv" style="display:none"></span>
         </div>
-        <div class="proc-body" id="body-proc-iv">
+        <div class="proc-body" id="body-proc-iv" style="display:none">
           <div class="proc-fields">
             <div class="proc-field">
               <label>Cannula Size</label>
@@ -1036,12 +1527,12 @@
       <!-- Intubation -->
       <div class="proc-item" id="proc-ett">
         <div class="proc-header" onclick="toggleProc('ett')">
-          <input type="checkbox" id="chk-proc-ett" onclick="event.stopPropagation();toggleProc('ett',this.checked)">
+          <input type="checkbox" id="chk-proc-ett" onclick="event.stopPropagation()">
           <span class="proc-icon">🫀</span>
           <span class="proc-name">Intubation (ETT)</span>
           <span class="proc-time-badge" id="badge-ett" style="display:none"></span>
         </div>
-        <div class="proc-body" id="body-proc-ett">
+        <div class="proc-body" id="body-proc-ett" style="display:none">
           <div class="proc-fields" style="margin-bottom:8px">
             <label style="font-size:10px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:0.8px">Result</label>
             <div class="proc-toggle-row">
@@ -1075,35 +1566,29 @@
       </div>
 
     </div>
+  </div>
 
-    <!-- CLINICAL DETAILS -->
-    <div class="section-title">⚕️ Clinical Details</div>
-    <div style="margin-bottom:20px">
-      <div class="form-group" style="margin-bottom:16px">
-        <label>ECG Rhythm (Initial Rhythm) *</label>
-        <div class="rhythm-group" id="rhythmGroup">
-          <button class="rhythm-btn" data-val="VF"       onclick="setRhythm(this)">⚡ VF</button>
-          <button class="rhythm-btn" data-val="pVT"      onclick="setRhythm(this)">⚡ pVT</button>
-          <button class="rhythm-btn" data-val="PEA"      onclick="setRhythm(this)">💉 PEA</button>
-          <button class="rhythm-btn" data-val="Asystole" onclick="setRhythm(this)">💉 Asystole</button>
-          <button class="rhythm-btn" data-val="Others"   onclick="setRhythm(this)">… Others</button>
-        </div>
-        <div class="rhythm-others-input" id="rhythmOthersWrap">
-          <input type="text" id="rhythmOthers" placeholder="Specify other rhythm..." style="max-width:320px">
-        </div>
-        <input type="hidden" id="rhythm" value="">
+  <!-- FORM -->
+  <div class="form-card">
 
-        <!-- INLINE DEFIB LOG -->
-        <div class="inline-defib-log" id="inlineDefibLog" style="display:none">
-          <div class="inline-defib-header">
-            <span class="inline-defib-title">⚡ Defibrillation Record</span>
-            <button class="inline-defib-add" onclick="openDefib(selectedRhythm)">+ Add Shock</button>
+    <!-- CODE ANNOUNCED -->
+    <div class="section-title">📢 Code Announced</div>
+    <div style="margin-bottom:22px">
+      <div class="form-group">
+        <label>Was Code Blue Announced? *</label>
+        <div class="toggle-group" style="margin-top:4px">
+          <button class="toggle-btn" id="announceYes" onclick="setAnnounce('yes')">✅ YES</button>
+          <button class="toggle-btn" id="announceNo"  onclick="setAnnounce('no')">❌ NO</button>
+        </div>
+        <div class="announce-time-wrap" id="announceTimeWrap">
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <label>Time of Announcement</label>
+            <input type="time" id="announceTime" style="max-width:200px" onchange="onAnnounceTimeDone()">
           </div>
-          <div class="inline-shock-list" id="inlineShockList"></div>
         </div>
+        <input type="hidden" id="announced" value="">
       </div>
     </div>
-
     <!-- IV MEDICATIONS -->
     <div class="form-group" style="margin-bottom:20px">
       <label>IV Medications Given</label>
@@ -1286,7 +1771,7 @@
 </main>
 
 <!-- DEFIB ALERT MODAL -->
-<div class="defib-overlay" id="defibOverlay">
+<div class="defib-overlay" id="defibOverlay" onclick="if(event.target===this)closeDefib()">
   <div class="defib-modal">
     <div class="defib-header">
       <div class="defib-icon-ring">⚡</div>
@@ -1328,26 +1813,254 @@
 
     <div class="defib-actions">
       <button class="defib-btn-record" onclick="recordShock()">⚡ Record Shock</button>
+      <button class="defib-btn-close" onclick="closeDefib()">✓ Done</button>
     </div>
   </div>
 </div>
 
 <!-- PULSE CHECK ALERT -->
-<div class="pulse-overlay" id="pulseOverlay">
-  <div class="pulse-modal">
-    <div class="pulse-icon-ring">
-      <span class="pulse-icon-inner">🫀</span>
+<div class="pulse-overlay" id="pulseOverlay" style="display:none"></div>
+
+<!-- CPR CONTINUE OVERLAY (Asystole / PEA) -->
+<div class="defib-overlay" id="cprContinueOverlay">
+  <div class="defib-modal" style="max-width:400px">
+    <div class="defib-header" style="background:linear-gradient(135deg,#1e3a5f,#1a56db)">
+      <div class="defib-icon-ring" style="animation:none">💓</div>
+      <div>
+        <div class="defib-title">NON-SHOCKABLE</div>
+        <div class="defib-rhythm-tag" id="cprContinueRhythmTag">Asystole</div>
+      </div>
     </div>
-    <div class="pulse-title">CHECK PULSE NOW!</div>
-    <div class="pulse-subtitle">2-Minute CPR Cycle Complete</div>
-    <div class="pulse-cycle-info">Cycle <span id="pulseAlertCycle">1</span> done — Assess rhythm &amp; pulse</div>
-    <div class="pulse-actions">
-      <button class="pulse-btn pulse-btn-continue" onclick="continueCPR()">
-        💓 Continue CPR
+    <div class="defib-subtitle">Continue CPR — No defibrillation indicated</div>
+    <div style="padding:12px 22px 6px">
+      <div style="font-size:10px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Recommended Action</div>
+      <div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:7px;padding:10px 14px;font-size:11px;color:var(--blue);font-weight:600;line-height:1.5">
+        💉 Consider IV Adrenaline 1mg<br>
+        🔄 Continue CPR — next cycle<br>
+        🔍 Identify &amp; treat reversible causes (4H/4T)
+      </div>
+    </div>
+    <div class="defib-actions" style="padding:12px 22px 18px">
+      <button class="defib-btn-record" style="background:linear-gradient(135deg,#1e3a5f,#1a56db)" onclick="continueCPRFromOverlay()">💓 Continue CPR</button>
+      <button class="defib-btn-close" onclick="stopCPRFromContinueOverlay()">⏹ Stop Resuscitation</button>
+    </div>
+  </div>
+</div>
+
+<!-- CPR START OVERLAY (PEA / Asystole from initial rhythm) -->
+<div class="defib-overlay" id="cprStartOverlay" onclick="if(event.target===this)closeCprStartOverlay()">
+  <div class="defib-modal" style="max-width:420px">
+    <div class="defib-header" style="background:linear-gradient(135deg,#1e3a5f,#1a56db)">
+      <div class="defib-icon-ring" style="font-size:24px;">💓</div>
+      <div>
+        <div class="defib-title">NON-SHOCKABLE</div>
+        <div class="defib-rhythm-tag" id="cprStartRhythmTag">PEA</div>
+      </div>
+    </div>
+    <div class="defib-subtitle" style="padding:14px 22px 0; font-size:12px; font-weight:600; color:var(--text);">
+      No defibrillation indicated — begin CPR immediately
+    </div>
+    <div style="padding:10px 22px 6px">
+      <div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:8px;padding:12px 16px;font-size:11px;color:var(--blue);font-weight:600;line-height:1.8">
+        💓 Start chest compressions<br>
+        💉 Consider IV Adrenaline 1mg<br>
+        🔍 Identify &amp; treat reversible causes (4H/4T)
+      </div>
+    </div>
+    <div class="defib-actions" style="padding:12px 22px 18px; gap:8px;">
+      <button class="defib-btn-record" style="background:linear-gradient(135deg,#057a55,#059669); flex:2;" onclick="startCPRFromOverlay()">
+        💓 Start CPR Timer
       </button>
-      <button class="pulse-btn pulse-btn-stop" onclick="stopCPRFromAlert()">
-        ⏹ Stop Resuscitation
+      <button class="defib-btn-close" onclick="closeCprStartOverlay()" style="flex:1;">
+        ✕ Close
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── IV ACCESS OVERLAY: Step 1 – Cannula Size ── -->
+<!-- ══════════════════════════════════════════
+     IV ACCESS — OVERLAY 1: CANNULA SIZE
+     ══════════════════════════════════════════ -->
+<div class="proc-overlay" id="ivCannulaOverlay">
+  <div class="proc-modal">
+    <div class="proc-modal-header" style="background:linear-gradient(135deg,#0e7490,#0891b2)">
+      <div class="proc-modal-icon-ring">💉</div>
+      <div>
+        <div class="proc-modal-title">IV Access</div>
+        <div class="proc-modal-sub">Pilih Cannula Size</div>
+      </div>
+    </div>
+    <div class="proc-modal-body">
+      <div class="proc-modal-label">Cannula Size</div>
+      <div class="ett-result-grid" style="grid-template-columns:repeat(3,1fr);gap:8px">
+        <button class="ett-result-btn" style="border-color:#f97316" onclick="ivPickCannula('14G (Orange)')">
+          <span class="er-icon" style="width:28px;height:28px;border-radius:50%;background:#f97316;display:block;margin:0 auto"></span>
+          <span class="er-label" style="font-size:15px;font-family:var(--mono)">14G</span>
+          <span style="font-size:9px;color:var(--text-dim);font-family:var(--body);font-weight:400">Orange</span>
+        </button>
+        <button class="ett-result-btn" style="border-color:#9ca3af" onclick="ivPickCannula('16G (Grey)')">
+          <span class="er-icon" style="width:28px;height:28px;border-radius:50%;background:#9ca3af;display:block;margin:0 auto"></span>
+          <span class="er-label" style="font-size:15px;font-family:var(--mono)">16G</span>
+          <span style="font-size:9px;color:var(--text-dim);font-family:var(--body);font-weight:400">Grey</span>
+        </button>
+        <button class="ett-result-btn" style="border-color:#16a34a" onclick="ivPickCannula('18G (Green)')">
+          <span class="er-icon" style="width:28px;height:28px;border-radius:50%;background:#16a34a;display:block;margin:0 auto"></span>
+          <span class="er-label" style="font-size:15px;font-family:var(--mono)">18G</span>
+          <span style="font-size:9px;color:var(--text-dim);font-family:var(--body);font-weight:400">Green</span>
+        </button>
+        <button class="ett-result-btn" style="border-color:#ec4899" onclick="ivPickCannula('20G (Pink)')">
+          <span class="er-icon" style="width:28px;height:28px;border-radius:50%;background:#ec4899;display:block;margin:0 auto"></span>
+          <span class="er-label" style="font-size:15px;font-family:var(--mono)">20G</span>
+          <span style="font-size:9px;color:var(--text-dim);font-family:var(--body);font-weight:400">Pink</span>
+        </button>
+        <button class="ett-result-btn" style="border-color:#2563eb" onclick="ivPickCannula('22G (Blue)')">
+          <span class="er-icon" style="width:28px;height:28px;border-radius:50%;background:#2563eb;display:block;margin:0 auto"></span>
+          <span class="er-label" style="font-size:15px;font-family:var(--mono)">22G</span>
+          <span style="font-size:9px;color:var(--text-dim);font-family:var(--body);font-weight:400">Blue</span>
+        </button>
+        <button class="ett-result-btn" style="border-color:#ca8a04" onclick="ivPickCannula('24G (Yellow)')">
+          <span class="er-icon" style="width:28px;height:28px;border-radius:50%;background:#eab308;display:block;margin:0 auto"></span>
+          <span class="er-label" style="font-size:15px;font-family:var(--mono)">24G</span>
+          <span style="font-size:9px;color:var(--text-dim);font-family:var(--body);font-weight:400">Yellow</span>
+        </button>
+      </div>
+    </div>
+    <div class="proc-modal-footer">
+      <button class="proc-modal-btn-cancel" style="flex:1" onclick="ivCancelOverlay()">✕ Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     IV ACCESS — OVERLAY 2: SITE / LOCATION
+     ══════════════════════════════════════════ -->
+<div class="proc-overlay" id="ivSiteOverlay">
+  <div class="proc-modal">
+    <div class="proc-modal-header" style="background:linear-gradient(135deg,#0e7490,#0891b2)">
+      <div class="proc-modal-icon-ring">📍</div>
+      <div>
+        <div class="proc-modal-title">IV Access</div>
+        <div class="proc-modal-sub" id="ivSiteSubLabel">Pilih Site / Location</div>
+      </div>
+    </div>
+    <div class="proc-modal-body" style="max-height:65vh;overflow-y:auto">
+      <div class="proc-modal-label">Site / Location</div>
+      <div class="ett-result-grid" style="gap:8px">
+        <button class="ett-result-btn" onclick="ivPickSite('Right Antecubital')">
+          <span class="er-icon">💪</span>
+          <span class="er-label" style="font-size:11px">Right Antecubital</span>
+        </button>
+        <button class="ett-result-btn" onclick="ivPickSite('Left Antecubital')">
+          <span class="er-icon">💪</span>
+          <span class="er-label" style="font-size:11px">Left Antecubital</span>
+        </button>
+        <button class="ett-result-btn" onclick="ivPickSite('Right Forearm')">
+          <span class="er-icon">🦾</span>
+          <span class="er-label" style="font-size:11px">Right Forearm</span>
+        </button>
+        <button class="ett-result-btn" onclick="ivPickSite('Left Forearm')">
+          <span class="er-icon">🦾</span>
+          <span class="er-label" style="font-size:11px">Left Forearm</span>
+        </button>
+        <button class="ett-result-btn" onclick="ivPickSite('Right Hand')">
+          <span class="er-icon">🤚</span>
+          <span class="er-label" style="font-size:11px">Right Hand</span>
+        </button>
+        <button class="ett-result-btn" onclick="ivPickSite('Left Hand')">
+          <span class="er-icon">🤚</span>
+          <span class="er-label" style="font-size:11px">Left Hand</span>
+        </button>
+        <button class="ett-result-btn" onclick="ivPickSite('Right External Jugular')">
+          <span class="er-icon">🩸</span>
+          <span class="er-label" style="font-size:11px">Right Ext. Jugular</span>
+        </button>
+        <button class="ett-result-btn" onclick="ivPickSite('Left External Jugular')">
+          <span class="er-icon">🩸</span>
+          <span class="er-label" style="font-size:11px">Left Ext. Jugular</span>
+        </button>
+        <button class="ett-result-btn" onclick="ivPickSite('Intraosseous (IO)')">
+          <span class="er-icon">🦴</span>
+          <span class="er-label" style="font-size:11px">Intraosseous (IO)</span>
+        </button>
+        <button class="ett-result-btn" onclick="ivPickSite('Others')">
+          <span class="er-icon">📝</span>
+          <span class="er-label" style="font-size:11px">Others</span>
+        </button>
+      </div>
+    </div>
+    <div class="proc-modal-footer">
+      <button class="proc-modal-btn-cancel" style="flex:1" onclick="ivBackToCannula()">← Balik</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ETT — OVERLAY 1: RESULT
+     ══════════════════════════════════════════ -->
+<div class="proc-overlay" id="ettResultOverlay">
+  <div class="proc-modal">
+    <div class="proc-modal-header" style="background:linear-gradient(135deg,#4c1d95,#6d28d9)">
+      <div class="proc-modal-icon-ring">🫀</div>
+      <div>
+        <div class="proc-modal-title">Intubation (ETT)</div>
+        <div class="proc-modal-sub">Pilih Result</div>
+      </div>
+    </div>
+    <div class="proc-modal-body">
+      <div class="proc-modal-label">Result</div>
+      <div class="ett-result-grid">
+        <button class="ett-result-btn succeed" onclick="ettPickResult('succeed')">
+          <span class="er-icon">✅</span>
+          <span class="er-label">Succeeded</span>
+        </button>
+        <button class="ett-result-btn failed" onclick="ettPickResult('failed')">
+          <span class="er-icon">❌</span>
+          <span class="er-label">Failed</span>
+        </button>
+      </div>
+    </div>
+    <div class="proc-modal-footer">
+      <button class="proc-modal-btn-cancel" style="flex:1" onclick="ettCancelOverlay()">✕ Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ETT — OVERLAY 2: DETAILS (SUCCEEDED)
+     ══════════════════════════════════════════ -->
+<div class="proc-overlay" id="ettDetailsOverlay">
+  <div class="proc-modal">
+    <div class="proc-modal-header" style="background:linear-gradient(135deg,#065f46,#059669)">
+      <div class="proc-modal-icon-ring">✅</div>
+      <div>
+        <div class="proc-modal-title">ETT Succeeded</div>
+        <div class="proc-modal-sub">Masukkan maklumat intubasi</div>
+      </div>
+    </div>
+    <div class="proc-modal-body">
+      <div class="proc-modal-fields">
+        <div class="proc-modal-field">
+          <label>ETT Size (mm)</label>
+          <select id="overlay-ett-size">
+            <option value="">-- Pilih Saiz --</option>
+            <option>6.0</option><option>6.5</option><option>7.0</option>
+            <option>7.5</option><option>8.0</option><option>8.5</option>
+          </select>
+        </div>
+        <div class="proc-modal-field">
+          <label>Marking / Depth (cm)</label>
+          <input type="number" id="overlay-ett-depth" placeholder="e.g. 21" min="15" max="30" step="0.5">
+        </div>
+        <div class="proc-modal-field">
+          <label>Intubated By</label>
+          <input type="text" id="overlay-ett-by" placeholder="Doctor / MO name" autocomplete="off">
+        </div>
+      </div>
+    </div>
+    <div class="proc-modal-footer">
+      <button class="proc-modal-btn-confirm" style="background:linear-gradient(135deg,#065f46,#059669);color:#fff;box-shadow:0 3px 8px rgba(5,122,85,0.3)" onclick="ettConfirmDetails()">✅ Confirm</button>
+      <button class="proc-modal-btn-cancel" onclick="ettBackToResult()">← Balik</button>
     </div>
   </div>
 </div>
@@ -1365,7 +2078,30 @@
 <script>
   let records = JSON.parse(localStorage.getItem('codeBlueRecords') || '[]');
   let filteredRecords = [...records];
-  let selectedOutcome = '', selectedAnnounce = '', selectedRhythm = '';
+  let selectedOutcome = '', selectedAnnounce = '', selectedRhythm = '', selectedZone = '';
+
+  function setZone(z) {
+    selectedZone = z;
+    document.getElementById('zone').value = z;
+    ['red','yellow','green'].forEach(v => {
+      const btn = document.getElementById('zone' + v.charAt(0).toUpperCase() + v.slice(1));
+      btn.className = 'zone-btn' + (v === z ? ' active-' + v : '');
+    });
+    renderEventLog();
+  }
+
+  function zoneBadge(zone) {
+    if (!zone) return '<span style="color:var(--text-dim)">—</span>';
+    const map = {
+      red:    ['zone-badge zone-badge-red',    '🔴 Red'],
+      yellow: ['zone-badge zone-badge-yellow', '🟡 Yellow'],
+      green:  ['zone-badge zone-badge-green',  '🟢 Green'],
+    };
+    const [cls, label] = map[zone] || ['','—'];
+    return `<span class="${cls}">${label}</span>`;
+  }
+
+
 
   // IV medication state: { medKey: [time1, time2, ...] }
   const ivMeds = {
@@ -1401,10 +2137,37 @@
   function renderEventLog() {
     const list   = document.getElementById('eventLogList');
     const empty  = document.getElementById('eventLogEmpty');
-    const wrap   = document.getElementById('eventLogWrap');
-    if (!eventLog.length) { empty.style.display = ''; list.innerHTML = ''; return; }
+
+    // Build patient info as a single inline sentence (no timestamp)
+    const name = document.getElementById('patientName').value.trim();
+    const rn   = document.getElementById('rnNumber').value.trim();
+    const zone = selectedZone;
+    const zoneLabel = { red: '🔴 Red Zone', yellow: '🟡 Yellow Zone', green: '🟢 Green Zone' };
+    const zoneColors = {
+      red:    'background:#fff0f1;border-color:#ffd6da;color:#d62839',
+      yellow: 'background:#fffbeb;border-color:#fde68a;color:#92400e',
+      green:  'background:#ecfdf5;border-color:#a7f3d0;color:#057a55',
+    };
+
+    let patientBlock = '';
+    if (name || rn || zone) {
+      const parts = [];
+      if (name) parts.push(`Name: ${name}`);
+      if (rn)   parts.push(`RN Number: ${rn}`);
+      if (zone && zoneLabel[zone]) parts.push(`Triage Zone: ${zoneLabel[zone]}`);
+
+      patientBlock = `<div class="event-patient-block">
+        <span class="event-patient-sentence">${parts.join('. ')}${parts.length ? '.' : ''}</span>
+      </div>`;
+    }
+
+    if (!eventLog.length && !patientBlock) {
+      empty.style.display = '';
+      list.innerHTML = '';
+      return;
+    }
     empty.style.display = 'none';
-    list.innerHTML = eventLog.map(e =>
+    list.innerHTML = patientBlock + eventLog.map(e =>
       `<div class="event-entry">
         <span class="event-time">${e.t}</span>
         <span class="event-dot ${e.dot}"></span>
@@ -1446,7 +2209,10 @@
   let defibShocks = []; // [{joules, time}]
 
   function setRhythm(btn) {
-    document.querySelectorAll('.rhythm-btn').forEach(b => b.className = 'rhythm-btn');
+    document.querySelectorAll('.rhythm-btn').forEach(b => {
+      // preserve base variant class, only remove active classes
+      b.classList.remove('active-vf','active-vt','active-pea','active-asy','active-oth');
+    });
     const val = btn.getAttribute('data-val');
     const cls = {VF:'active-vf', pVT:'active-vt', PEA:'active-pea', Asystole:'active-asy', Others:'active-oth'};
     btn.classList.add(cls[val] || '');
@@ -1464,6 +2230,11 @@
       openDefib(val);
     } else {
       inlineLog.style.display = 'none';
+      if (val === 'PEA' || val === 'Asystole') {
+        // Show CPR start overlay for non-shockable rhythms
+        document.getElementById('cprStartRhythmTag').textContent = val;
+        document.getElementById('cprStartOverlay').classList.add('open');
+      }
     }
     const rhythmLabels = {VF:'VF (Ventricular Fibrillation)', pVT:'pVT (Pulseless VT)', PEA:'PEA (Pulseless Electrical Activity)', Asystole:'Asystole', Others:'Others'};
     logEvent('dot-rhythm', `<strong>ECG Rhythm identified:</strong> ${rhythmLabels[val]||val}${(val==='VF'||val==='pVT')?' — Shockable rhythm, defibrillation indicated':''}`);
@@ -1501,6 +2272,9 @@
     if (!j && !t) { showToast('⚠ Enter joules or time', '#92400e', '#fffbeb', '#fde68a'); return; }
     const shockTime = t || nowTime();
     defibShocks.push({ joules: j ? parseInt(j) : null, time: shockTime, rhythm, by });
+    // Close overlay immediately
+    document.getElementById('defibOverlay').classList.remove('open');
+    // Reset form fields
     document.getElementById('defibJoules').value = '';
     document.getElementById('defibBy').value = '';
     document.querySelectorAll('.joule-preset').forEach(b => b.classList.remove('active'));
@@ -1509,7 +2283,6 @@
     const byText = by ? `, by ${by}` : '';
     logEvent('dot-defib', `<strong>Defibrillation</strong> — ${j ? j+'J' : '—'} at ${shockTime} (${rhythm})${byText}`, shockTime);
     showToast('⚡ Shock recorded');
-    closeDefib();
   }
 
   function removeShock(idx) {
@@ -1676,42 +2449,142 @@
   const procState = { iv: null, ett: null };
   const procLabels = { iv:'IV Access', ett:'Intubation (ETT)' };
 
-  function toggleProc(key, checked) {
+  function toggleProc(key) {
     const item  = document.getElementById('proc-'+key);
     const chk   = document.getElementById('chk-proc-'+key);
     const badge = document.getElementById('badge-'+key);
     const body  = document.getElementById('body-proc-'+key);
-    const isOn  = (checked !== undefined) ? checked : !chk.checked;
-    chk.checked = isOn;
+    const isOn  = !procState[key];
 
     if (isOn) {
       const t = nowTime();
       procState[key] = { time: t, result: null };
+      chk.checked = true;
       item.classList.add('done');
       badge.textContent = t;
       badge.style.display = '';
       if (body) body.style.display = '';
-
-      // Detailed log per procedure
-      if (key === 'iv')      logEvent('dot-bvm', `<strong>IV Access</strong> established — select cannula size and site below`);
-      // ETT log handled by setEttResult
-
-    } else {
-      procState[key] = null;
-      item.classList.remove('done','done-failed');
-      badge.style.display = 'none';
-      if (body) { body.style.display = 'none'; }
       if (key === 'iv') {
-        document.getElementById('iv-cannula').value = '';
-        document.getElementById('iv-site').value = '';
+        logEvent('dot-bvm', '<strong>IV Access</strong> — cannula dipilih');
+        document.getElementById('ivCannulaOverlay').classList.add('open');
       }
       if (key === 'ett') {
-        setEttResult(null);
-        document.getElementById('ett-size').value = '';
-        document.getElementById('ett-depth').value = '';
-        document.getElementById('ettSuccessFields').style.display = 'none';
+        document.getElementById('ettResultOverlay').classList.add('open');
       }
+    } else {
+      procUnchecked(key);
     }
+  }
+
+  function procUnchecked(key) {
+    const item  = document.getElementById('proc-'+key);
+    const chk   = document.getElementById('chk-proc-'+key);
+    const badge = document.getElementById('badge-'+key);
+    const body  = document.getElementById('body-proc-'+key);
+    procState[key] = null;
+    chk.checked = false;
+    item.classList.remove('done','done-failed');
+    badge.style.display = 'none';
+    if (body) body.style.display = 'none';
+    if (key === 'iv') {
+      document.getElementById('iv-cannula').value = '';
+      document.getElementById('iv-site').value = '';
+    }
+    if (key === 'ett') {
+      setEttResult(null);
+      document.getElementById('ett-size').value = '';
+      document.getElementById('ett-depth').value = '';
+      document.getElementById('ettSuccessFields').style.display = 'none';
+    }
+  }
+
+  // ════════════════════════════════
+  //  IV ACCESS OVERLAY FUNCTIONS
+  // ════════════════════════════════
+  let _ivCannula = '';
+
+  function ivShowOverlay(id) {
+    document.getElementById(id).classList.add('open');
+  }
+  function ivHideOverlay(id) {
+    document.getElementById(id).classList.remove('open');
+  }
+
+  // Step 1 — user picks cannula
+  function ivPickCannula(val) {
+    _ivCannula = val;
+    ivHideOverlay('ivCannulaOverlay');
+    document.getElementById('ivSiteSubLabel').textContent = 'Cannula: ' + val + ' · Pilih Site';
+    ivShowOverlay('ivSiteOverlay');
+  }
+
+  // Step 2 — user picks site, done
+  function ivPickSite(site) {
+    document.getElementById('iv-cannula').value = _ivCannula;
+    document.getElementById('iv-site').value    = site;
+    ivHideOverlay('ivSiteOverlay');
+    updateIVLog();
+    showToast('💉 IV Access: ' + _ivCannula + ' · ' + site);
+  }
+
+  // Cancel from step 1 — undo proc
+  function ivCancelOverlay() {
+    ivHideOverlay('ivCannulaOverlay');
+    procUnchecked('iv');
+  }
+
+  // Back from step 2 to step 1
+  function ivBackToCannula() {
+    ivHideOverlay('ivSiteOverlay');
+    ivShowOverlay('ivCannulaOverlay');
+  }
+
+  // ════════════════════════════════
+  //  ETT OVERLAY FUNCTIONS
+  // ════════════════════════════════
+
+  // Step 1 — user picks result
+  function ettPickResult(val) {
+    ivHideOverlay('ettResultOverlay');
+    if (val === 'succeed') {
+      document.getElementById('overlay-ett-size').value  = '';
+      document.getElementById('overlay-ett-depth').value = '';
+      document.getElementById('overlay-ett-by').value    = '';
+      ivShowOverlay('ettDetailsOverlay');
+    } else {
+      setEttResult('failed');
+      showToast('❌ ETT — Failed recorded', '#d62839', '#fff0f1', '#ffd6da');
+    }
+  }
+
+  // Step 2 — confirm details
+  function ettConfirmDetails() {
+    const size  = document.getElementById('overlay-ett-size').value;
+    const depth = document.getElementById('overlay-ett-depth').value;
+    const by    = document.getElementById('overlay-ett-by').value.trim();
+    document.getElementById('ett-size').value  = size;
+    document.getElementById('ett-depth').value = depth;
+    const byEl = document.getElementById('ett-by');
+    if (byEl) byEl.value = by;
+    setEttResult('succeed');
+    ivHideOverlay('ettDetailsOverlay');
+    const parts = [];
+    if (size)  parts.push('ETT ' + size + 'mm');
+    if (depth) parts.push('marking ' + depth + 'cm');
+    if (by)    parts.push('by ' + by);
+    showToast('✅ ETT Succeeded' + (parts.length ? ' · ' + parts.join(', ') : ''));
+  }
+
+  // Cancel from step 1 — undo proc
+  function ettCancelOverlay() {
+    ivHideOverlay('ettResultOverlay');
+    procUnchecked('ett');
+  }
+
+  // Back from step 2 to step 1
+  function ettBackToResult() {
+    ivHideOverlay('ettDetailsOverlay');
+    ivShowOverlay('ettResultOverlay');
   }
 
   // Called whenever IV cannula or site changes — update event log
@@ -1800,7 +2673,6 @@
     document.getElementById('btnCprStart').style.display = 'none';
     document.getElementById('btnCprStop').style.display  = 'flex';
     document.getElementById('cprTimerDisplay').style.display = 'flex';
-    document.getElementById('cycleLogWrap').style.display = '';
     addCycleEntry(cprCycleCount, cprCycleStartTime, null);
     updateCPRDisplay();
     cprInterval = setInterval(tickCPR, 1000);
@@ -1857,6 +2729,10 @@
 
   function renderCycleLog() {
     const list = document.getElementById('cycleLogList');
+    if (!cprCycleLog.length) {
+      list.innerHTML = '<span style="font-size:10px;color:var(--text-dim);font-style:italic">No cycles recorded yet.</span>';
+      return;
+    }
     list.innerHTML = cprCycleLog.map(e => {
       const start = e.startTime ? e.startTime.toTimeString().slice(0,5) : '--:--';
       const end   = e.endTime   ? e.endTime.toTimeString().slice(0,5)   : null;
@@ -1886,7 +2762,7 @@
   function showPulseAlert() {
     document.getElementById('pulseAlertCycle').textContent = cprCycleCount;
     document.getElementById('pulseOverlay').classList.add('open');
-    logEvent('dot-pulse', `<strong>CHECK PULSE</strong> — Cycle ${cprCycleCount} complete (2 min)`);
+    logEvent('dot-pulse', `<strong>CHECK PULSE &amp; RHYTHM</strong> — Cycle ${cprCycleCount} complete (2 min)`);
     try {
       const ctx = new (window.AudioContext || window.webkitAudioContext)();
       for (let i = 0; i < 3; i++) {
@@ -1900,12 +2776,55 @@
     } catch(e) {}
   }
 
+  function selectPulseRhythm(val) {
+    setRhythm(val);
+    document.getElementById('pulseOverlay').classList.remove('open');
+    logEvent('dot-rhythm', `<strong>Rhythm post-cycle:</strong> ${val}`);
+    if (val === 'VF' || val === 'pVT') {
+      // Shockable → open defibrillator overlay
+      openDefib(val);
+    } else {
+      // Non-shockable (Asystole / PEA) → open CPR continue overlay
+      document.getElementById('cprContinueRhythmTag').textContent = val;
+      document.getElementById('cprContinueOverlay').classList.add('open');
+    }
+  }
+
+  function closeCprStartOverlay() {
+    document.getElementById('cprStartOverlay').classList.remove('open');
+  }
+
+  function startCPRFromOverlay() {
+    document.getElementById('cprStartOverlay').classList.remove('open');
+    // Only start if CPR not already running
+    if (!cprInterval) startCPR();
+  }
+
+  function continueCPRFromOverlay() {
+    document.getElementById('cprContinueOverlay').classList.remove('open');
+    continueCPR();
+  }
+
+  function stopCPRFromContinueOverlay() {
+    document.getElementById('cprContinueOverlay').classList.remove('open');
+    clearInterval(cprInterval);
+    finaliseCycleEntry(cprCycleCount);
+    cprEndTime = new Date();
+    resetCPRUI();
+    logEvent('dot-cpr', `<strong>Resuscitation Stopped</strong> — ${cprEndTime.toTimeString().slice(0,5)}, ${cprCycleCount} cycle${cprCycleCount>1?'s':''} completed`);
+  }
+
+  function skipPulseRhythm() {
+    document.getElementById('pulseOverlay').classList.remove('open');
+  }
+
   function continueCPR() {
     document.getElementById('pulseOverlay').classList.remove('open');
     cprCycleCount++;
     cprSecondsLeft = CPR_DURATION;
     cprCycleStartTime = new Date();
     document.getElementById('cprCycle').textContent = cprCycleCount;
+    document.getElementById('cprTimerDisplay').style.display = 'flex';
     addCycleEntry(cprCycleCount, cprCycleStartTime, null);
     updateCPRDisplay();
     cprInterval = setInterval(tickCPR, 1000);
@@ -1933,45 +2852,14 @@
     document.getElementById('btnCprStart').style.display = 'flex';
     document.getElementById('btnCprStop').style.display  = 'none';
     document.getElementById('cprTimerDisplay').style.display = 'none';
+    document.getElementById('pulseOverlay').classList.remove('open');
+    document.getElementById('cprContinueOverlay').classList.remove('open');
     cprSecondsLeft = CPR_DURATION; cprCycleCount = 1; cprCycleStartTime = null;
     const countdown = document.getElementById('cprCountdown');
     countdown.textContent = '2:00';
     countdown.classList.remove('urgent');
     document.getElementById('cprBarFill').style.width = '100%';
     document.getElementById('cprBarFill').classList.remove('urgent');
-  }
-
-  // ── Name Done → RN Panel flow ──
-  function doneName() {
-    const name = document.getElementById('patientName').value.trim();
-    if (!name) { document.getElementById('patientName').focus(); return; }
-    document.getElementById('rnConfirmedName').textContent = name;
-    document.getElementById('rnNumber').value = '';
-    document.getElementById('rnPanel').classList.add('open');
-    document.getElementById('nameConfirmedWrap').style.display = 'none';
-    setTimeout(() => document.getElementById('rnNumber').focus(), 180);
-  }
-
-  function confirmRN() {
-    const name = document.getElementById('patientName').value.trim();
-    const rn   = document.getElementById('rnNumber').value.trim();
-    document.getElementById('rnPanel').classList.remove('open');
-    document.getElementById('ncName').textContent = name;
-    document.getElementById('ncRN').textContent   = rn || 'No RN';
-    document.getElementById('ncRN').style.display = rn ? '' : 'none';
-    document.getElementById('nameConfirmedWrap').style.display = '';
-  }
-
-  function skipRN() {
-    document.getElementById('rnNumber').value = '';
-    confirmRN();
-  }
-
-  function editName() {
-    document.getElementById('nameConfirmedWrap').style.display = 'none';
-    document.getElementById('rnPanel').classList.remove('open');
-    document.getElementById('patientName').focus();
-    document.getElementById('patientName').select();
   }
 
   // ── Save ──
@@ -1984,6 +2872,7 @@
     const record = {
       id: Date.now(), name,
       rn: document.getElementById('rnNumber').value.trim(),
+      zone: selectedZone,
       announced:    selectedAnnounce,
       announceTime: selectedAnnounce === 'yes' ? document.getElementById('announceTime').value : '',
       date: new Date().toISOString().slice(0,10),
@@ -2024,14 +2913,12 @@
     });
     // Reset procedure checklist
     ['iv','ett'].forEach(key => {
-      toggleProc(key, false);
-      document.getElementById('chk-proc-'+key).checked = false;
+      procUnchecked(key);
     });
     ettResult = null;
     // Reset cycle log
     cprCycleLog = [];
-    document.getElementById('cycleLogWrap').style.display = 'none';
-    document.getElementById('cycleLogList').innerHTML = '';
+    document.getElementById('cycleLogList').innerHTML = '<span style="font-size:10px;color:var(--text-dim);font-style:italic">No cycles recorded yet.</span>';
     document.getElementById('cycleTotalMin').textContent = '0';
     // Reset event log
     eventLog = [];
@@ -2041,8 +2928,6 @@
     document.getElementById('defibLogList').innerHTML = '';
     document.getElementById('inlineDefibLog').style.display = 'none';
     document.getElementById('inlineShockList').innerHTML = '';
-    document.getElementById('rnPanel').classList.remove('open');
-    document.getElementById('nameConfirmedWrap').style.display = 'none';
     const now = new Date();
     document.getElementById('timeStart').value = now.toTimeString().slice(0,5);
     document.querySelectorAll('#interventionList input').forEach(c => c.checked = false);
@@ -2053,7 +2938,12 @@
     document.getElementById('announceTimeWrap').classList.remove('visible');
     document.getElementById('rhythmOthersWrap').classList.remove('visible');
     ['rhythm','outcome','announced'].forEach(id => document.getElementById(id).value = '');
-    selectedOutcome = ''; selectedAnnounce = ''; selectedRhythm = '';
+    selectedOutcome = ''; selectedAnnounce = ''; selectedRhythm = ''; selectedZone = '';
+    ['red','yellow','green'].forEach(v => {
+      const btn = document.getElementById('zone' + v.charAt(0).toUpperCase() + v.slice(1));
+      if (btn) btn.className = 'zone-btn';
+    });
+    document.getElementById('zone').value = '';
     // Clear IV meds
     Object.keys(ivMeds).forEach(key => {
       ivMeds[key] = [];
@@ -2121,7 +3011,7 @@
     }
     wrap.innerHTML = `<div style="overflow-x:auto"><table>
       <thead><tr>
-        <th>#</th><th>Patient Name</th><th>RN Number</th><th>Date</th>
+        <th>#</th><th>Patient Name</th><th>RN Number</th><th>Zone</th><th>Date</th>
         <th>CPR Time</th><th>Code Announced</th><th>ECG Rhythm</th><th>Outcome</th><th>Actions</th>
       </tr></thead>
       <tbody>${data.map((r,i)=>`
@@ -2129,6 +3019,7 @@
           <td class="mono">${i + 1}</td>
           <td class="name">${r.name}</td>
           <td class="mono">${r.rn}</td>
+          <td>${zoneBadge(r.zone)}</td>
           <td class="mono">${r.date}</td>
           <td class="mono">${r.timeStart}${r.timeEnd?' – '+r.timeEnd:''}</td>
           <td>${announceBadge(r.announced,r.announceTime)}</td>
@@ -2152,6 +3043,7 @@
       <div class="modal-row">
         <div class="modal-field"><div class="lbl">Patient Name</div><div class="val">${r.name}</div></div>
         <div class="modal-field"><div class="lbl">RN Number</div><div class="val mono">${r.rn||'—'}</div></div>
+        <div class="modal-field"><div class="lbl">Triage Zone</div><div class="val">${zoneBadge(r.zone)}</div></div>
       </div>
       <div class="divider"></div>
       <div class="modal-row">
@@ -2230,6 +3122,28 @@
   }
 
   renderTable(records);
+
+  // ── Immediate Actions Checklist ──
+  const immState = { cpr: false, bvm: false, monitor: false };
+
+  function toggleImmCheck(key) {
+    immState[key] = !immState[key];
+    const card  = document.getElementById('immCard-' + key);
+    const badge = document.getElementById('immBadge-' + key);
+
+    if (immState[key]) {
+      card.classList.add('checked');
+      const now = new Date();
+      badge.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    } else {
+      card.classList.remove('checked');
+      badge.textContent = '';
+    }
+
+    const done = Object.values(immState).filter(Boolean).length;
+    document.getElementById('immProgressBar').style.width = (done / 3 * 100) + '%';
+    document.getElementById('immFooterText').textContent = done + '/3';
+  }
 </script>
 </body>
 </html>
