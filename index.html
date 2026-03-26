@@ -1034,6 +1034,15 @@
 
 
 
+  /* IV SEARCH DROPDOWN */
+  .iv-dd-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; cursor: pointer; transition: background 0.12s;
+    border-bottom: 1px solid var(--border);
+  }
+  .iv-dd-item:last-child { border-bottom: none; }
+  .iv-dd-item:hover, .iv-dd-item.active { background: var(--blue-light); }
+
   /* PRINT */
   @media print {
     .header, .form-card, .records-header .search-box, .btn-del, .btn-view, .alert-banner { display: none !important; }
@@ -1051,6 +1060,149 @@
     .cpr-combined-grid { grid-template-columns: 1fr !important; }
   }
 
+
+  /* ── PROCEDURE CARD (ECG-style layout) ── */
+  .proc-card-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 12px 8px; border-radius: 8px;
+    border: 1.5px solid var(--border-strong); background: var(--surface);
+    cursor: pointer; transition: all 0.18s; width: 100%;
+    position: relative;
+  }
+  .proc-card-btn:hover { border-color: var(--cyan); background: var(--cyan-light); }
+  .proc-card-btn.active-iv {
+    background: var(--cyan-light); border-color: var(--cyan);
+    box-shadow: 0 0 0 2px var(--cyan-mid);
+  }
+  .proc-card-btn.active-ett-ok {
+    background: var(--green-light); border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--green-mid);
+  }
+  .proc-card-btn.active-ett-fail {
+    background: var(--red-light); border-color: var(--red);
+    box-shadow: 0 0 0 2px var(--red-mid);
+  }
+  .proc-card-icon { font-size: 16px; }
+  .proc-card-name {
+    font-family: var(--mono); font-size: 12px; font-weight: 700;
+    color: var(--text); letter-spacing: 0.3px; text-align: center;
+  }
+  .proc-card-desc {
+    font-size: 9px; color: var(--text-dim); text-align: center; line-height: 1.3;
+  }
+  .proc-card-count {
+    position: absolute; top: 6px; right: 8px;
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    background: var(--cyan); color: #fff; border-radius: 10px;
+    padding: 1px 6px; display: none;
+  }
+  .proc-card-count.visible { display: block; }
+  .proc-card-count.green { background: var(--green); }
+  .proc-card-count.red   { background: var(--red); }
+
+  /* inline panel shared style (same family as defib panel) */
+  .proc-inline-panel {
+    background: linear-gradient(135deg,#ecfeff,#cffafe);
+    border: 2px solid var(--cyan-mid); border-left: 4px solid var(--cyan);
+    border-radius: 10px; padding: 14px 16px;
+    animation: fadeIn 0.2s ease;
+  }
+  .proc-panel-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .proc-panel-title {
+    font-family: var(--head); font-size: 14px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--cyan);
+    display: flex; align-items: center; gap: 7px;
+  }
+  .proc-panel-close {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 1px solid var(--cyan-mid); background: #fff;
+    color: var(--cyan); font-size: 10px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .proc-panel-close:hover { background: var(--cyan-mid); }
+
+  /* pill option buttons inside panel */
+  .pp-option-grid { display: flex; flex-wrap: wrap; gap: 5px; }
+  .pp-opt {
+    padding: 5px 10px; border-radius: 6px;
+    border: 1.5px solid var(--border-strong); background: #fff;
+    color: var(--text); font-family: var(--mono); font-size: 11px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; letter-spacing: 0.2px;
+  }
+  .pp-opt:hover { border-color: var(--cyan); background: var(--cyan-light); color: var(--cyan); }
+  .pp-opt.sel-cyan  { border-color: var(--cyan);  background: var(--cyan-light);  color: var(--cyan);  box-shadow: 0 0 0 2px var(--cyan-mid); }
+  .pp-opt.sel-green { border-color: var(--green); background: var(--green-light); color: var(--green); box-shadow: 0 0 0 2px var(--green-mid); }
+  .pp-opt.sel-red   { border-color: var(--red);   background: var(--red-light);   color: var(--red);   box-shadow: 0 0 0 2px var(--red-mid); }
+  .pp-opt.sel-purple{ border-color: var(--purple);background: var(--purple-light);color: var(--purple);box-shadow: 0 0 0 2px var(--purple-mid); }
+
+  /* field label inside panel */
+  .pp-label {
+    font-size: 9px; font-weight: 700; color: var(--text-mid);
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px;
+  }
+
+  /* searchable doctor dropdown */
+  .pp-search-wrap { position: relative; }
+  .pp-search-input {
+    width: 100%; padding: 7px 10px; border-radius: 6px;
+    border: 1.5px solid var(--border-strong); background: #fff;
+    color: var(--text); font-family: var(--body); font-size: 12px;
+    outline: none; transition: border-color 0.15s;
+  }
+  .pp-search-input:focus { border-color: var(--cyan); box-shadow: 0 0 0 2px var(--cyan-mid); }
+  .pp-dropdown {
+    display: none; position: absolute; top: calc(100% + 3px); left: 0; right: 0; z-index: 300;
+    background: #fff; border: 1.5px solid var(--cyan-mid); border-radius: 7px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12); max-height: 160px; overflow-y: auto;
+  }
+  .pp-dropdown.open { display: block; }
+  .pp-dd-item {
+    padding: 7px 12px; cursor: pointer; font-size: 12px; color: var(--text);
+    transition: background 0.1s; border-bottom: 1px solid var(--border);
+  }
+  .pp-dd-item:last-child { border-bottom: none; }
+  .pp-dd-item:hover, .pp-dd-item.active { background: var(--cyan-light); color: var(--cyan); }
+
+  /* text / other input */
+  .pp-text-input {
+    width: 100%; padding: 6px 10px; border-radius: 6px;
+    border: 1.5px solid var(--border-strong); background: #fff;
+    color: var(--text); font-family: var(--mono); font-size: 12px; font-weight: 600;
+    outline: none; transition: border-color 0.15s; margin-top: 5px;
+  }
+  .pp-text-input:focus { border-color: var(--cyan); box-shadow: 0 0 0 2px var(--cyan-mid); }
+
+  /* confirm button */
+  .pp-btn-confirm {
+    width: 100%; margin-top: 12px; padding: 9px; border-radius: 7px; border: none;
+    background: linear-gradient(135deg, var(--cyan), #0891b2); color: #fff;
+    font-family: var(--head); font-size: 12px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
+    box-shadow: 0 3px 10px rgba(14,116,144,0.3); transition: all 0.15s;
+  }
+  .pp-btn-confirm:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(14,116,144,0.4); }
+  .pp-btn-confirm:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+  .pp-btn-confirm.green-btn {
+    background: linear-gradient(135deg, #057a55, #059669);
+    box-shadow: 0 3px 10px rgba(5,122,85,0.3);
+  }
+  .pp-btn-confirm.green-btn:hover:not(:disabled) { box-shadow: 0 5px 14px rgba(5,122,85,0.4); }
+
+  /* log panel inside card */
+  .proc-log-panel {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px;
+    animation: fadeIn 0.2s ease;
+  }
+  .proc-log-title {
+    font-family: var(--head); font-size: 9px; font-weight: 700;
+    letter-spacing: 1.5px; color: var(--text-dim); text-transform: uppercase;
+    margin-bottom: 7px;
+  }
 
   /* JOULE PRESET BUTTONS */
   .joule-preset-btn {
@@ -1355,73 +1507,12 @@
           <div id="defibShockLog"></div>
         </div>
 
-        <!-- CPR COUNTDOWN panel — moved to CPR Timer card below -->
-
-      </div>
-    </div>
-
-    <!-- Others -->
-    <div style="margin-bottom:8px;">
-      <button class="rhythm-btn rhythm-btn-noshock" data-val="Others" onclick="setRhythm(this)" style="width:100%;flex-direction:row;justify-content:center;gap:8px;padding:7px 14px;">
-        <span class="rbb-icon" style="font-size:13px;">✏️</span>
-        <span class="rbb-name">Others</span>
-        <span class="rbb-desc" style="margin-top:0;">— specify rhythm below</span>
-      </button>
-    </div>
-
-    <div class="rhythm-others-input" id="rhythmOthersWrap" style="margin-top:6px;">
-      <input type="text" id="rhythmOthers" placeholder="Specify other rhythm..." style="max-width:320px">
-    </div>
-    <input type="hidden" id="rhythm" value="">
-
-    <!-- defibPanel alias kept for legacy JS compatibility -->
-    <div id="defibPanel" style="display:none;"></div>
-
-    <!-- INLINE DEFIB LOG (legacy, kept for renderShockLog) -->
-    <div id="inlineDefibLog" style="display:none;">
-      <div class="inline-shock-list" id="inlineShockList"></div>
-    </div>
-  </div>
-
-  <!-- CPR TIMER + CYCLE LOG CARD -->
-  <div class="form-card" style="padding:12px 16px; margin-bottom:14px;">
-
-    <div class="section-title" style="margin-bottom:10px;">💓 CPR Timer</div>
-
-    <!-- 2-column: left = CPR timer, right = countdown panel -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start;">
-
-      <!-- LEFT: existing CPR timer -->
-      <div>
-        <div class="cpr-timer-wrap" id="cprTimerWrap">
-          <div class="cpr-timer-left">
-            <button class="btn-cpr-start" id="btnCprStart" onclick="startCPR()">
-              <span class="cpr-icon">💓</span>
-              <span>Start CPR Timer</span>
-            </button>
-            <button class="btn-cpr-stop" id="btnCprStop" onclick="stopCPR()" style="display:none">
-              <span class="cpr-icon">⏹</span>
-              <span>Stop CPR</span>
-            </button>
-          </div>
-          <div class="cpr-timer-display" id="cprTimerDisplay" style="display:none">
-            <div class="cpr-label">CPR IN PROGRESS</div>
-            <div class="cpr-countdown" id="cprCountdown">2:00</div>
-            <div class="cpr-bar-track"><div class="cpr-bar-fill" id="cprBarFill"></div></div>
-            <div class="cpr-cycle-count">Cycle <span id="cprCycle">1</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT: CPR Countdown panel + post-countdown alert -->
-      <div style="display:flex; flex-direction:column; gap:10px;">
-
         <!-- CPR COUNTDOWN panel -->
         <div id="cprCountdownPanel" style="display:none; background:linear-gradient(135deg,#f0fdf4,#ecfdf5); border:2px solid var(--green-mid); border-left:4px solid var(--green); border-radius:10px; padding:14px 16px; animation:fadeIn 0.2s ease;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
             <div style="display:flex;align-items:center;gap:7px;">
               <span style="font-size:14px;">💓</span>
-              <span style="font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;">CPR Countdown</span>
+              <span style="font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;">Start CPR</span>
             </div>
             <button onclick="closeCprCountdownPanel()" style="width:20px;height:20px;border-radius:50%;border:1px solid var(--green-mid);background:var(--green-light);color:var(--green);font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
           </div>
@@ -1451,69 +1542,257 @@
             ⏱ 2 minit CPR selesai.<br>
             Hentikan CPR — semak <strong>nadi</strong> dan <strong>ritma ECG</strong>.
           </div>
-          <div style="display:flex;gap:7px;">
-            <button onclick="closePostCprAlert()" style="
-              flex:1; padding:9px; border-radius:7px; border:none; cursor:pointer;
-              background:linear-gradient(135deg,#d97706,#f59e0b); color:#fff;
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <button onclick="closePostCprAlert('nopulse')" style="
+              flex:1; width:100%; padding:9px; border-radius:7px; border:none; cursor:pointer;
+              background:linear-gradient(135deg,#b91c2e,#d62839); color:#fff;
               font-family:var(--head); font-size:11px; font-weight:700;
               letter-spacing:1.5px; text-transform:uppercase;
-              box-shadow:0 3px 10px rgba(217,119,6,0.3); transition:all 0.15s;
-            " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">✓ Done</button>
+              box-shadow:0 3px 10px rgba(214,40,57,0.3); transition:all 0.15s;
+            " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">💔 No Pulse, No Breathing</button>
+            <button onclick="closePostCprAlert('rosc')" style="
+              flex:1; width:100%; padding:9px; border-radius:7px; border:none; cursor:pointer;
+              background:linear-gradient(135deg,#057a55,#059669); color:#fff;
+              font-family:var(--head); font-size:11px; font-weight:700;
+              letter-spacing:1.5px; text-transform:uppercase;
+              box-shadow:0 3px 10px rgba(5,122,85,0.3); transition:all 0.15s;
+            " onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform=''">✅ ROSC (Return of Spontaneous Circulation)</button>
           </div>
         </div>
 
       </div>
     </div>
 
-    <!-- CPR CYCLE LOG (below 2-col) -->
-    <div style="margin-top:12px;">
-      <div class="section-title" style="margin-bottom:8px;">📋 Cycle Log</div>
-      <div class="cycle-log-wrap" id="cycleLogWrap" style="margin-top:0">
-        <div class="cycle-log-header">
-          <span class="cycle-log-title"></span>
-          <span class="cycle-log-total">Total: <span id="cycleTotalMin">0</span> min</span>
+    <!-- Others -->
+    <div style="margin-bottom:8px;">
+      <button class="rhythm-btn rhythm-btn-noshock" data-val="Others" onclick="setRhythm(this)" style="width:100%;flex-direction:row;justify-content:center;gap:8px;padding:7px 14px;">
+        <span class="rbb-icon" style="font-size:13px;">✏️</span>
+        <span class="rbb-name">Others</span>
+        <span class="rbb-desc" style="margin-top:0;">— specify rhythm below</span>
+      </button>
+    </div>
+
+    <div class="rhythm-others-input" id="rhythmOthersWrap" style="margin-top:6px;">
+      <div style="position:relative; max-width:380px;">
+        <textarea id="rhythmOthers" placeholder="Specify other rhythm..." oninput="onRhythmOthersInput()" style="width:100%;min-height:64px;padding-right:70px;resize:vertical;"></textarea>
+        <button id="rhythmOthersDoneBtn" onclick="submitRhythmOthers()" style="display:none;position:absolute;bottom:7px;right:7px;padding:4px 12px;border-radius:5px;border:none;background:var(--blue);color:#fff;font-family:var(--head);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all 0.15s;">✓ Done</button>
+      </div>
+    </div>
+    <input type="hidden" id="rhythm" value="">
+
+    <!-- CPR MAIN TIMER (Start/Stop + display + Cycle Log) -->
+    <div style="margin-top:12px; border-top:1px solid var(--border); padding-top:12px;">
+      <div class="cpr-timer-wrap" id="cprTimerWrap">
+        <div class="cpr-timer-left">
+          <button class="btn-cpr-start" id="btnCprStart" onclick="startCPR()">
+            <span class="cpr-icon">💓</span>
+            <span>Start CPR Timer</span>
+          </button>
+          <button class="btn-cpr-stop" id="btnCprStop" onclick="stopCPR()" style="display:none">
+            <span class="cpr-icon">⏹</span>
+            <span>Stop CPR</span>
+          </button>
         </div>
-        <div class="cycle-log-list" id="cycleLogList"><span style="font-size:10px;color:var(--text-dim);font-style:italic">No cycles recorded yet.</span></div>
+        <div class="cpr-timer-display" id="cprTimerDisplay" style="display:none">
+          <div class="cpr-label">CPR IN PROGRESS</div>
+          <div class="cpr-countdown" id="cprCountdown">2:00</div>
+          <div class="cpr-bar-track"><div class="cpr-bar-fill" id="cprBarFill"></div></div>
+          <div class="cpr-cycle-count">Cycle <span id="cprCycle">1</span></div>
+        </div>
+      </div>
+
+      <!-- CPR CYCLE LOG -->
+      <div style="margin-top:12px;">
+        <div class="section-title" style="margin-bottom:8px;">📋 Cycle Log</div>
+        <div class="cycle-log-wrap" id="cycleLogWrap" style="margin-top:0">
+          <div class="cycle-log-header">
+            <span class="cycle-log-title"></span>
+            <span class="cycle-log-total">Total: <span id="cycleTotalMin">0</span> min</span>
+          </div>
+          <div class="cycle-log-list" id="cycleLogList"><span style="font-size:10px;color:var(--text-dim);font-style:italic">No cycles recorded yet.</span></div>
+        </div>
       </div>
     </div>
 
     <!-- PULSE CHECK INLINE PANEL (hidden) -->
     <div class="pulse-panel" id="pulsePanelInline"></div>
+
+    <!-- defibPanel alias kept for legacy JS compatibility -->
+    <div id="defibPanel" style="display:none;"></div>
+
+    <!-- INLINE DEFIB LOG (legacy, kept for renderShockLog) -->
+    <div id="inlineDefibLog" style="display:none;">
+      <div class="inline-shock-list" id="inlineShockList"></div>
+    </div>
   </div>
 
-
-  <!-- PROCEDURE CHECKLIST CARD -->
-  <div class="form-card" style="margin-bottom:14px;">
+  <!-- PROCEDURE CHECKLIST CARD — ECG-style layout -->
+  <div class="form-card" style="padding:14px 18px; margin-bottom:14px;">
     <div class="section-title">✅ Procedure Checklist</div>
-    <div class="proc-list" id="procList">
 
-      <!-- IV Access -->
-      <div class="proc-item" id="proc-iv">
-        <div class="proc-header" onclick="addIVAccess()">
-          <span class="proc-icon">💉</span>
-          <span class="proc-name">IV Access</span>
-          <span style="flex:1"></span>
-          <button type="button" class="btn-proc-add" onclick="event.stopPropagation(); addIVAccess()">+ Add</button>
-        </div>
-        <div class="proc-body" id="body-proc-iv" style="display:none">
-          <div id="iv-entries-list"></div>
-        </div>
+    <!-- 3-column grid: left cards | gap | right inline panel -->
+    <div style="display:grid; grid-template-columns:minmax(120px,150px) 44px 1fr; gap:0; align-items:stretch;" id="procMainGrid">
+
+      <!-- COL 1: IV Access + ETT stacked -->
+      <div style="display:flex; flex-direction:column; gap:7px; padding-right:0;">
+
+        <!-- IV Access button -->
+        <button class="proc-card-btn" id="procCardIV" onclick="openIVPanel()">
+          <span class="proc-card-count" id="ivCardCount">0</span>
+          <span class="proc-card-icon">💉</span>
+          <span class="proc-card-name">IV Access</span>
+          <span class="proc-card-desc">Cannula size &amp; site</span>
+        </button>
+
+        <!-- Intubation button -->
+        <button class="proc-card-btn" id="procCardETT" onclick="openETTPanel()">
+          <span class="proc-card-count" id="ettCardCount">0</span>
+          <span class="proc-card-icon">🫁</span>
+          <span class="proc-card-name">Intubation</span>
+          <span class="proc-card-desc">ETT size &amp; marking</span>
+        </button>
+
       </div>
 
-      <!-- Intubation -->
-      <div class="proc-item" id="proc-ett">
-        <div class="proc-header" onclick="addETTAttempt()">
-          <span class="proc-icon">🫀</span>
-          <span class="proc-name">Intubation (ETT)</span>
-          <span style="flex:1"></span>
-          <button type="button" class="btn-proc-add" onclick="event.stopPropagation(); addETTAttempt()">+ Add</button>
-        </div>
-        <div class="proc-body" id="body-proc-ett" style="display:none">
-          <div id="ett-entries-list"></div>
-        </div>
+      <!-- COL 2: Flow connector SVG -->
+      <div style="position:relative; width:44px; flex-shrink:0;">
+        <svg id="procFlowSvg" width="44" xmlns="http://www.w3.org/2000/svg"
+          style="position:absolute;top:0;left:0;width:44px;height:100%;overflow:visible;">
+        </svg>
       </div>
 
-    </div>
+      <!-- COL 3: Right inline panels -->
+      <div style="display:flex; flex-direction:column; gap:10px; align-self:start;" id="procRightCol">
+
+        <!-- IV ACCESS INLINE PANEL -->
+        <div id="ivInlinePanel" style="display:none;">
+          <div class="proc-inline-panel">
+            <div class="proc-panel-header">
+              <div class="proc-panel-title">
+                <span style="animation:pulse-cpr-icon 1.4s ease-in-out infinite;">💉</span>
+                IV ACCESS
+              </div>
+              <button class="proc-panel-close" onclick="closeIVPanel()">✕</button>
+            </div>
+
+            <!-- Cannula Size -->
+            <div style="margin-bottom:11px;">
+              <div class="pp-label">Cannula Size</div>
+              <div class="pp-option-grid">
+                <button class="pp-opt" data-val="14G (Orange)" onclick="selIVCannula(this)">14G <span style="opacity:.6;font-size:9px">Orange</span></button>
+                <button class="pp-opt" data-val="16G (Grey)"   onclick="selIVCannula(this)">16G <span style="opacity:.6;font-size:9px">Grey</span></button>
+                <button class="pp-opt" data-val="18G (Green)"  onclick="selIVCannula(this)">18G <span style="opacity:.6;font-size:9px">Green</span></button>
+                <button class="pp-opt" data-val="20G (Pink)"   onclick="selIVCannula(this)">20G <span style="opacity:.6;font-size:9px">Pink</span></button>
+                <button class="pp-opt" data-val="22G (Blue)"   onclick="selIVCannula(this)">22G <span style="opacity:.6;font-size:9px">Blue</span></button>
+                <button class="pp-opt" data-val="24G (Yellow)" onclick="selIVCannula(this)">24G <span style="opacity:.6;font-size:9px">Yellow</span></button>
+              </div>
+            </div>
+
+            <!-- Location -->
+            <div style="margin-bottom:4px;">
+              <div class="pp-label">Location / Site</div>
+              <div class="pp-option-grid" id="ivSitePills">
+                <button class="pp-opt" data-val="Right Antecubital"  onclick="selIVSite(this)">R. Antecubital</button>
+                <button class="pp-opt" data-val="Left Antecubital"   onclick="selIVSite(this)">L. Antecubital</button>
+                <button class="pp-opt" data-val="Right Forearm"      onclick="selIVSite(this)">R. Forearm</button>
+                <button class="pp-opt" data-val="Left Forearm"       onclick="selIVSite(this)">L. Forearm</button>
+                <button class="pp-opt" data-val="Right Hand"         onclick="selIVSite(this)">R. Hand</button>
+                <button class="pp-opt" data-val="Left Hand"          onclick="selIVSite(this)">L. Hand</button>
+                <button class="pp-opt" data-val="Right Ext. Jugular" onclick="selIVSite(this)">R. Ext. Jugular</button>
+                <button class="pp-opt" data-val="Left Ext. Jugular"  onclick="selIVSite(this)">L. Ext. Jugular</button>
+                <button class="pp-opt" data-val="Intraosseous (IO)"  onclick="selIVSite(this)">Intraosseous (IO)</button>
+              </div>
+              <input type="text" class="pp-text-input" id="ivSiteCustom" placeholder="Atau taip lokasi lain..." oninput="onIVSiteCustom()">
+            </div>
+
+            <button class="pp-btn-confirm green-btn" id="ivPanelConfirmBtn" onclick="confirmIVInline()" disabled>✓ Rekod IV Access</button>
+          </div>
+
+          <!-- IV log chips -->
+          <div class="proc-log-panel" id="ivLogPanel" style="display:none; margin-top:8px;">
+            <div class="proc-log-title">IV Access Recorded</div>
+            <div id="iv-entries-list"></div>
+            <button onclick="openIVPanel()" style="margin-top:6px;width:100%;padding:6px;border-radius:6px;border:1.5px solid var(--cyan-mid);background:var(--cyan-light);color:var(--cyan);font-family:var(--head);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all 0.15s;" onmouseover="this.style.background='var(--cyan-mid)'" onmouseout="this.style.background='var(--cyan-light)'">+ Tambah IV Access</button>
+          </div>
+        </div>
+
+        <!-- ETT / INTUBATION INLINE PANEL -->
+        <div id="ettInlinePanel" style="display:none;">
+          <div class="proc-inline-panel" style="background:linear-gradient(135deg,#faf5ff,#f3e8ff);border-color:var(--purple-mid);border-left-color:var(--purple);">
+            <div class="proc-panel-header">
+              <div class="proc-panel-title" style="color:var(--purple);">
+                <span style="animation:pulse-cpr-icon 1.4s ease-in-out infinite;">🫁</span>
+                INTUBATION
+              </div>
+              <button class="proc-panel-close" style="border-color:var(--purple-mid);color:var(--purple);" onmouseover="this.style.background='var(--purple-mid)'" onmouseout="this.style.background='#fff'" onclick="closeETTPanel()">✕</button>
+            </div>
+
+            <!-- Result -->
+            <div style="margin-bottom:11px;">
+              <div class="pp-label">Keputusan</div>
+              <div class="pp-option-grid">
+                <button class="pp-opt" id="ettOptSucceed" data-val="succeed" onclick="selETTResult('succeed')">✅ Succeeded</button>
+                <button class="pp-opt" id="ettOptFailed"  data-val="failed"  onclick="selETTResult('failed')">❌ Failed</button>
+              </div>
+            </div>
+
+            <!-- ETT Size (succeed only) -->
+            <div id="ettSizeSection" style="display:none;margin-bottom:11px;">
+              <div class="pp-label">ETT Size (mm)</div>
+              <div class="pp-option-grid">
+                <button class="pp-opt" data-val="6.0" onclick="selETTSize(this)">6.0</button>
+                <button class="pp-opt" data-val="6.5" onclick="selETTSize(this)">6.5</button>
+                <button class="pp-opt" data-val="7.0" onclick="selETTSize(this)">7.0</button>
+                <button class="pp-opt" data-val="7.5" onclick="selETTSize(this)">7.5</button>
+                <button class="pp-opt" data-val="8.0" onclick="selETTSize(this)">8.0</button>
+                <button class="pp-opt" data-val="8.5" onclick="selETTSize(this)">8.5</button>
+              </div>
+            </div>
+
+            <!-- Marking (succeed only) -->
+            <div id="ettMarkingSection" style="display:none;margin-bottom:11px;">
+              <div class="pp-label">Marking at Lip (cm)</div>
+              <div class="pp-option-grid">
+                <button class="pp-opt" data-val="19" onclick="selETTMarking(this)">19</button>
+                <button class="pp-opt" data-val="20" onclick="selETTMarking(this)">20</button>
+                <button class="pp-opt" data-val="21" onclick="selETTMarking(this)">21</button>
+                <button class="pp-opt" data-val="22" onclick="selETTMarking(this)">22</button>
+                <button class="pp-opt" data-val="23" onclick="selETTMarking(this)">23</button>
+                <button class="pp-opt" data-val="24" onclick="selETTMarking(this)">24</button>
+              </div>
+              <input type="text" class="pp-text-input" id="ettMarkingCustom" placeholder="Atau taip nilai lain (cm)..." oninput="onETTMarkingCustom()" style="border-color:var(--purple-mid);">
+            </div>
+
+            <!-- Intubated By (succeed only) -->
+            <div id="ettBySection" style="display:none;margin-bottom:4px;">
+              <div class="pp-label">Intubated By</div>
+              <div class="pp-search-wrap">
+                <input type="text" class="pp-search-input" id="ettByInput"
+                  placeholder="Cari nama Doktor / MO..."
+                  style="border-color:var(--purple-mid);"
+                  oninput="onETTBySearch()"
+                  onfocus="onETTBySearch()"
+                  onkeydown="onETTByKey(event)"
+                  autocomplete="off">
+                <div class="pp-dropdown" id="ettByDd" style="border-color:var(--purple-mid);"></div>
+              </div>
+            </div>
+
+            <button class="pp-btn-confirm" id="ettPanelConfirmBtn"
+              style="background:linear-gradient(135deg,var(--purple),#7c3aed);box-shadow:0 3px 10px rgba(107,33,168,0.3);"
+              onclick="confirmETTInline()" disabled>✓ Rekod Intubation</button>
+          </div>
+
+          <!-- ETT log chips -->
+          <div class="proc-log-panel" id="ettLogPanel" style="display:none; margin-top:8px;">
+            <div class="proc-log-title">Intubation Recorded</div>
+            <div id="ett-entries-list"></div>
+            <button onclick="openETTPanel()" style="margin-top:6px;width:100%;padding:6px;border-radius:6px;border:1.5px solid var(--purple-mid);background:var(--purple-light);color:var(--purple);font-family:var(--head);font-size:10px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;transition:all 0.15s;" onmouseover="this.style.background='var(--purple-mid)'" onmouseout="this.style.background='var(--purple-light)'">+ Tambah Intubation</button>
+          </div>
+        </div>
+
+      </div><!-- end procRightCol -->
+    </div><!-- end procMainGrid -->
   </div>
 
   <!-- FORM -->
@@ -1540,230 +1819,41 @@
     <!-- IV MEDICATIONS -->
     <div class="form-group" style="margin-bottom:20px">
       <label>IV Medications Given</label>
-      <div class="iv-med-grid" id="ivMedGrid">
 
-        <!-- Adrenaline -->
-        <div class="iv-med-card selected" id="card-adrenaline">
-          <div class="iv-med-header">
-            <span class="iv-med-name">Adrenaline</span>
-            <span class="iv-med-badge">1mg IV</span>
+      <!-- Single IV medication card -->
+      <div style="background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-top:8px;">
+
+        <!-- Row 1: Drug name search -->
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:10px;">
+          <div style="flex:1;min-width:180px;position:relative;">
+            <div style="font-size:9px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">Nama Ubat</div>
+            <input type="text" id="ivSearchInput" placeholder="Taip nama ubat..." autocomplete="off"
+              oninput="onIvSearch()"
+              onfocus="onIvSearch()"
+              onkeydown="onIvSearchKey(event)"
+              style="width:100%;font-size:13px;font-weight:600;padding:8px 10px;border-radius:7px;border:1.5px solid var(--border-strong);background:#fff;color:var(--text);outline:none;transition:border-color 0.15s;">
+            <!-- Dropdown -->
+            <div id="ivDropdown" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:200;background:#fff;border:1.5px solid var(--blue-mid);border-radius:7px;box-shadow:0 6px 20px rgba(0,0,0,0.12);max-height:220px;overflow-y:auto;margin-top:3px;"></div>
           </div>
-          <div class="iv-med-body visible" id="body-adrenaline">
-            <div class="iv-dose-fields">
-              <div class="iv-field-group">
-                <label>Dose</label>
-                <input type="text" class="iv-dose-input" id="dose-adrenaline" placeholder="e.g. 1mg" value="1mg">
-              </div>
-              <div class="iv-field-group">
-                <label>Time Given</label>
-                <div style="display:flex;gap:5px;align-items:center">
-                  <input type="time" class="iv-time-input" id="time-adrenaline">
-                  <button class="btn-stat" onclick="statNow('adrenaline')"><span class="stat-dot"></span>STAT</button>
-                </div>
-              </div>
-            </div>
-            <div class="iv-med-action-row">
-              <button class="btn-med-add" onclick="addMedDose('adrenaline')">+ Add</button>
-              <span class="med-count-badge" id="count-adrenaline" onclick="openMedLog('adrenaline')" style="cursor:pointer" title="View log">✓ <span id="countnum-adrenaline">0</span>x given</span>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <div style="font-size:9px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.8px;">Dose</div>
+            <input type="text" id="ivDoseInput" placeholder="e.g. 1mg" style="font-family:var(--mono);font-size:12px;font-weight:600;padding:7px 9px;border-radius:6px;border:1.5px solid var(--border-strong);background:#fff;color:var(--text);width:90px;outline:none;">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <div style="font-size:9px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.8px;">Masa Diberikan</div>
+            <div style="display:flex;gap:5px;align-items:center;">
+              <input type="time" id="ivTimeInput" style="font-family:var(--mono);font-size:12px;padding:6px 8px;border-radius:6px;border:1.5px solid var(--border-strong);background:#fff;color:var(--text);outline:none;">
+              <button class="btn-stat" onclick="ivStatNow()"><span class="stat-dot"></span>STAT</button>
             </div>
           </div>
+          <button class="btn-med-add" onclick="ivAddDose()" style="margin-bottom:1px;">+ Add</button>
         </div>
 
-        <!-- Amiodarone -->
-        <div class="iv-med-card selected" id="card-amiodarone">
-          <div class="iv-med-header">
-            <span class="iv-med-name">Amiodarone</span>
-            <span class="iv-med-badge">300mg IV</span>
-          </div>
-          <div class="iv-med-body visible" id="body-amiodarone">
-            <div class="iv-dose-fields">
-              <div class="iv-field-group">
-                <label>Dose</label>
-                <input type="text" class="iv-dose-input" id="dose-amiodarone" placeholder="e.g. 300mg" value="300mg">
-              </div>
-              <div class="iv-field-group">
-                <label>Time Given</label>
-                <div style="display:flex;gap:5px;align-items:center">
-                  <input type="time" class="iv-time-input" id="time-amiodarone">
-                  <button class="btn-stat" onclick="statNow('amiodarone')"><span class="stat-dot"></span>STAT</button>
-                </div>
-              </div>
-            </div>
-            <div class="iv-med-action-row">
-              <button class="btn-med-add" onclick="addMedDose('amiodarone')">+ Add</button>
-              <span class="med-count-badge" id="count-amiodarone" onclick="openMedLog('amiodarone')" style="cursor:pointer" title="View log">✓ <span id="countnum-amiodarone">0</span>x given</span>
-            </div>
-          </div>
+        <!-- Recorded doses log -->
+        <div id="ivDoseLog" style="display:none;margin-top:4px;border-top:1px solid var(--border);padding-top:10px;">
+          <div style="font-size:9px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Rekod Ubat Diberikan</div>
+          <div id="ivDoseLogList" style="display:flex;flex-direction:column;gap:4px;"></div>
         </div>
-
-        <!-- Atropine -->
-        <div class="iv-med-card selected" id="card-atropine">
-          <div class="iv-med-header">
-            <span class="iv-med-name">Atropine</span>
-            <span class="iv-med-badge">1mg IV</span>
-          </div>
-          <div class="iv-med-body visible" id="body-atropine">
-            <div class="iv-dose-fields">
-              <div class="iv-field-group">
-                <label>Dose</label>
-                <input type="text" class="iv-dose-input" id="dose-atropine" placeholder="e.g. 1mg" value="1mg">
-              </div>
-              <div class="iv-field-group">
-                <label>Time Given</label>
-                <div style="display:flex;gap:5px;align-items:center">
-                  <input type="time" class="iv-time-input" id="time-atropine">
-                  <button class="btn-stat" onclick="statNow('atropine')"><span class="stat-dot"></span>STAT</button>
-                </div>
-              </div>
-            </div>
-            <div class="iv-med-action-row">
-              <button class="btn-med-add" onclick="addMedDose('atropine')">+ Add</button>
-              <span class="med-count-badge" id="count-atropine" onclick="openMedLog('atropine')" style="cursor:pointer" title="View log">✓ <span id="countnum-atropine">0</span>x given</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Sodium Bicarbonate -->
-        <div class="iv-med-card selected" id="card-nahco3">
-          <div class="iv-med-header">
-            <span class="iv-med-name">Sodium Bicarbonate</span>
-            <span class="iv-med-badge">50mmol IV</span>
-          </div>
-          <div class="iv-med-body visible" id="body-nahco3">
-            <div class="iv-dose-fields">
-              <div class="iv-field-group">
-                <label>Dose</label>
-                <input type="text" class="iv-dose-input" id="dose-nahco3" placeholder="e.g. 50mmol" value="50mmol">
-              </div>
-              <div class="iv-field-group">
-                <label>Time Given</label>
-                <div style="display:flex;gap:5px;align-items:center">
-                  <input type="time" class="iv-time-input" id="time-nahco3">
-                  <button class="btn-stat" onclick="statNow('nahco3')"><span class="stat-dot"></span>STAT</button>
-                </div>
-              </div>
-            </div>
-            <div class="iv-med-action-row">
-              <button class="btn-med-add" onclick="addMedDose('nahco3')">+ Add</button>
-              <span class="med-count-badge" id="count-nahco3" onclick="openMedLog('nahco3')" style="cursor:pointer" title="View log">✓ <span id="countnum-nahco3">0</span>x given</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Calcium Gluconate -->
-        <div class="iv-med-card selected" id="card-calcium">
-          <div class="iv-med-header">
-            <span class="iv-med-name">Calcium Gluconate</span>
-            <span class="iv-med-badge">10ml IV</span>
-          </div>
-          <div class="iv-med-body visible" id="body-calcium">
-            <div class="iv-dose-fields">
-              <div class="iv-field-group">
-                <label>Dose</label>
-                <input type="text" class="iv-dose-input" id="dose-calcium" placeholder="e.g. 10ml" value="10ml">
-              </div>
-              <div class="iv-field-group">
-                <label>Time Given</label>
-                <div style="display:flex;gap:5px;align-items:center">
-                  <input type="time" class="iv-time-input" id="time-calcium">
-                  <button class="btn-stat" onclick="statNow('calcium')"><span class="stat-dot"></span>STAT</button>
-                </div>
-              </div>
-            </div>
-            <div class="iv-med-action-row">
-              <button class="btn-med-add" onclick="addMedDose('calcium')">+ Add</button>
-              <span class="med-count-badge" id="count-calcium" onclick="openMedLog('calcium')" style="cursor:pointer" title="View log">✓ <span id="countnum-calcium">0</span>x given</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Magnesium Sulphate -->
-        <div class="iv-med-card selected" id="card-mgso4">
-          <div class="iv-med-header">
-            <span class="iv-med-name">Magnesium Sulphate</span>
-            <span class="iv-med-badge">2g IV</span>
-          </div>
-          <div class="iv-med-body visible" id="body-mgso4">
-            <div class="iv-dose-fields">
-              <div class="iv-field-group">
-                <label>Dose</label>
-                <input type="text" class="iv-dose-input" id="dose-mgso4" placeholder="e.g. 2g" value="2g">
-              </div>
-              <div class="iv-field-group">
-                <label>Time Given</label>
-                <div style="display:flex;gap:5px;align-items:center">
-                  <input type="time" class="iv-time-input" id="time-mgso4">
-                  <button class="btn-stat" onclick="statNow('mgso4')"><span class="stat-dot"></span>STAT</button>
-                </div>
-              </div>
-            </div>
-            <div class="iv-med-action-row">
-              <button class="btn-med-add" onclick="addMedDose('mgso4')">+ Add</button>
-              <span class="med-count-badge" id="count-mgso4" onclick="openMedLog('mgso4')" style="cursor:pointer" title="View log">✓ <span id="countnum-mgso4">0</span>x given</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Noradrenaline -->
-        <div class="iv-med-card selected" id="card-noradrenaline">
-          <div class="iv-med-header">
-            <span class="iv-med-name">Noradrenaline</span>
-            <span class="iv-med-badge">4mg IV</span>
-          </div>
-          <div class="iv-med-body visible" id="body-noradrenaline">
-            <div class="iv-dose-fields">
-              <div class="iv-field-group">
-                <label>Dose</label>
-                <input type="text" class="iv-dose-input" id="dose-noradrenaline" placeholder="e.g. 4mg" value="4mg">
-              </div>
-              <div class="iv-field-group">
-                <label>Time Given</label>
-                <div style="display:flex;gap:5px;align-items:center">
-                  <input type="time" class="iv-time-input" id="time-noradrenaline">
-                  <button class="btn-stat" onclick="statNow('noradrenaline')"><span class="stat-dot"></span>STAT</button>
-                </div>
-              </div>
-            </div>
-            <div class="iv-med-action-row">
-              <button class="btn-med-add" onclick="addMedDose('noradrenaline')">+ Add</button>
-              <span class="med-count-badge" id="count-noradrenaline" onclick="openMedLog('noradrenaline')" style="cursor:pointer" title="View log">✓ <span id="countnum-noradrenaline">0</span>x given</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Others -->
-        <div class="iv-med-card selected" id="card-ivothers">
-          <div class="iv-med-header">
-            <span class="iv-med-name">Others</span>
-            <span class="iv-med-badge" style="background:var(--cyan-light);color:var(--cyan);border-color:var(--cyan-mid)">IV</span>
-          </div>
-          <div class="iv-med-body visible" id="body-ivothers">
-            <div class="iv-dose-fields" style="flex-direction:column;">
-              <div class="iv-field-group" style="min-width:unset">
-                <label>Medication Name</label>
-                <input type="text" id="ivothers-name" placeholder="e.g. Vasopressin" style="font-size:12px;padding:6px 9px;width:100%;border-radius:5px;border:1px solid var(--border);">
-              </div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <div class="iv-field-group">
-                  <label>Dose</label>
-                  <input type="text" class="iv-dose-input" id="dose-ivothers" placeholder="e.g. 40units">
-                </div>
-                <div class="iv-field-group">
-                  <label>Time Given</label>
-                  <div style="display:flex;gap:5px;align-items:center">
-                    <input type="time" class="iv-time-input" id="time-ivothers">
-                    <button class="btn-stat" onclick="statNow('ivothers')"><span class="stat-dot"></span>STAT</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="iv-med-action-row">
-              <button class="btn-med-add" onclick="addMedDose('ivothers')">+ Add</button>
-              <span class="med-count-badge" id="count-ivothers" onclick="openMedLog('ivothers')" style="cursor:pointer" title="View log">✓ <span id="countnum-ivothers">0</span>x given</span>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
@@ -1862,113 +1952,161 @@
 
 
 
-  // IV medication state: { medKey: [{dose, time}, ...] }
-  const ivMeds = {
-    adrenaline: [], amiodarone: [], atropine: [],
-    nahco3: [], calcium: [], mgso4: [], noradrenaline: [], ivothers: []
-  };
+  // ══════════════════════════════════════
+  //  IV MEDICATIONS — Single Card + Search
+  // ══════════════════════════════════════
 
-  // Short display names for event log
-  const ivMedNames = {
-    adrenaline: 'Adrenaline', amiodarone: 'Amiodarone',
-    atropine: 'Atropine', nahco3: 'Sodium Bicarbonate',
-    calcium: 'Calcium Gluconate', mgso4: 'Magnesium Sulphate',
-    noradrenaline: 'Noradrenaline',
-    ivothers: null // dynamic
-  };
+  // Master drug list with default doses
+  const ivDrugList = [
+    { name: 'Adrenaline',           defaultDose: '1mg'     },
+    { name: 'Amiodarone',           defaultDose: '300mg'   },
+    { name: 'Atropine',             defaultDose: '1mg'     },
+    { name: 'Sodium Bicarbonate',   defaultDose: '50mmol'  },
+    { name: 'Calcium Gluconate',    defaultDose: '10ml'    },
+    { name: 'Magnesium Sulphate',   defaultDose: '2g'      },
+    { name: 'Noradrenaline',        defaultDose: '4mg'     },
+    { name: 'Vasopressin',          defaultDose: '40units' },
+    { name: 'Dopamine',             defaultDose: '200mg'   },
+    { name: 'Dobutamine',           defaultDose: '250mg'   },
+    { name: 'Lignocaine',           defaultDose: '100mg'   },
+    { name: 'Adenosine',            defaultDose: '6mg'     },
+    { name: 'Metoprolol',           defaultDose: '5mg'     },
+    { name: 'Verapamil',            defaultDose: '5mg'     },
+    { name: 'Heparin',              defaultDose: '5000units'},
+    { name: 'Morphine',             defaultDose: '2mg'     },
+    { name: 'Midazolam',            defaultDose: '2.5mg'   },
+    { name: 'Hydrocortisone',       defaultDose: '200mg'   },
+    { name: 'Dextrose 50%',         defaultDose: '50ml'    },
+    { name: 'Naloxone',             defaultDose: '0.4mg'   },
+    { name: 'Potassium Chloride',   defaultDose: '10mmol'  },
+  ];
 
-  const ivMedLabels = {
-    adrenaline:'Adrenaline (1mg IV)', amiodarone:'Amiodarone (300mg IV)',
-    atropine:'Atropine (1mg IV)', nahco3:'Sodium Bicarbonate (50mmol IV)',
-    calcium:'Calcium Gluconate (10ml IV)', mgso4:'Magnesium Sulphate (2g IV)',
-    noradrenaline:'Noradrenaline (4mg IV)',
-    ivothers:'Others (IV)'
-  };
+  // Recorded doses array: [{id, name, dose, time}]
+  let ivDoseRecords = [];
+  let _ivDropdownIdx = -1;
 
-  function toggleMed(key, checked) {
-    // Cards are always visible — this function only resets data on clearForm
-    ivMeds[key] = [];
-    const timeEl = document.getElementById('time-'+key);
-    if (timeEl) timeEl.value = '';
+  function onIvSearch() {
+    const q = document.getElementById('ivSearchInput').value.trim().toLowerCase();
+    const dd = document.getElementById('ivDropdown');
+    if (!q) { dd.style.display = 'none'; _ivDropdownIdx = -1; return; }
+    const matches = ivDrugList.filter(d => d.name.toLowerCase().includes(q));
+    if (!matches.length) { dd.style.display = 'none'; _ivDropdownIdx = -1; return; }
+    _ivDropdownIdx = -1;
+    dd.innerHTML = matches.map((d, i) =>
+      `<div class="iv-dd-item" data-idx="${i}" data-name="${d.name}" data-dose="${d.defaultDose}"
+        onmousedown="ivSelectDrug('${d.name}','${d.defaultDose}')"
+        onmouseover="ivDdHover(this)">
+        <span style="font-weight:600;font-size:12px;color:var(--text);">${d.name}</span>
+        <span style="font-family:var(--mono);font-size:10px;color:var(--text-dim);margin-left:auto;">${d.defaultDose}</span>
+      </div>`
+    ).join('');
+    dd.style.display = 'block';
   }
 
-  function statNow(key) {
-    const now = new Date().toTimeString().slice(0,5);
-    document.getElementById('time-'+key).value = now;
-    addMedDose(key);
+  function ivDdHover(el) {
+    document.querySelectorAll('.iv-dd-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    _ivDropdownIdx = parseInt(el.dataset.idx);
   }
 
-  function addMedDose(key) {
-    const timeEl = document.getElementById('time-'+key);
-    const doseEl = document.getElementById('dose-'+key);
-    const t    = timeEl ? timeEl.value : '';
-    const dose = doseEl ? doseEl.value.trim() : '';
-    if (!t) { if (timeEl) { timeEl.focus(); showToast('⚠ Sila isi masa dahulu', '#92400e', '#fffbeb', '#fde68a'); } return; }
-
-    ivMeds[key].push({ dose, time: t });
-    const doseNum = ivMeds[key].length;
-
-    // Build event log text
-    let medName = ivMedNames[key];
-    if (key === 'ivothers') {
-      const n = document.getElementById('ivothers-name');
-      medName = n ? n.value.trim() || 'Others' : 'Others';
+  function onIvSearchKey(e) {
+    const dd = document.getElementById('ivDropdown');
+    const items = dd.querySelectorAll('.iv-dd-item');
+    if (!items.length) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      _ivDropdownIdx = Math.min(_ivDropdownIdx + 1, items.length - 1);
+      items.forEach((it, i) => it.classList.toggle('active', i === _ivDropdownIdx));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      _ivDropdownIdx = Math.max(_ivDropdownIdx - 1, 0);
+      items.forEach((it, i) => it.classList.toggle('active', i === _ivDropdownIdx));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      const active = dd.querySelector('.iv-dd-item.active');
+      if (active) ivSelectDrug(active.dataset.name, active.dataset.dose);
+    } else if (e.key === 'Escape') {
+      dd.style.display = 'none';
     }
+  }
+
+  function ivSelectDrug(name, defaultDose) {
+    document.getElementById('ivSearchInput').value = name;
+    document.getElementById('ivDoseInput').value = defaultDose;
+    document.getElementById('ivDropdown').style.display = 'none';
+    document.getElementById('ivTimeInput').focus();
+  }
+
+  function ivStatNow() {
+    const now = new Date().toTimeString().slice(0,5);
+    document.getElementById('ivTimeInput').value = now;
+    ivAddDose();
+  }
+
+  function ivAddDose() {
+    const name = document.getElementById('ivSearchInput').value.trim();
+    const dose = document.getElementById('ivDoseInput').value.trim();
+    const t    = document.getElementById('ivTimeInput').value;
+    if (!name) { document.getElementById('ivSearchInput').focus(); showToast('⚠ Sila isi nama ubat dahulu', '#92400e', '#fffbeb', '#fde68a'); return; }
+    if (!t)    { document.getElementById('ivTimeInput').focus();   showToast('⚠ Sila isi masa dahulu', '#92400e', '#fffbeb', '#fde68a'); return; }
+
+    const entry = { id: Date.now(), name, dose, time: t };
+    ivDoseRecords.push(entry);
+    renderIvDoseLog();
+
+    // Event log
     const doseText = dose ? ` ${dose}` : '';
     const [hh, mm] = t.split(':');
-    const h = parseInt(hh);
-    const ampm = h >= 12 ? 'pm' : 'am';
-    const h12  = h % 12 || 12;
+    const h = parseInt(hh), ampm = h >= 12 ? 'pm' : 'am', h12 = h % 12 || 12;
     const timeDisplay = `${h12}.${mm}${ampm}`;
-    const numTag = doseNum > 1 ? ` <span style="font-family:var(--mono);font-size:9px;background:var(--purple-light);color:var(--purple);border:1px solid var(--purple-mid);border-radius:3px;padding:1px 5px;">#${doseNum}</span>` : '';
+    const countSameMed = ivDoseRecords.filter(r => r.name === name).length;
+    const numTag = countSameMed > 1
+      ? ` <span style="font-family:var(--mono);font-size:9px;background:var(--purple-light);color:var(--purple);border:1px solid var(--purple-mid);border-radius:3px;padding:1px 5px;">#${countSameMed}</span>` : '';
+    logEvent('dot-med', `<strong>IV ${name}${doseText}</strong> given at ${timeDisplay}${numTag}`, t);
+    showToast(`💉 IV ${name}${doseText} recorded`);
 
-    logEvent('dot-med', `<strong>IV ${medName}${doseText}</strong> given at ${timeDisplay}${numTag}`, t);
-    showToast(`💉 IV ${medName}${doseText} #${doseNum} recorded`);
-
-    // Clear time field for next entry
-    if (timeEl) timeEl.value = '';
-
-    // Update count badge & log button
-    updateMedCountUI(key);
+    // Reset fields for next entry
+    document.getElementById('ivSearchInput').value = '';
+    document.getElementById('ivDoseInput').value = '';
+    document.getElementById('ivTimeInput').value = '';
   }
 
-  function recordMedGiven(key) {
-    // kept for compatibility — now handled by addMedDose
+  function ivRemoveDose(id) {
+    ivDoseRecords = ivDoseRecords.filter(r => r.id !== id);
+    renderIvDoseLog();
   }
 
-  function updateMedCountUI(key) {
-    const count = ivMeds[key].length;
-    const badge = document.getElementById('count-'+key);
-    const numSpan = document.getElementById('countnum-'+key);
-    if (badge && numSpan) {
-      numSpan.textContent = count;
-      badge.classList.toggle('visible', count > 0);
-    }
+  function renderIvDoseLog() {
+    const log  = document.getElementById('ivDoseLog');
+    const list = document.getElementById('ivDoseLogList');
+    if (!ivDoseRecords.length) { log.style.display = 'none'; return; }
+    log.style.display = '';
+    list.innerHTML = ivDoseRecords.map((r, i) =>
+      `<div class="proc-entry-chip chip-iv">
+        <span class="chip-num chip-num-iv">#${i+1}</span>
+        <span class="chip-text">💉 <strong>${r.name}</strong>${r.dose ? ' · ' + r.dose : ''}</span>
+        <span class="chip-time">${r.time}</span>
+        <span class="chip-del" onclick="ivRemoveDose(${r.id})">✕</span>
+      </div>`
+    ).join('');
   }
 
-  let _medLogKey = null;
-
-  function openMedLog(key) {
-    // Overlay removed — show summary in tooltip/alert
-    let medName = ivMedNames[key] || 'Others';
-    if (key === 'ivothers') {
-      const n = document.getElementById('ivothers-name');
-      medName = n ? n.value.trim() || 'Others' : 'Others';
-    }
-    const entries = ivMeds[key];
-    if (!entries.length) { showToast('💉 ' + medName + ' — tiada rekod lagi'); return; }
-    const log = entries.map((e,i) => `#${i+1}: ${e.time}${e.dose ? ' ('+e.dose+')' : ''}`).join(', ');
-    showToast('💉 ' + medName + ' — ' + entries.length + 'x: ' + log);
+  function getIVMedsData() {
+    return ivDoseRecords.map(r => ({ name: r.name, dose: r.dose, time: r.time }));
   }
 
-  function closeMedLog() { /* Overlay removed */ }
-
-  function renderMedLogBody(key) { /* Overlay removed */ }
-
-  function removeMedEntry(key, idx) {
-    ivMeds[key].splice(idx, 1);
-    updateMedCountUI(key);
-  }
+  // Legacy stubs — kept so clearForm and save don't break
+  const ivMeds = {};
+  const ivMedNames = {};
+  const ivMedLabels = {};
+  function toggleMed() {}
+  function statNow() {}
+  function addMedDose() {}
+  function updateMedCountUI() {}
+  function openMedLog() {}
+  function closeMedLog() {}
+  function renderMedLogBody() {}
+  function removeMedEntry() {}
 
   function updateClock() {
     document.getElementById('liveClock').textContent =
@@ -2047,6 +2185,21 @@
     logEvent('dot-note', txt);
     ta.value = '';
     document.getElementById('notesDoneBtn').style.display = 'none';
+  }
+
+  // ── Rhythm Others → Event Log ──
+  function onRhythmOthersInput() {
+    const val = document.getElementById('rhythmOthers').value.trim();
+    document.getElementById('rhythmOthersDoneBtn').style.display = val ? '' : 'none';
+  }
+
+  function submitRhythmOthers() {
+    const ta  = document.getElementById('rhythmOthers');
+    const txt = ta.value.trim();
+    if (!txt) return;
+    logEvent('dot-rhythm', `<strong>ECG Rhythm identified:</strong> ${txt}`);
+    showToast('📈 Rhythm recorded: ' + txt);
+    document.getElementById('rhythmOthersDoneBtn').style.display = 'none';
   }
 
   // ── Code Announced ──
@@ -2215,24 +2368,6 @@
   function closeOutcomeOverlay() { /* Overlay removed */ }
   function confirmOutcome() { /* Overlay removed */ }
 
-  function getIVMedsData() {
-    const result = [];
-    Object.keys(ivMeds).forEach(key => {
-      if (!ivMeds[key].length) return;
-      let name = ivMedLabels[key];
-      if (key === 'ivothers') {
-        const n = document.getElementById('ivothers-name');
-        const custom = n ? n.value.trim() : '';
-        if (custom) name = custom + ' (IV)';
-      }
-      result.push({
-        med: name,
-        entries: ivMeds[key].map(e => ({ dose: e.dose, time: e.time }))
-      });
-    });
-    return result;
-  }
-
   function getInterventions() {
     return [...document.querySelectorAll('#interventionList input:checked')].map(c => c.value);
   }
@@ -2273,76 +2408,79 @@
     }
   }
 
-  // ── Procedure Checklist ──
-  // (IV & ETT kini guna sistem multi-entry, procState tidak diperlukan)
-  const procState = {};
-
-  function toggleProc(key) { /* tidak digunakan */ }
-  function procUnchecked(key) {
-    if (key === 'iv') { ivEntries = []; renderIVEntries(); }
-    if (key === 'ett') { ettEntries = []; renderETTEntries(); }
-  }
-
   // ════════════════════════════════
-  //  MULTI-ENTRY: IV ACCESS
+  //  PROCEDURE CHECKLIST — ECG-style inline panels
   // ════════════════════════════════
-  let ivEntries = [];   // [{id, time, cannula, site}]
+
+  // ── IV Access ──
+  let ivEntries = [];
   let _ivCannula = '';
+  let _ivSite    = '';
 
-  function addIVAccess() {
-    // Overlay removed — use inline prompts
-    const cannulaOptions = ['14G (Orange)','16G (Grey)','18G (Green)','20G (Pink)','22G (Blue)','24G (Yellow)'];
-    const siteOptions = ['Right Antecubital','Left Antecubital','Right Forearm','Left Forearm','Right Hand','Left Hand','Right Ext. Jugular','Left Ext. Jugular','Intraosseous (IO)','Others'];
-    const cannula = prompt('Cannula Size:\n' + cannulaOptions.map((o,i)=>`${i+1}. ${o}`).join('\n') + '\n\nTaip nombor atau nama:');
-    if (!cannula) return;
-    const cannulaVal = cannulaOptions[parseInt(cannula)-1] || cannula;
-    const site = prompt('Site / Location:\n' + siteOptions.map((o,i)=>`${i+1}. ${o}`).join('\n') + '\n\nTaip nombor atau nama:');
-    if (!site) return;
-    const siteVal = siteOptions[parseInt(site)-1] || site;
-    _ivCannula = cannulaVal;
-    ivPickSite(siteVal);
+  function openIVPanel() {
+    // Reset fields
+    _ivCannula = ''; _ivSite = '';
+    document.querySelectorAll('#ivInlinePanel .pp-opt').forEach(b => b.classList.remove('sel-cyan','sel-green','sel-red'));
+    document.getElementById('ivSiteCustom').value = '';
+    updateIVPanelBtn();
+    document.getElementById('ivInlinePanel').style.display = '';
+    document.getElementById('ettInlinePanel').style.display = 'none';
+    document.getElementById('procCardIV').classList.add('active-iv');
+    document.getElementById('procCardETT').classList.remove('active-ett-ok','active-ett-fail');
+    drawProcFlowLines();
+    document.getElementById('ivInlinePanel').scrollIntoView({ behavior:'smooth', block:'nearest' });
   }
 
-  function ivPickCannula(val) {
-    _ivCannula = val;
+  function closeIVPanel() {
+    document.getElementById('ivInlinePanel').style.display = 'none';
+    if (!ivEntries.length) document.getElementById('procCardIV').classList.remove('active-iv');
+    drawProcFlowLines();
   }
 
-  function ivPickSite(site) {
+  function selIVCannula(btn) {
+    document.querySelectorAll('#ivInlinePanel .pp-opt[data-val*="G"]').forEach(b => b.classList.remove('sel-cyan','sel-green'));
+    btn.classList.add('sel-green');
+    _ivCannula = btn.dataset.val;
+    updateIVPanelBtn();
+  }
+
+  function selIVSite(btn) {
+    document.querySelectorAll('#ivSitePills .pp-opt').forEach(b => b.classList.remove('sel-cyan','sel-green'));
+    btn.classList.add('sel-cyan');
+    _ivSite = btn.dataset.val;
+    document.getElementById('ivSiteCustom').value = '';
+    updateIVPanelBtn();
+  }
+
+  function onIVSiteCustom() {
+    const v = document.getElementById('ivSiteCustom').value.trim();
+    document.querySelectorAll('#ivSitePills .pp-opt').forEach(b => b.classList.remove('sel-cyan','sel-green'));
+    _ivSite = v;
+    updateIVPanelBtn();
+  }
+
+  function updateIVPanelBtn() {
+    const btn = document.getElementById('ivPanelConfirmBtn');
+    const ok = _ivCannula && _ivSite;
+    btn.disabled = !ok;
+  }
+
+  function confirmIVInline() {
+    if (!_ivCannula || !_ivSite) return;
     const t = nowTime();
-    const entry = { id: Date.now(), time: t, cannula: _ivCannula, site };
-    ivEntries.push(entry);
+    ivEntries.push({ id: Date.now(), time: t, cannula: _ivCannula, site: _ivSite });
     renderIVEntries();
-    logEvent('dot-bvm', `<strong>IV Access #${ivEntries.length}</strong> — ${_ivCannula} at ${site}`);
-    showToast('💉 IV Access: ' + _ivCannula + ' · ' + site);
-  }
-
-  function ivCancelOverlay() {
-    _ivCannula = '';
-  }
-
-  function ivBackToCannula() {
-    // Overlay removed
-  }
-
-  function removeIVEntry(id) {
-    const idx = ivEntries.findIndex(e => e.id === id);
-    if (idx === -1) return;
-    ivEntries.splice(idx, 1);
-    renderIVEntries();
+    logEvent('dot-bvm', `<strong>IV Access #${ivEntries.length}</strong> — ${_ivCannula} at ${_ivSite}`);
+    showToast('💉 IV Access: ' + _ivCannula + ' · ' + _ivSite);
+    // Show log, hide form
+    document.querySelector('#ivInlinePanel .proc-inline-panel').style.display = 'none';
+    document.getElementById('ivLogPanel').style.display = '';
+    drawProcFlowLines();
   }
 
   function renderIVEntries() {
     const list = document.getElementById('iv-entries-list');
-    const body = document.getElementById('body-proc-iv');
-    const item = document.getElementById('proc-iv');
-    if (!ivEntries.length) {
-      body.style.display = 'none';
-      item.classList.remove('done');
-      list.innerHTML = '';
-      return;
-    }
-    body.style.display = '';
-    item.classList.add('done');
+    if (!ivEntries.length) { list.innerHTML = ''; return; }
     list.innerHTML = ivEntries.map((e, i) => `
       <div class="proc-entry-chip chip-iv">
         <span class="chip-num chip-num-iv">#${i+1}</span>
@@ -2350,115 +2488,328 @@
         <span class="chip-time">${e.time}</span>
         <span class="chip-del" onclick="removeIVEntry(${e.id})">✕</span>
       </div>`).join('');
+    // Update card count badge
+    const countEl = document.getElementById('ivCardCount');
+    countEl.textContent = ivEntries.length;
+    countEl.classList.toggle('visible', ivEntries.length > 0);
+    countEl.className = 'proc-card-count' + (ivEntries.length > 0 ? ' visible green' : '');
+    document.getElementById('procCardIV').classList.add('active-iv');
   }
 
-  // ════════════════════════════════
-  //  MULTI-ENTRY: ETT / INTUBATION
-  // ════════════════════════════════
-  let ettEntries = [];  // [{id, time, result, size, depth, by}]
-
-  function addETTAttempt() {
-    // Overlay removed — use inline prompts
-    const resultInput = prompt('ETT Result:\n1. Succeeded\n2. Failed\n\nTaip 1 atau 2:');
-    if (!resultInput) return;
-    if (resultInput.trim() === '2' || resultInput.toLowerCase().includes('fail')) {
-      ettPickResult('failed');
-    } else {
-      const sizeOptions = ['6.0','6.5','7.0','7.5','8.0','8.5'];
-      const size = prompt('ETT Size (mm):\n' + sizeOptions.map((o,i)=>`${i+1}. ${o}`).join('\n') + '\n\nTaip nombor atau nilai (kosongkan untuk skip):') || '';
-      const sizeVal = sizeOptions[parseInt(size)-1] || (size && !isNaN(parseFloat(size)) ? size : '');
-      const depth = prompt('Marking / Depth (cm):\n(e.g. 21, 22, 23 — kosongkan untuk skip):') || '';
-      const doctors = ['Dr. Wazein','Dr. Fairuz','Dr. Kamil','Dr. Aina','Dr. Afuza','Dr. Amira'];
-      const byInput = prompt('Intubated By:\n' + doctors.map((d,i)=>`${i+1}. ${d}`).join('\n') + '\n\nTaip nombor atau nama (kosongkan untuk skip):') || '';
-      const by = doctors[parseInt(byInput)-1] || byInput;
-      ettConfirmDetailsInline(sizeVal, depth, by);
+  function removeIVEntry(id) {
+    ivEntries = ivEntries.filter(e => e.id !== id);
+    renderIVEntries();
+    if (!ivEntries.length) {
+      document.getElementById('ivLogPanel').style.display = 'none';
+      document.querySelector('#ivInlinePanel .proc-inline-panel').style.display = '';
+      document.getElementById('procCardIV').classList.remove('active-iv');
+      document.getElementById('ivCardCount').classList.remove('visible');
     }
+    drawProcFlowLines();
   }
 
-  function ettPickResult(val) {
-    if (val === 'failed') {
-      const t = nowTime();
-      const entry = { id: Date.now(), time: t, result: 'failed', size: '', depth: '', by: '' };
-      ettEntries.push(entry);
-      renderETTEntries();
+  // When + Tambah clicked, re-show the form panel
+  function _ivShowForm() {
+    _ivCannula = ''; _ivSite = '';
+    document.querySelectorAll('#ivInlinePanel .pp-opt').forEach(b => b.classList.remove('sel-cyan','sel-green','sel-red'));
+    document.getElementById('ivSiteCustom').value = '';
+    updateIVPanelBtn();
+    document.querySelector('#ivInlinePanel .proc-inline-panel').style.display = '';
+  }
+
+  // legacy stubs
+  function addIVAccess() { openIVPanel(); }
+  function ivPickCannula(v) { _ivCannula = v; }
+  function ivPickSite(site) {
+    const t = nowTime();
+    ivEntries.push({ id: Date.now(), time: t, cannula: _ivCannula, site });
+    renderIVEntries();
+    logEvent('dot-bvm', `<strong>IV Access #${ivEntries.length}</strong> — ${_ivCannula} at ${site}`);
+    showToast('💉 IV Access: ' + _ivCannula + ' · ' + site);
+  }
+  function ivCancelOverlay() {}
+  function ivBackToCannula() {}
+
+  // ── ETT / Intubation ──
+  let ettEntries = [];
+  let _ettResult  = '';
+  let _ettSize    = '';
+  let _ettMarking = '';
+  let _ettBy      = '';
+  let _ettDdIdx   = -1;
+
+  const ettDoctors = [
+    'Dr. Wazein','Dr. Fairuz','Dr. Kamil','Dr. Aina','Dr. Afuza','Dr. Amira',
+    'Dr. Hazrul','Dr. Syafiq','Dr. Nabilah','Dr. Hafeez','Dr. Izwan','Dr. Ruzanna'
+  ];
+
+  function openETTPanel() {
+    _ettResult = ''; _ettSize = ''; _ettMarking = ''; _ettBy = ''; _ettDdIdx = -1;
+    document.getElementById('ettOptSucceed').classList.remove('sel-green');
+    document.getElementById('ettOptFailed').classList.remove('sel-red');
+    document.querySelectorAll('#ettSizeSection .pp-opt').forEach(b => b.classList.remove('sel-purple'));
+    document.querySelectorAll('#ettMarkingSection .pp-opt').forEach(b => b.classList.remove('sel-purple'));
+    document.getElementById('ettMarkingCustom').value = '';
+    document.getElementById('ettByInput').value = '';
+    document.getElementById('ettByDd').classList.remove('open');
+    document.getElementById('ettSizeSection').style.display    = 'none';
+    document.getElementById('ettMarkingSection').style.display = 'none';
+    document.getElementById('ettBySection').style.display      = 'none';
+    updateETTPanelBtn();
+    document.querySelector('#ettInlinePanel .proc-inline-panel').style.display = '';
+    document.getElementById('ettInlinePanel').style.display = '';
+    document.getElementById('ivInlinePanel').style.display  = 'none';
+    document.getElementById('procCardETT').classList.remove('active-ett-ok','active-ett-fail');
+    document.getElementById('procCardIV').classList.remove('active-iv');
+    if (ivEntries.length) document.getElementById('procCardIV').classList.add('active-iv');
+    drawProcFlowLines();
+    document.getElementById('ettInlinePanel').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+
+  function closeETTPanel() {
+    document.getElementById('ettInlinePanel').style.display = 'none';
+    document.getElementById('ettByDd').classList.remove('open');
+    if (!ettEntries.length) {
+      document.getElementById('procCardETT').classList.remove('active-ett-ok','active-ett-fail');
+    }
+    drawProcFlowLines();
+  }
+
+  function selETTResult(val) {
+    _ettResult = val;
+    _ettSize = ''; _ettMarking = ''; _ettBy = '';
+    document.getElementById('ettOptSucceed').classList.toggle('sel-green', val === 'succeed');
+    document.getElementById('ettOptFailed').classList.toggle('sel-red',   val === 'failed');
+    const isOk = val === 'succeed';
+    document.getElementById('ettSizeSection').style.display    = isOk ? '' : 'none';
+    document.getElementById('ettMarkingSection').style.display = isOk ? '' : 'none';
+    document.getElementById('ettBySection').style.display      = isOk ? '' : 'none';
+    if (isOk) {
+      document.querySelectorAll('#ettSizeSection .pp-opt').forEach(b => b.classList.remove('sel-purple'));
+      document.querySelectorAll('#ettMarkingSection .pp-opt').forEach(b => b.classList.remove('sel-purple'));
+      document.getElementById('ettMarkingCustom').value = '';
+      document.getElementById('ettByInput').value = '';
+    }
+    updateETTPanelBtn();
+  }
+
+  function selETTSize(btn) {
+    document.querySelectorAll('#ettSizeSection .pp-opt').forEach(b => b.classList.remove('sel-purple'));
+    btn.classList.add('sel-purple');
+    _ettSize = btn.dataset.val;
+    updateETTPanelBtn();
+  }
+
+  function selETTMarking(btn) {
+    document.querySelectorAll('#ettMarkingSection .pp-opt').forEach(b => b.classList.remove('sel-purple'));
+    btn.classList.add('sel-purple');
+    _ettMarking = btn.dataset.val;
+    document.getElementById('ettMarkingCustom').value = '';
+    updateETTPanelBtn();
+  }
+
+  function onETTMarkingCustom() {
+    const v = document.getElementById('ettMarkingCustom').value.trim();
+    document.querySelectorAll('#ettMarkingSection .pp-opt').forEach(b => b.classList.remove('sel-purple'));
+    _ettMarking = v;
+    updateETTPanelBtn();
+  }
+
+  function onETTBySearch() {
+    const q   = document.getElementById('ettByInput').value.trim().toLowerCase();
+    const dd  = document.getElementById('ettByDd');
+    _ettDdIdx = -1;
+    const matches = q ? ettDoctors.filter(d => d.toLowerCase().includes(q)) : ettDoctors;
+    if (!matches.length) { dd.classList.remove('open'); return; }
+    dd.innerHTML = matches.map((d,i) =>
+      `<div class="pp-dd-item" data-name="${d}"
+        onmousedown="ettPickDoctor('${d}')"
+        onmouseover="ettDdHover(this)">👨‍⚕️ ${d}</div>`
+    ).join('');
+    dd.classList.add('open');
+    _ettBy = document.getElementById('ettByInput').value.trim();
+    updateETTPanelBtn();
+  }
+
+  function ettDdHover(el) {
+    document.querySelectorAll('#ettByDd .pp-dd-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function onETTByKey(e) {
+    const dd    = document.getElementById('ettByDd');
+    const items = dd.querySelectorAll('.pp-dd-item');
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      _ettDdIdx = Math.min(_ettDdIdx + 1, items.length - 1);
+      items.forEach((it,i) => it.classList.toggle('active', i === _ettDdIdx));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      _ettDdIdx = Math.max(_ettDdIdx - 1, 0);
+      items.forEach((it,i) => it.classList.toggle('active', i === _ettDdIdx));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      const a = dd.querySelector('.pp-dd-item.active');
+      if (a) ettPickDoctor(a.dataset.name);
+    } else if (e.key === 'Escape') {
+      dd.classList.remove('open');
+    }
+    _ettBy = document.getElementById('ettByInput').value.trim();
+    updateETTPanelBtn();
+  }
+
+  function ettPickDoctor(name) {
+    document.getElementById('ettByInput').value = name;
+    document.getElementById('ettByDd').classList.remove('open');
+    _ettBy = name;
+    updateETTPanelBtn();
+  }
+
+  function updateETTPanelBtn() {
+    document.getElementById('ettPanelConfirmBtn').disabled = !_ettResult;
+  }
+
+  function confirmETTInline() {
+    if (!_ettResult) return;
+    const by = document.getElementById('ettByInput').value.trim() || _ettBy;
+    const t  = nowTime();
+    if (_ettResult === 'failed') {
+      ettEntries.push({ id: Date.now(), time: t, result: 'failed', size: '', depth: '', by: '' });
       logEvent('dot-bvm', `<strong>Intubation Attempt #${ettEntries.length}</strong> — ❌ Failed`);
       showToast('❌ ETT Failed — Attempt #' + ettEntries.length + ' recorded', '#d62839', '#fff0f1', '#ffd6da');
+    } else {
+      ettEntries.push({ id: Date.now(), time: t, result: 'succeed', size: _ettSize, depth: _ettMarking, by });
+      const parts = [];
+      if (_ettSize)    parts.push('ETT ' + _ettSize + 'mm');
+      if (_ettMarking) parts.push('marking ' + _ettMarking + 'cm');
+      if (by)          parts.push('by ' + by);
+      logEvent('dot-bvm', `<strong>Intubation Attempt #${ettEntries.length}</strong> — ✅ Succeeded${parts.length ? ' · ' + parts.join(', ') : ''}`);
+      showToast('✅ ETT Succeeded' + (parts.length ? ' · ' + parts.join(', ') : ''));
     }
-  }
-
-  function ettConfirmDetailsInline(size, depth, by) {
-    const t = nowTime();
-    const entry = { id: Date.now(), time: t, result: 'succeed', size, depth, by };
-    ettEntries.push(entry);
     renderETTEntries();
-    const parts = [];
-    if (size)  parts.push('ETT ' + size + 'mm');
-    if (depth) parts.push('marking ' + depth + 'cm');
-    if (by)    parts.push('by ' + by);
-    logEvent('dot-bvm', `<strong>Intubation Attempt #${ettEntries.length}</strong> — ✅ Succeeded${parts.length ? ' · ' + parts.join(', ') : ''}`);
-    showToast('✅ ETT Succeeded' + (parts.length ? ' · ' + parts.join(', ') : ''));
-  }
-
-  function ettConfirmDetails() { /* Overlay removed */ }
-  function ettCancelOverlay() { /* Overlay removed */ }
-  function ettBackToResult() { /* Overlay removed */ }
-
-  function removeETTEntry(id) {
-    const idx = ettEntries.findIndex(e => e.id === id);
-    if (idx === -1) return;
-    ettEntries.splice(idx, 1);
-    renderETTEntries();
+    document.querySelector('#ettInlinePanel .proc-inline-panel').style.display = 'none';
+    document.getElementById('ettLogPanel').style.display = '';
+    drawProcFlowLines();
   }
 
   function renderETTEntries() {
     const list = document.getElementById('ett-entries-list');
-    const body = document.getElementById('body-proc-ett');
-    const item = document.getElementById('proc-ett');
-    if (!ettEntries.length) {
-      body.style.display = 'none';
-      item.classList.remove('done', 'done-failed');
-      list.innerHTML = '';
-      return;
-    }
-    body.style.display = '';
-    // Warna item: hijau kalau ada sekurang-kurangnya satu succeed, merah kalau semua failed
-    const anySucceed = ettEntries.some(e => e.result === 'succeed');
-    item.classList.toggle('done', anySucceed);
-    item.classList.toggle('done-failed', !anySucceed);
-    list.innerHTML = ettEntries.map((e, i) => {
-      const isOk = e.result === 'succeed';
-      const details = [
-        e.size  ? 'ETT ' + e.size + 'mm' : '',
-        e.depth ? 'marking ' + e.depth + 'cm' : '',
-        e.by    ? 'by ' + e.by : ''
-      ].filter(Boolean).join(', ');
-      return `
-        <div class="proc-entry-chip ${isOk ? 'chip-ett-ok' : 'chip-ett-fail'}">
-          <span class="chip-num ${isOk ? 'chip-num-ok' : 'chip-num-fail'}">#${i+1}</span>
-          <span class="chip-text">${isOk ? '✅' : '❌'} ${isOk ? 'Succeeded' : 'Failed'}${details ? ' · ' + details : ''}</span>
-          <span class="chip-time">${e.time}</span>
-          <span class="chip-del" onclick="removeETTEntry(${e.id})">✕</span>
-        </div>`;
+    if (!ettEntries.length) { list.innerHTML = ''; return; }
+    const anyOk = ettEntries.some(e => e.result === 'succeed');
+    document.getElementById('procCardETT').className = 'proc-card-btn ' + (anyOk ? 'active-ett-ok' : 'active-ett-fail');
+    const countEl = document.getElementById('ettCardCount');
+    countEl.textContent = ettEntries.length;
+    countEl.className = 'proc-card-count visible ' + (anyOk ? 'green' : 'red');
+    list.innerHTML = ettEntries.map((e,i) => {
+      const ok = e.result === 'succeed';
+      const d = [e.size ? 'ETT '+e.size+'mm':'', e.depth ? 'marking '+e.depth+'cm':'', e.by ? 'by '+e.by:''].filter(Boolean).join(', ');
+      return `<div class="proc-entry-chip ${ok?'chip-ett-ok':'chip-ett-fail'}">
+        <span class="chip-num ${ok?'chip-num-ok':'chip-num-fail'}">#${i+1}</span>
+        <span class="chip-text">${ok?'✅':'❌'} ${ok?'Succeeded':'Failed'}${d?' · '+d:''}</span>
+        <span class="chip-time">${e.time}</span>
+        <span class="chip-del" onclick="removeETTEntry(${e.id})">✕</span>
+      </div>`;
     }).join('');
   }
 
-  function ivShowOverlay(id) { /* Overlay removed */ }
-  function ivHideOverlay(id) { /* Overlay removed */ }
-
-  // Called whenever IV cannula or site changes — update event log
-  function updateIVLog() {
-    if (!procState.iv) return;
-    const cannula = '';
-    const site    = '';
-    if (!cannula && !site) return;
-    // Replace last iv event log entry
-    const idx = [...eventLog].map((e,i)=>i).reverse().find(i => eventLog[i].text.includes('IV Access'));
-    const detail = [cannula, site ? 'at ' + site : ''].filter(Boolean).join(', ');
-    const newText = `<strong>IV Access</strong> — ${detail}`;
-    if (idx !== undefined) eventLog[idx].text = newText;
-    else logEvent('dot-bvm', newText);
-    renderEventLog();
+  function removeETTEntry(id) {
+    ettEntries = ettEntries.filter(e => e.id !== id);
+    renderETTEntries();
+    if (!ettEntries.length) {
+      document.getElementById('ettLogPanel').style.display = 'none';
+      document.querySelector('#ettInlinePanel .proc-inline-panel').style.display = '';
+      document.getElementById('procCardETT').className = 'proc-card-btn';
+      document.getElementById('ettCardCount').classList.remove('visible');
+    }
+    drawProcFlowLines();
   }
+
+  // legacy stubs
+  function addETTAttempt()        { openETTPanel(); }
+  function ettPickResult(v)       {
+    if (v === 'failed') {
+      const t = nowTime();
+      ettEntries.push({ id: Date.now(), time: t, result: 'failed', size:'', depth:'', by:'' });
+      renderETTEntries();
+      logEvent('dot-bvm', `<strong>Intubation Attempt #${ettEntries.length}</strong> — ❌ Failed`);
+      showToast('❌ ETT Failed', '#d62839','#fff0f1','#ffd6da');
+    }
+  }
+  function ettConfirmDetailsInline(size, depth, by) {
+    const t = nowTime();
+    ettEntries.push({ id: Date.now(), time: t, result:'succeed', size, depth, by });
+    renderETTEntries();
+    const parts = [size?'ETT '+size+'mm':'', depth?'marking '+depth+'cm':'', by?'by '+by:''].filter(Boolean);
+    logEvent('dot-bvm', `<strong>Intubation Attempt #${ettEntries.length}</strong> — ✅ Succeeded${parts.length?' · '+parts.join(', '):''}`);
+    showToast('✅ ETT Succeeded');
+  }
+  function ettConfirmDetails()  {}
+  function ettCancelOverlay()   {}
+  function ettBackToResult()    {}
+
+  // ── Proc flow lines (same pattern as rhythm flow lines) ──
+  function drawProcFlowLines() {
+    const svg  = document.getElementById('procFlowSvg');
+    if (!svg) return;
+    const grid = document.getElementById('procMainGrid');
+    if (!grid) return;
+    const gridRect = grid.getBoundingClientRect();
+    const svgH = gridRect.height || 200;
+    const mx   = 22; // midpoint x
+    let lines  = '';
+
+    function cy(el) {
+      const r = el.getBoundingClientRect();
+      return (r.top + r.bottom) / 2 - gridRect.top;
+    }
+
+    const ivBtn   = document.getElementById('procCardIV');
+    const ettBtn  = document.getElementById('procCardETT');
+    const ivPanel = document.getElementById('ivInlinePanel');
+    const ettPanel= document.getElementById('ettInlinePanel');
+
+    const ivShowing  = ivPanel  && ivPanel.style.display  !== 'none';
+    const ettShowing = ettPanel && ettPanel.style.display !== 'none';
+
+    // IV line: cyan
+    if (ivBtn && ivShowing) {
+      const iY = cy(ivBtn);
+      lines += `<line x1="0" y1="${iY}" x2="${mx}" y2="${iY}" stroke="#0e7490" stroke-width="1.8" stroke-dasharray="4,3"/>`;
+      lines += `<line x1="${mx}" y1="${iY}" x2="38" y2="${iY}" stroke="#0e7490" stroke-width="2.2"/>`;
+      lines += `<polyline points="32,${iY-5} 38,${iY} 32,${iY+5}" fill="none" stroke="#0e7490" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`;
+    }
+    // ETT line: purple
+    if (ettBtn && ettShowing) {
+      const eY = cy(ettBtn);
+      lines += `<line x1="0" y1="${eY}" x2="${mx}" y2="${eY}" stroke="#6b21a8" stroke-width="1.8" stroke-dasharray="4,3"/>`;
+      lines += `<line x1="${mx}" y1="${eY}" x2="38" y2="${eY}" stroke="#6b21a8" stroke-width="2.2"/>`;
+      lines += `<polyline points="32,${eY-5} 38,${eY} 32,${eY+5}" fill="none" stroke="#6b21a8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`;
+    }
+    // Vertical connector if both showing
+    if (ivBtn && ettBtn && ivShowing && ettShowing) {
+      const iY = cy(ivBtn); const eY = cy(ettBtn);
+      lines += `<line x1="${mx}" y1="${iY}" x2="${mx}" y2="${eY}" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="3,3"/>`;
+    }
+
+    svg.setAttribute('viewBox', `0 0 44 ${svgH}`);
+    svg.style.height = svgH + 'px';
+    svg.innerHTML = lines;
+  }
+
+  window.addEventListener('load', () => { setTimeout(drawProcFlowLines, 150); });
+  window.addEventListener('resize', drawProcFlowLines);
+
+  // Close dropdowns on outside click
+  document.addEventListener('click', function(e) {
+    const ivdd = document.getElementById('ivDropdown');
+    if (ivdd && !ivdd.contains(e.target) && e.target.id !== 'ivSearchInput') {
+      ivdd.style.display = 'none';
+    }
+    const ettdd = document.getElementById('ettByDd');
+    if (ettdd && !ettdd.contains(e.target) && e.target.id !== 'ettByInput') {
+      ettdd.classList.remove('open');
+    }
+  });
 
   function getProcData() {
     const data = {};
@@ -2795,6 +3146,18 @@
     // Reset procedure checklist
     ivEntries = []; renderIVEntries();
     ettEntries = []; renderETTEntries();
+    // Reset proc panel UI
+    document.getElementById('ivInlinePanel').style.display = 'none';
+    document.getElementById('ettInlinePanel').style.display = 'none';
+    document.getElementById('ivLogPanel').style.display = 'none';
+    document.getElementById('ettLogPanel').style.display = 'none';
+    document.querySelector('#ivInlinePanel .proc-inline-panel').style.display = '';
+    document.querySelector('#ettInlinePanel .proc-inline-panel').style.display = '';
+    document.getElementById('procCardIV').className  = 'proc-card-btn';
+    document.getElementById('procCardETT').className = 'proc-card-btn';
+    document.getElementById('ivCardCount').classList.remove('visible');
+    document.getElementById('ettCardCount').classList.remove('visible');
+    drawProcFlowLines();
 
     // Reset cycle log
     cprCycleLog = [];
@@ -2809,6 +3172,7 @@
       b.classList.remove('active-vf','active-vt','active-pea','active-asy','active-oth');
     });
     document.getElementById('rhythmOthersWrap').classList.remove('visible');
+    document.getElementById('rhythmOthersDoneBtn').style.display = 'none';
     document.getElementById('inlineDefibLog').style.display = 'none';
     skipCprAutoCountdown();
 
@@ -2847,21 +3211,17 @@
     document.getElementById('inlineShockList').innerHTML = '';
 
     // Reset IV medications
-    const ivDefaults = { adrenaline:'1mg', amiodarone:'300mg', atropine:'1mg', nahco3:'50mmol', calcium:'10ml', mgso4:'2g', noradrenaline:'4mg', ivothers:'' };
-    Object.keys(ivMeds).forEach(key => {
-      ivMeds[key] = [];
-      const timeEl = document.getElementById('time-'+key);
-      const doseEl = document.getElementById('dose-'+key);
-      if (timeEl) timeEl.value = '';
-      if (doseEl) doseEl.value = ivDefaults[key] || '';
-      updateMedCountUI(key);
-    });
+    ivDoseRecords = [];
+    renderIvDoseLog();
+    document.getElementById('ivSearchInput').value = '';
+    document.getElementById('ivDoseInput').value = '';
+    document.getElementById('ivTimeInput').value = '';
+    document.getElementById('ivDropdown').style.display = 'none';
     const othName = document.getElementById('ivothers-name');
     if (othName) othName.value = '';
 
 
     // Overlays removed
-    _medLogKey = null;
 
     showToast('↺ Form cleared', '#475569', '#f8fafc', '#dde3ed');
   }
@@ -3078,13 +3438,9 @@
       }
       if (cprCdRemaining <= 0) {
         clearInterval(cprCdInterval); cprCdInterval = null;
-        document.getElementById('cprCdDisplay').textContent = '0:00';
-        document.getElementById('cprCdLabel').textContent = 'SELESAI';
-        document.getElementById('btnCprCdStop').style.display = 'none';
-        document.getElementById('btnCprCdStart').textContent = '↺ Ulang';
-        document.getElementById('btnCprCdStart').style.display = '';
         cprCdRemaining = 120;
-        // Show post-CPR check alert
+        // Tutup countdown panel, tunjuk postCprAlert di tempat yang sama
+        document.getElementById('cprCountdownPanel').style.display = 'none';
         document.getElementById('postCprAlert').style.display = '';
         document.getElementById('postCprAlert').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         logEvent('dot-cpr', `<strong>CPR 2 minit</strong> selesai — semak nadi & ritma`);
@@ -3107,10 +3463,12 @@
     document.getElementById('postCprAlert').style.display = 'none';
   }
 
-  function closePostCprAlert() {
+  function closePostCprAlert(outcome) {
     document.getElementById('postCprAlert').style.display = 'none';
-    // Reset countdown panel for next round
+    document.getElementById('cprCountdownPanel').style.display = 'none';
+    clearInterval(cprCdInterval); cprCdInterval = null;
     cprCdRemaining = 120;
+    // Reset countdown panel state (hidden, ready for next time)
     updateCprCdDisplay();
     document.getElementById('cprCdLabel').textContent = 'SIAP — TEKAN MULA';
     document.getElementById('cprCdBar').style.width = '100%';
@@ -3119,6 +3477,12 @@
     document.getElementById('btnCprCdStart').textContent = '▶ Mula CPR';
     document.getElementById('btnCprCdStart').style.display = '';
     document.getElementById('btnCprCdStop').style.display = 'none';
+    if (outcome === 'rosc') {
+      logEvent('dot-cpr', `<strong>ROSC</strong> — Return of Spontaneous Circulation`);
+      showToast('✅ ROSC dicatatkan', '#057a55', '#ecfdf5', '#a7f3d0');
+    } else if (outcome === 'nopulse') {
+      logEvent('dot-cpr', `<strong>No Pulse, No Breathing</strong> — teruskan resusitasi`);
+    }
   }
 
   function updateCprCdDisplay() {
@@ -3277,7 +3641,7 @@
     document.getElementById('btnCprCdStart').style.display = 'none';
     document.getElementById('btnCprCdStop').style.display = '';
     document.getElementById('postCprAlert').style.display = 'none';
-    logEvent('dot-cpr', `<strong>CPR Countdown</strong> auto-dimulakan selepas shock`);
+    logEvent('dot-cpr', `<strong>Start CPR</strong> for 2 minutes`);
     // Scroll to CPR card
     panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
     // Start interval
@@ -3294,12 +3658,9 @@
       }
       if (cprCdRemaining <= 0) {
         clearInterval(cprCdInterval); cprCdInterval = null;
-        document.getElementById('cprCdDisplay').textContent = '0:00';
-        document.getElementById('cprCdLabel').textContent = 'SELESAI';
-        document.getElementById('btnCprCdStop').style.display = 'none';
-        document.getElementById('btnCprCdStart').textContent = '↺ Ulang';
-        document.getElementById('btnCprCdStart').style.display = '';
-        // Show post-CPR check alert
+        cprCdRemaining = 120;
+        // Tutup countdown panel, tunjuk postCprAlert di tempat yang sama
+        document.getElementById('cprCountdownPanel').style.display = 'none';
         document.getElementById('postCprAlert').style.display = '';
         document.getElementById('postCprAlert').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         logEvent('dot-cpr', `<strong>CPR 2 minit</strong> selesai — semak nadi & ritma`);
