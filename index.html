@@ -49,49 +49,80 @@
 
   /* HEADER */
   .header {
-    background: var(--surface);
+    background: linear-gradient(135deg, #0d1b2a 0%, #1a2d42 100%);
     border-bottom: 3px solid var(--red);
     padding: 0 24px;
     position: sticky; top: 0; z-index: 100;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35);
   }
   .header-inner {
     max-width: 1280px; margin: 0 auto;
     display: flex; align-items: center; justify-content: space-between;
-    height: 54px;
+    height: 62px;
   }
-  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo { display: flex; align-items: center; gap: 14px; }
   .logo-icon {
-    width: 34px; height: 34px; background: var(--red); border-radius: 8px;
-    display: flex; align-items: center; justify-content: center; font-size: 16px;
-    box-shadow: 0 2px 8px rgba(214,40,57,0.35);
+    width: 40px; height: 40px; background: var(--red); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+    box-shadow: 0 2px 14px rgba(214,40,57,0.5);
     animation: pulse-red 2.2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .logo-divider {
+    width: 1px; height: 32px; background: rgba(255,255,255,0.15); flex-shrink: 0;
+  }
+  .logo-hospital {
+    display: flex; flex-direction: column; gap: 1px;
+  }
+  .logo-hospital-name {
+    font-family: var(--head); font-size: 11px; font-weight: 700;
+    letter-spacing: 1.5px; color: rgba(255,255,255,0.5); text-transform: uppercase;
+  }
+  .logo-hospital-dept {
+    font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 1px;
   }
   @keyframes pulse-cpr-icon {
     0%,100% { transform: scale(1); }
     50%      { transform: scale(1.18); }
   }
   @keyframes pulse-red {
-    0%,100% { box-shadow: 0 2px 8px rgba(214,40,57,0.35); }
-    50%      { box-shadow: 0 2px 20px rgba(214,40,57,0.65); }
+    0%,100% { box-shadow: 0 2px 14px rgba(214,40,57,0.5); }
+    50%      { box-shadow: 0 2px 28px rgba(214,40,57,0.85); }
   }
   .logo-text h1 {
-    font-family: var(--head); font-size: 16px; font-weight: 700;
-    letter-spacing: 2px; color: var(--red); text-transform: uppercase;
+    font-family: var(--head); font-size: 20px; font-weight: 700;
+    letter-spacing: 3px; color: #fff; text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(214,40,57,0.4);
   }
-  .logo-text span { font-family: var(--mono); font-size: 9px; color: var(--text-dim); letter-spacing: 1px; }
+  .logo-text span { font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.45); letter-spacing: 1.5px; }
   .header-right { display: flex; align-items: center; gap: 10px; }
   .live-clock {
-    font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--blue);
-    background: var(--blue-light); border: 1px solid var(--blue-mid);
-    padding: 4px 10px; border-radius: 5px;
+    font-family: var(--mono); font-size: 15px; font-weight: 700; color: #fff;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    padding: 6px 14px; border-radius: 7px; letter-spacing: 1px;
+  }
+  .header-status-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
+    box-shadow: 0 0 8px rgba(34,197,94,0.7);
+    animation: statusblink 2s ease-in-out infinite;
+    display: inline-block; flex-shrink: 0;
+  }
+  @keyframes statusblink { 0%,100%{opacity:1;box-shadow:0 0 8px rgba(34,197,94,0.7)} 50%{opacity:0.6;box-shadow:0 0 4px rgba(34,197,94,0.3)} }
+  .header-status-label {
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    color: #22c55e; letter-spacing: 1.5px; text-transform: uppercase;
+  }
+  .header-status-wrap {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);
+    padding: 5px 11px; border-radius: 6px;
   }
   .record-count-chip {
-    background: var(--red-light); border: 1px solid var(--red-mid); border-radius: 5px;
-    padding: 4px 10px; font-family: var(--mono); font-size: 10px; color: var(--red);
+    background: rgba(214,40,57,0.15); border: 1px solid rgba(214,40,57,0.4); border-radius: 6px;
+    padding: 5px 11px; font-family: var(--mono); font-size: 10px; color: #ff6b7a;
     font-weight: 700; letter-spacing: 0.8px;
   }
-  .record-count-chip span { font-size: 13px; }
+  .record-count-chip span { font-size: 14px; }
 
   /* CPR STICKY BAR */
   .cpr-sticky-bar {
@@ -153,12 +184,14 @@
 
   /* ALERT BANNER */
   .alert-banner {
-    background: var(--red-light); border: 1px solid var(--red-mid);
-    border-left: 4px solid var(--red); border-radius: 7px;
-    padding: 8px 14px; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 8px;
-    font-family: var(--head); font-size: 11px; letter-spacing: 1.5px;
+    background: linear-gradient(90deg, #fff0f1, #fff5f5);
+    border: 1px solid var(--red-mid);
+    border-left: 5px solid var(--red); border-radius: 8px;
+    padding: 10px 16px; margin-bottom: 18px;
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--head); font-size: 11px; letter-spacing: 1.2px;
     color: var(--red); text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(214,40,57,0.08);
   }
   .blink { animation: blink 1s step-end infinite; font-size: 13px; }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -205,41 +238,44 @@
 
   /* FORM CARD */
   .form-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-    padding: 20px 24px; margin-bottom: 20px; box-shadow: var(--shadow);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 24px 28px; margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     position: relative; overflow: hidden;
   }
   .form-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--red), var(--blue));
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: linear-gradient(90deg, var(--red), var(--blue), var(--green));
   }
 
   .section-title {
-    font-family: var(--head); font-size: 10px; letter-spacing: 2px; color: var(--blue);
-    text-transform: uppercase; font-weight: 700; margin-bottom: 12px;
-    display: flex; align-items: center; gap: 6px;
+    font-family: var(--head); font-size: 11px; letter-spacing: 2.5px; color: var(--blue);
+    text-transform: uppercase; font-weight: 700; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px; background: var(--blue-light);
+    border-radius: 7px; border-left: 3px solid var(--blue);
   }
-  .section-title::after {
-    content: ''; flex: 1; height: 1px;
-    background: linear-gradient(90deg, var(--border-strong), transparent);
-  }
+  .section-title::after { display: none; }
 
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
   .form-grid.three { grid-template-columns: 1fr 1fr 1fr; }
-  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
   .form-group.full { grid-column: 1 / -1; }
 
-  label { font-size: 10px; font-weight: 600; color: var(--text-mid); letter-spacing: 0.6px; text-transform: uppercase; }
+  label {
+    font-size: 11px; font-weight: 700; color: var(--text-mid);
+    letter-spacing: 0.8px; text-transform: uppercase;
+  }
   input, select, textarea {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 5px;
-    color: var(--text); font-family: var(--body); font-size: 12px; padding: 6px 9px;
+    background: var(--surface2); border: 1.5px solid var(--border); border-radius: 7px;
+    color: var(--text); font-family: var(--body); font-size: 13px; padding: 9px 12px;
     outline: none; transition: border-color 0.18s, box-shadow 0.18s;
   }
   input:focus, select:focus, textarea:focus {
-    border-color: var(--blue); box-shadow: 0 0 0 2px rgba(26,86,219,0.12); background: #fff;
+    border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,219,0.1); background: #fff;
   }
   select option { background: #fff; color: var(--text); }
-  textarea { resize: vertical; min-height: 64px; }
+  textarea { resize: vertical; min-height: 80px; }
   ::placeholder { color: var(--text-dim); }
 
   /* TOGGLE YES/NO */
@@ -476,21 +512,52 @@
   .outcome-btn.active-ongoing  { background: var(--yellow-light); border-color: #b45309;       color: #b45309;       box-shadow: 0 0 0 2px var(--yellow-mid); }
 
   /* ACTION BUTTONS */
-  .action-row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .btn { padding: 7px 18px; border-radius: 6px; border: none; font-family: var(--head); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; cursor: pointer; text-transform: uppercase; transition: all 0.18s; }
-  .btn-clear { background: var(--surface2); border: 1.5px solid var(--border-strong); color: var(--text-mid); }
+  .action-row {
+    display: flex; gap: 10px; justify-content: flex-end;
+    margin-top: 22px; padding-top: 18px;
+    border-top: 2px solid var(--border);
+  }
+  .btn {
+    padding: 10px 22px; border-radius: 8px; border: none;
+    font-family: var(--head); font-size: 12px; font-weight: 700;
+    letter-spacing: 1.5px; cursor: pointer; text-transform: uppercase;
+    transition: all 0.18s; display: flex; align-items: center; gap: 6px;
+  }
+  .btn-clear {
+    background: var(--surface2); border: 1.5px solid var(--border-strong); color: var(--text-mid);
+  }
   .btn-clear:hover { background: var(--border); color: var(--text); }
-  .btn-save  { background: var(--red);  color: #fff; box-shadow: 0 2px 8px rgba(214,40,57,0.3); }
-  .btn-save:hover  { background: #b91c2e; transform: translateY(-1px); }
-  .btn-print { background: var(--blue); color: #fff; box-shadow: 0 2px 8px rgba(26,86,219,0.2); }
-  .btn-print:hover { background: #1447b0; transform: translateY(-1px); }
+  .btn-save {
+    background: linear-gradient(135deg, #d62839, #b91c2e);
+    color: #fff; box-shadow: 0 4px 14px rgba(214,40,57,0.35);
+  }
+  .btn-save:hover  { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(214,40,57,0.5); }
+  .btn-print {
+    background: linear-gradient(135deg, #1a56db, #1447b0);
+    color: #fff; box-shadow: 0 4px 14px rgba(26,86,219,0.3);
+  }
+  .btn-print:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,86,219,0.45); }
 
   /* RECORDS CARD */
-  .records-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); }
-  .records-header { padding: 12px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--surface2); }
-  .records-header h2 { font-family: var(--head); font-size: 12px; letter-spacing: 1.5px; color: var(--text); text-transform: uppercase; font-weight: 700; }
-  .search-box { background: var(--surface); border: 1px solid var(--border-strong); border-radius: 5px; color: var(--text); font-family: var(--body); font-size: 11px; padding: 5px 10px; outline: none; width: 200px; transition: border-color 0.18s, box-shadow 0.18s; }
-  .search-box:focus { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(26,86,219,0.12); }
+  .records-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .records-header {
+    padding: 14px 20px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(90deg, #f8fafc, #f0f4f8);
+    border-bottom: 2px solid var(--border-strong);
+  }
+  .records-header h2 {
+    font-family: var(--head); font-size: 13px; letter-spacing: 2px;
+    color: var(--text); text-transform: uppercase; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .search-box {
+    background: var(--surface); border: 1.5px solid var(--border-strong);
+    border-radius: 7px; color: var(--text); font-family: var(--body);
+    font-size: 12px; padding: 7px 12px; outline: none; width: 220px;
+    transition: border-color 0.18s, box-shadow 0.18s;
+  }
+  .search-box:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,219,0.1); }
 
   table { width: 100%; border-collapse: collapse; }
   thead tr { background: var(--surface2); border-bottom: 2px solid var(--border-strong); }
@@ -526,12 +593,13 @@
 
   /* TOAST */
   .toast {
-    position: fixed; bottom: 20px; right: 20px;
-    background: var(--surface); border: 1px solid var(--green-mid);
-    border-left: 4px solid var(--green); border-radius: 7px;
-    padding: 10px 14px; font-size: 11px; font-weight: 600; color: var(--green);
-    box-shadow: var(--shadow-md); transform: translateY(70px); opacity: 0;
-    transition: all 0.28s cubic-bezier(.4,0,.2,1); z-index: 999;
+    position: fixed; bottom: 24px; right: 24px;
+    background: #0f172a; border: 1px solid rgba(255,255,255,0.1);
+    border-left: 4px solid var(--green); border-radius: 10px;
+    padding: 12px 18px; font-size: 12px; font-weight: 600; color: #4ade80;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3); transform: translateY(80px); opacity: 0;
+    transition: all 0.3s cubic-bezier(.4,0,.2,1); z-index: 999;
+    font-family: var(--mono); letter-spacing: 0.5px;
   }
   .toast.show { transform: translateY(0); opacity: 1; }
 
@@ -809,31 +877,37 @@
   @media (max-width: 720px) { .cpr-layout { grid-template-columns: 1fr; } }
   .cpr-timer-wrap {
     display: flex; flex-direction: column; gap: 10px;
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 8px; padding: 12px 16px;
+    background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+    border: 2px solid var(--green-mid);
+    border-radius: 12px; padding: 14px 18px;
+  }
+  .cpr-timer-wrap.cpr-active {
+    background: linear-gradient(135deg, #052e16, #064e3b);
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34,197,94,0.2), 0 8px 24px rgba(5,122,85,0.35);
   }
   .cpr-timer-left { display: flex; gap: 8px; }
   .btn-cpr-start {
     display: flex; align-items: center; gap: 6px;
-    padding: 8px 18px; border-radius: 7px; border: none; cursor: pointer;
+    padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer;
     background: linear-gradient(135deg, #057a55, #059669);
-    color: #fff; font-family: var(--head); font-size: 12px; font-weight: 700;
+    color: #fff; font-family: var(--head); font-size: 13px; font-weight: 700;
     letter-spacing: 1.5px; text-transform: uppercase;
-    box-shadow: 0 3px 10px rgba(5,122,85,0.35); transition: all 0.18s;
+    box-shadow: 0 4px 14px rgba(5,122,85,0.4); transition: all 0.18s;
   }
-  .btn-cpr-start:hover { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(5,122,85,0.45); }
+  .btn-cpr-start:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(5,122,85,0.55); }
   .btn-cpr-stop {
     display: flex; align-items: center; gap: 6px;
-    padding: 8px 18px; border-radius: 7px; border: none; cursor: pointer;
+    padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer;
     background: var(--red-light); color: var(--red);
-    border: 1.5px solid var(--red-mid); font-family: var(--head); font-size: 12px;
+    border: 2px solid var(--red-mid); font-family: var(--head); font-size: 13px;
     font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; transition: all 0.18s;
   }
   .btn-cpr-stop:hover { background: var(--red-mid); }
-  .cpr-icon { font-size: 14px; }
+  .cpr-icon { font-size: 16px; }
 
   .cpr-timer-display {
-    display: flex; align-items: center; gap: 12px; width: 100%;
+    display: flex; align-items: center; gap: 16px; width: 100%;
   }
   .cpr-label {
     font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--green);
@@ -842,22 +916,31 @@
   }
   @keyframes cprpulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
   .cpr-countdown {
-    font-family: var(--mono); font-size: 26px; font-weight: 700; color: var(--text);
-    min-width: 56px; letter-spacing: 1px;
+    font-family: var(--mono); font-size: 48px; font-weight: 700;
+    color: var(--green); min-width: 90px; letter-spacing: 2px;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(5,122,85,0.3);
   }
-  .cpr-countdown.urgent { color: var(--red); animation: cprpulse 0.5s ease-in-out infinite; }
+  .cpr-countdown.urgent {
+    color: var(--red); animation: cprpulse 0.5s ease-in-out infinite;
+    text-shadow: 0 0 20px rgba(214,40,57,0.4);
+  }
   .cpr-bar-track {
-    flex: 1; min-width: 80px; height: 7px; background: var(--border);
-    border-radius: 4px; overflow: hidden;
+    flex: 1; min-width: 80px; height: 10px; background: var(--border);
+    border-radius: 5px; overflow: hidden;
   }
   .cpr-bar-fill {
-    height: 100%; width: 100%; border-radius: 4px;
+    height: 100%; width: 100%; border-radius: 5px;
     background: linear-gradient(90deg, #059669, #10b981);
     transition: width 1s linear, background 0.5s;
+    box-shadow: 0 0 8px rgba(5,150,105,0.4);
   }
-  .cpr-bar-fill.urgent { background: linear-gradient(90deg, #d62839, #f87171); }
+  .cpr-bar-fill.urgent {
+    background: linear-gradient(90deg, #d62839, #f87171);
+    box-shadow: 0 0 8px rgba(214,40,57,0.4);
+  }
   .cpr-cycle-count {
-    font-family: var(--mono); font-size: 10px; color: var(--text-dim); white-space: nowrap;
+    font-family: var(--mono); font-size: 11px; color: var(--text-dim); white-space: nowrap;
   }
   .cpr-cycle-count span { color: var(--blue); font-weight: 700; }
 
@@ -951,18 +1034,19 @@
   .btn-proc-add:hover { background: var(--blue-mid); }
 
   .proc-entry-chip {
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 10px;
     background: #fff; border: 1.5px solid var(--border-strong);
-    border-radius: 7px; padding: 6px 10px;
-    margin-bottom: 5px; animation: fadeIn 0.2s ease;
+    border-radius: 8px; padding: 9px 12px;
+    margin-bottom: 6px; animation: fadeIn 0.2s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   }
-  .proc-entry-chip.chip-iv   { border-left: 3px solid var(--cyan); }
-  .proc-entry-chip.chip-ett-ok  { border-left: 3px solid var(--green); }
-  .proc-entry-chip.chip-ett-fail{ border-left: 3px solid var(--red); }
+  .proc-entry-chip.chip-iv   { border-left: 4px solid var(--cyan); background: linear-gradient(90deg, #ecfeff 0%, #fff 60%); }
+  .proc-entry-chip.chip-ett-ok  { border-left: 4px solid var(--green); }
+  .proc-entry-chip.chip-ett-fail{ border-left: 4px solid var(--red); }
 
   .chip-num {
     font-family: var(--mono); font-size: 9px; font-weight: 700;
-    color: #fff; border-radius: 3px; padding: 1px 5px;
+    color: #fff; border-radius: 4px; padding: 2px 7px;
     white-space: nowrap; flex-shrink: 0;
   }
   .chip-num-iv   { background: var(--cyan); }
@@ -970,11 +1054,13 @@
   .chip-num-fail { background: var(--red); }
 
   .chip-text {
-    font-size: 11px; color: var(--text); font-weight: 600; flex: 1; line-height: 1.3;
+    font-size: 12px; color: var(--text); font-weight: 600; flex: 1; line-height: 1.4;
   }
   .chip-time {
-    font-family: var(--mono); font-size: 10px; color: var(--blue);
+    font-family: var(--mono); font-size: 11px; color: var(--blue);
     font-weight: 700; white-space: nowrap;
+    background: var(--blue-light); border: 1px solid var(--blue-mid);
+    border-radius: 4px; padding: 2px 8px;
   }
   .chip-del {
     cursor: pointer; color: var(--text-dim); font-size: 13px; font-weight: 700;
@@ -1082,9 +1168,33 @@
 
   /* PRINT */
   @media print {
-    .header, .form-card, .records-header .search-box, .btn-del, .btn-view, .alert-banner { display: none !important; }
-    body { background: #fff; }
+    .header, .form-card, .records-header .search-box,
+    .btn-del, .btn-view, .alert-banner,
+    .cpr-sticky-bar, .action-row, .desktop-right,
+    .btn-cpr-start, .btn-cpr-stop { display: none !important; }
+    body { background: #fff; font-size: 11pt; }
     .records-card { border: none; box-shadow: none; }
+    .main { padding: 0; }
+    .desktop-layout { grid-template-columns: 1fr; }
+
+    /* Print header */
+    body::before {
+      content: 'CODE BLUE RECORD — KEMENTERIAN KESIHATAN MALAYSIA';
+      display: block; font-family: serif; font-size: 14pt; font-weight: bold;
+      text-align: center; padding: 12pt 0 6pt; border-bottom: 2pt solid #000;
+      margin-bottom: 12pt;
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 10pt; }
+    th { background: #e5e7eb !important; border: 1pt solid #9ca3af; padding: 6pt 8pt; font-size: 9pt; }
+    td { border: 1pt solid #d1d5db; padding: 5pt 8pt; }
+    .badge { border: 1pt solid #aaa !important; padding: 1pt 5pt; font-size: 8pt; }
+    .records-header h2 { font-size: 13pt; margin-bottom: 8pt; }
+
+    /* Page break handling */
+    tr { page-break-inside: avoid; }
+    thead { display: table-header-group; }
+    @page { margin: 2cm; size: A4 landscape; }
   }
 
   @media (max-width: 720px) {
@@ -1144,17 +1254,17 @@
   .event-log-sticky-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     display: flex;
     flex-direction: column;
     max-height: calc(100vh - 86px);
   }
   .event-log-sticky-header {
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface2);
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--border);
+    background: linear-gradient(90deg, #0d1b2a, #1a2d42);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1163,18 +1273,18 @@
   .event-log-sticky-title {
     font-family: var(--head);
     font-size: 11px;
-    letter-spacing: 2px;
+    letter-spacing: 2.5px;
     font-weight: 700;
     text-transform: uppercase;
-    color: var(--text);
+    color: #fff;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
   }
   .event-log-sticky-body {
     flex: 1;
     overflow-y: auto;
-    padding: 10px 12px;
+    padding: 12px 14px;
     min-height: 200px;
   }
   /* Hide the inline event log section when desktop layout active */
@@ -1187,20 +1297,21 @@
     .form-grid { grid-template-columns: 1fr 1fr 1fr; }
     .form-grid.three { grid-template-columns: repeat(4, 1fr); }
     .main { padding: 22px 28px; }
-    .form-card { padding: 22px 28px; }
+    .form-card { padding: 24px 30px; }
     body { font-size: 13px; }
     input, select, textarea { font-size: 13px; }
     label { font-size: 11px; }
-    .section-title { font-size: 11px; }
-    .header-inner { height: 58px; }
-    .logo-text h1 { font-size: 18px; }
+    .section-title { font-size: 11px; letter-spacing: 2.5px; }
+    .header-inner { height: 62px; }
+    .logo-text h1 { font-size: 20px; }
     .logo-text span { font-size: 10px; }
-    .live-clock { font-size: 14px; }
+    .live-clock { font-size: 15px; }
   }
 
   /* CPR sticky bar offset for taller header */
   @media (min-width: 1024px) {
-    .cpr-sticky-bar { top: 58px; }
+    .cpr-sticky-bar { top: 62px; }
+    .desktop-right { top: 66px; max-height: calc(100vh - 82px); }
   }
 
   /* Records table — better column spacing on desktop */
@@ -1240,8 +1351,17 @@
         <h1>Code Blue</h1>
         <span>EMERGENCY RESPONSE RECORD SYSTEM</span>
       </div>
+      <div class="logo-divider"></div>
+      <div class="logo-hospital">
+        <div class="logo-hospital-name">Kementerian Kesihatan Malaysia</div>
+        <div class="logo-hospital-dept">Emergency &amp; Trauma Department</div>
+      </div>
     </div>
     <div class="header-right">
+      <div class="header-status-wrap">
+        <span class="header-status-dot"></span>
+        <span class="header-status-label">System Active</span>
+      </div>
       <div class="live-clock" id="liveClock">--:--:--</div>
       <div class="record-count-chip">RECORDS: <span id="recordCount">0</span></div>
     </div>
@@ -1270,7 +1390,7 @@
 
   <div class="alert-banner">
     <span class="blink">⚠</span>
-    <span>Code Blue Record System — Ministry of Health Malaysia</span>
+    <span>Code Blue Record System — Kementerian Kesihatan Malaysia &nbsp;|&nbsp; Semua rekod adalah sulit dan digunakan untuk tujuan klinikal sahaja.</span>
   </div>
 
   <!-- PATIENT INFORMATION CARD -->
@@ -1421,24 +1541,24 @@
       <div style="display:flex; flex-direction:column; gap:10px; align-self:stretch; justify-content:center;">
 
         <!-- CPR COUNTDOWN panel (shown when Asystole/PEA clicked OR after confirmContinueCpr) -->
-        <div id="cprCountdownPanel" style="display:none; background:linear-gradient(135deg,#f0fdf4,#ecfdf5); border:2px solid var(--green-mid); border-left:4px solid var(--green); border-radius:10px; padding:14px 16px; animation:fadeIn 0.2s ease;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-            <div style="display:flex;align-items:center;gap:7px;">
-              <span style="font-size:14px;animation:pulse-cpr-icon 0.8s ease-in-out infinite;">💓</span>
-              <span style="font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;">CPR IN PROGRESS</span>
+        <div id="cprCountdownPanel" style="display:none; background:linear-gradient(135deg,#052e16,#064e3b); border:2px solid #22c55e; border-left:4px solid #22c55e; border-radius:12px; padding:16px 18px; animation:fadeIn 0.2s ease; box-shadow:0 0 0 3px rgba(34,197,94,0.15), 0 8px 24px rgba(5,122,85,0.4);">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:16px;animation:pulse-cpr-icon 0.8s ease-in-out infinite;">💓</span>
+              <span style="font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:2.5px;color:#4ade80;text-transform:uppercase;">CPR IN PROGRESS</span>
             </div>
-            <button onclick="closeCprCountdownPanel()" style="width:20px;height:20px;border-radius:50%;border:1px solid var(--green-mid);background:var(--green-light);color:var(--green);font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+            <button onclick="closeCprCountdownPanel()" style="width:22px;height:22px;border-radius:50%;border:1px solid rgba(34,197,94,0.4);background:rgba(34,197,94,0.1);color:#4ade80;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
           </div>
-          <div style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;padding:8px 0;">
-            <div id="cprCdDisplay" style="font-family:var(--mono);font-size:44px;font-weight:700;color:var(--green);letter-spacing:2px;line-height:1;">2:00</div>
-            <div id="cprCdLabel" style="font-family:var(--mono);font-size:9px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;">CPR SEDANG BERJALAN</div>
-            <div style="width:100%;height:7px;background:var(--green-mid);border-radius:4px;overflow:hidden;margin-top:4px;">
-              <div id="cprCdBar" style="height:100%;width:100%;background:linear-gradient(90deg,#057a55,#34d399);border-radius:4px;transition:width 1s linear;"></div>
+          <div style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;padding:10px 0;">
+            <div id="cprCdDisplay" style="font-family:var(--mono);font-size:64px;font-weight:700;color:#4ade80;letter-spacing:4px;line-height:1;text-shadow:0 0 30px rgba(74,222,128,0.5);">2:00</div>
+            <div id="cprCdLabel" style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase;">CPR SEDANG BERJALAN</div>
+            <div style="width:100%;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden;margin-top:6px;">
+              <div id="cprCdBar" style="height:100%;width:100%;background:linear-gradient(90deg,#057a55,#34d399);border-radius:4px;transition:width 1s linear;box-shadow:0 0 10px rgba(52,211,153,0.5);"></div>
             </div>
           </div>
-          <div style="display:flex;gap:6px;margin-top:10px;">
-            <button id="btnCprCdStart" onclick="startCprCountdown()" style="display:none;flex:1;padding:8px;border-radius:7px;border:none;cursor:pointer;background:linear-gradient(135deg,#057a55,#059669);color:#fff;font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;box-shadow:0 3px 10px rgba(5,122,85,0.3);transition:all 0.15s;">▶ Mula CPR</button>
-            <button id="btnCprCdStop" onclick="stopCprCountdown()" style="flex:1;padding:8px;border-radius:7px;cursor:pointer;background:var(--red-light);border:1.5px solid var(--red-mid);color:var(--red);font-family:var(--head);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all 0.15s;">■ Stop</button>
+          <div style="display:flex;gap:7px;margin-top:12px;">
+            <button id="btnCprCdStart" onclick="startCprCountdown()" style="display:none;flex:1;padding:10px;border-radius:8px;border:none;cursor:pointer;background:linear-gradient(135deg,#057a55,#059669);color:#fff;font-family:var(--head);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;box-shadow:0 3px 10px rgba(5,122,85,0.3);transition:all 0.15s;">▶ Mula CPR</button>
+            <button id="btnCprCdStop" onclick="stopCprCountdown()" style="flex:1;padding:10px;border-radius:8px;cursor:pointer;background:rgba(214,40,57,0.15);border:1.5px solid rgba(248,113,113,0.4);color:#f87171;font-family:var(--head);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all 0.15s;">■ Stop</button>
           </div>
         </div>
 
@@ -1746,42 +1866,42 @@
       </div>
     </div>
     <!-- IV MEDICATIONS -->
-    <div class="form-group" style="margin-bottom:20px">
+    <div class="form-group" style="margin-bottom:22px">
       <label>IV Medications Given</label>
 
       <!-- Single IV medication card -->
-      <div style="background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;margin-top:8px;">
+      <div style="background:linear-gradient(135deg,#f0f9ff,#f8fafc);border:2px solid var(--blue-mid);border-radius:12px;padding:16px 18px;margin-top:10px;box-shadow:0 2px 8px rgba(26,86,219,0.06);">
 
         <!-- Row 1: Drug name search -->
-        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:10px;">
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-bottom:12px;">
           <div style="flex:1;min-width:180px;position:relative;">
-            <div style="font-size:9px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">Nama Ubat</div>
+            <div style="font-size:10px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">💊 Nama Ubat</div>
             <input type="text" id="ivSearchInput" placeholder="Taip nama ubat..." autocomplete="off"
               oninput="onIvSearch()"
               onfocus="onIvSearch()"
               onkeydown="onIvSearchKey(event)"
-              style="width:100%;font-size:13px;font-weight:600;padding:8px 10px;border-radius:7px;border:1.5px solid var(--border-strong);background:#fff;color:var(--text);outline:none;transition:border-color 0.15s;">
+              style="width:100%;font-size:13px;font-weight:600;padding:9px 12px;border-radius:8px;border:2px solid var(--border-strong);background:#fff;color:var(--text);outline:none;transition:border-color 0.15s,box-shadow 0.15s;">
             <!-- Dropdown -->
-            <div id="ivDropdown" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:200;background:#fff;border:1.5px solid var(--blue-mid);border-radius:7px;box-shadow:0 6px 20px rgba(0,0,0,0.12);max-height:220px;overflow-y:auto;margin-top:3px;"></div>
+            <div id="ivDropdown" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:200;background:#fff;border:2px solid var(--blue-mid);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,0.14);max-height:220px;overflow-y:auto;margin-top:4px;"></div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:4px;">
-            <div style="font-size:9px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.8px;">Dose</div>
-            <input type="text" id="ivDoseInput" placeholder="e.g. 1mg" style="font-family:var(--mono);font-size:12px;font-weight:600;padding:7px 9px;border-radius:6px;border:1.5px solid var(--border-strong);background:#fff;color:var(--text);width:90px;outline:none;">
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="font-size:10px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:1px;">Dose</div>
+            <input type="text" id="ivDoseInput" placeholder="e.g. 1mg" style="font-family:var(--mono);font-size:13px;font-weight:700;padding:9px 11px;border-radius:8px;border:2px solid var(--border-strong);background:#fff;color:var(--text);width:100px;outline:none;">
           </div>
-          <div style="display:flex;flex-direction:column;gap:4px;">
-            <div style="font-size:9px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.8px;">Masa Diberikan</div>
-            <div style="display:flex;gap:5px;align-items:center;">
-              <input type="time" id="ivTimeInput" style="font-family:var(--mono);font-size:12px;padding:6px 8px;border-radius:6px;border:1.5px solid var(--border-strong);background:#fff;color:var(--text);outline:none;">
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <div style="font-size:10px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:1px;">Masa Diberikan</div>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <input type="time" id="ivTimeInput" style="font-family:var(--mono);font-size:13px;padding:8px 10px;border-radius:8px;border:2px solid var(--border-strong);background:#fff;color:var(--text);outline:none;">
               <button class="btn-stat" onclick="ivStatNow()"><span class="stat-dot"></span>STAT</button>
             </div>
           </div>
-          <button class="btn-med-add" onclick="ivAddDose()" style="margin-bottom:1px;">+ Add</button>
+          <button class="btn-med-add" onclick="ivAddDose()" style="margin-bottom:1px;padding:9px 16px;font-size:11px;">+ Add</button>
         </div>
 
         <!-- Recorded doses log -->
-        <div id="ivDoseLog" style="display:none;margin-top:4px;border-top:1px solid var(--border);padding-top:10px;">
-          <div style="font-size:9px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Rekod Ubat Diberikan</div>
-          <div id="ivDoseLogList" style="display:flex;flex-direction:column;gap:4px;"></div>
+        <div id="ivDoseLog" style="display:none;margin-top:6px;border-top:2px solid var(--blue-mid);padding-top:12px;">
+          <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px;">📋 Rekod Ubat Diberikan</div>
+          <div id="ivDoseLogList" style="display:flex;flex-direction:column;gap:5px;"></div>
         </div>
       </div>
     </div>
@@ -1855,7 +1975,7 @@
   <div class="event-log-sticky-card">
     <div class="event-log-sticky-header">
       <span class="event-log-sticky-title">📝 Event Log</span>
-      <div id="eventLogCountBadge" style="font-family:var(--mono);font-size:10px;color:var(--text-dim);">0 events</div>
+      <div id="eventLogCountBadge" style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:2px 8px;">0 events</div>
     </div>
     <div class="event-log-sticky-body" id="eventLogWrap">
       <div class="event-log-empty" id="eventLogEmpty">No events yet. Actions will appear here automatically.</div>
