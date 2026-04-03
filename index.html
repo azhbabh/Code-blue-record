@@ -882,10 +882,15 @@
     border-radius: 12px; padding: 14px 18px;
   }
   .cpr-timer-wrap.cpr-active {
-    background: linear-gradient(135deg, #052e16, #064e3b);
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
     border-color: #22c55e;
-    box-shadow: 0 0 0 3px rgba(34,197,94,0.2), 0 8px 24px rgba(5,122,85,0.35);
+    box-shadow: 0 0 0 3px rgba(34,197,94,0.2), 0 8px 24px rgba(5,122,85,0.18);
   }
+  .cpr-timer-wrap.cpr-active .cpr-label { color: #057a55; }
+  .cpr-timer-wrap.cpr-active .cpr-countdown { color: #057a55; }
+  .cpr-timer-wrap.cpr-active .cpr-countdown.urgent { color: var(--red); }
+  .cpr-timer-wrap.cpr-active .cpr-cycle-count { color: #374151; }
+  .cpr-timer-wrap.cpr-active .cpr-cycle-count span { color: #1a56db; }
   .cpr-timer-left { display: flex; gap: 8px; }
   .btn-cpr-start {
     display: flex; align-items: center; gap: 6px;
@@ -1116,6 +1121,68 @@
   .dot-pulse    { background: var(--yellow); }
   .dot-cycle    { background: var(--text-dim); }
   .dot-note     { background: var(--text-mid); }
+
+  /* RESUSCITATION TIMER PANEL */
+  .resus-timer-panel {
+    background: linear-gradient(135deg, #eff6ff, #dbeafe);
+    border: 2px solid var(--blue-mid);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    animation: fadeIn 0.3s ease;
+    flex-shrink: 0;
+  }
+  .resus-timer-panel.active { display: flex; }
+  .resus-timer-panel.ended {
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border-color: var(--green-mid);
+  }
+  .resus-timer-panel.ended-deceased {
+    background: linear-gradient(135deg, #fff0f1, #ffd6da);
+    border-color: var(--red-mid);
+  }
+  .resus-timer-header {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  }
+  .resus-timer-label {
+    font-family: var(--head); font-size: 9px; font-weight: 700;
+    letter-spacing: 2px; color: var(--blue); text-transform: uppercase;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .resus-timer-panel.ended .resus-timer-label { color: var(--green); }
+  .resus-timer-panel.ended-deceased .resus-timer-label { color: var(--red); }
+  .resus-timer-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--blue);
+    animation: statusblink 1.2s ease-in-out infinite; flex-shrink: 0;
+  }
+  .resus-timer-panel.ended .resus-timer-dot,
+  .resus-timer-panel.ended-deceased .resus-timer-dot { animation: none; }
+  .resus-timer-display {
+    font-family: var(--mono); font-size: 28px; font-weight: 700;
+    color: var(--blue); letter-spacing: 2px; line-height: 1;
+  }
+  .resus-timer-panel.ended .resus-timer-display { color: var(--green); }
+  .resus-timer-panel.ended-deceased .resus-timer-display { color: var(--red); }
+  .resus-timer-meta {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .resus-timer-chip {
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    background: rgba(26,86,219,0.1); color: var(--blue);
+    border: 1px solid var(--blue-mid); border-radius: 4px;
+    padding: 2px 7px; white-space: nowrap;
+  }
+  .resus-timer-panel.ended .resus-timer-chip { background: rgba(5,122,85,0.08); color: var(--green); border-color: var(--green-mid); }
+  .resus-timer-panel.ended-deceased .resus-timer-chip { background: rgba(214,40,57,0.08); color: var(--red); border-color: var(--red-mid); }
+  .resus-outcome-chip {
+    font-family: var(--head); font-size: 9px; font-weight: 700;
+    padding: 2px 9px; border-radius: 10px; letter-spacing: 1px; text-transform: uppercase;
+    background: var(--green-light); color: var(--green); border: 1px solid var(--green-mid);
+  }
+  .resus-outcome-chip.deceased { background: var(--red-light); color: var(--red); border-color: var(--red-mid); }
 
   /* EVENT LOG PATIENT BLOCK */
   .event-patient-block {
@@ -1977,6 +2044,22 @@
       <span class="event-log-sticky-title">📝 Event Log</span>
       <div id="eventLogCountBadge" style="font-family:var(--mono);font-size:10px;color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:2px 8px;">0 events</div>
     </div>
+    <!-- Resuscitation Timer Panel -->
+    <div class="resus-timer-panel" id="resusTimerPanel" style="margin:10px 12px 0;">
+      <div class="resus-timer-header">
+        <span class="resus-timer-label">
+          <span class="resus-timer-dot" id="resusTimerDot"></span>
+          <span id="resusTimerLabelText">Resuscitation In Progress</span>
+        </span>
+        <span id="resusOutcomeChip" style="display:none;" class="resus-outcome-chip"></span>
+      </div>
+      <div class="resus-timer-display" id="resusTimerDisplay">00:00</div>
+      <div class="resus-timer-meta">
+        <span class="resus-timer-chip" id="resusStartChip">Start: --:--</span>
+        <span class="resus-timer-chip" id="resusEndChip" style="display:none;">End: --:--</span>
+        <span class="resus-timer-chip" id="resusDurationChip" style="display:none;"></span>
+      </div>
+    </div>
     <div class="event-log-sticky-body" id="eventLogWrap">
       <div class="event-log-empty" id="eventLogEmpty">No events yet. Actions will appear here automatically.</div>
       <div class="event-log-list" id="eventLogList"></div>
@@ -2462,6 +2545,7 @@
     const icons = { ROSC:'✅', Deceased:'🔴' };
     logEvent('dot-outcome', `<strong>Patient Outcome:</strong> ${icons[val]||''} ${val}${timeDisplay}`, t);
     showToast(`${icons[val]||''} Outcome recorded: ${val}`);
+    if (val === 'ROSC' || val === 'Deceased') stopResusTimer(val);
   }
 
   function setOutcomeTimeNow() { /* Overlay removed */ }
@@ -2713,6 +2797,68 @@
     return data;
   }
 
+  // ── Resuscitation Timer ──
+  let _resusInterval = null;
+  let _resusStartTime = null;
+  let _resusEndTime = null;
+
+  function startResusTimer() {
+    if (_resusStartTime) return; // already started
+    _resusStartTime = new Date();
+    const panel = document.getElementById('resusTimerPanel');
+    panel.classList.add('active');
+    panel.classList.remove('ended','ended-deceased');
+    document.getElementById('resusTimerDot').style.animation = '';
+    document.getElementById('resusTimerLabelText').textContent = 'Resuscitation In Progress';
+    document.getElementById('resusStartChip').textContent = 'Start: ' + _resusStartTime.toTimeString().slice(0,5);
+    document.getElementById('resusEndChip').style.display = 'none';
+    document.getElementById('resusDurationChip').style.display = 'none';
+    document.getElementById('resusOutcomeChip').style.display = 'none';
+    if (_resusInterval) clearInterval(_resusInterval);
+    _resusInterval = setInterval(tickResusTimer, 1000);
+    tickResusTimer();
+  }
+
+  function tickResusTimer() {
+    if (!_resusStartTime) return;
+    const elapsed = Math.floor((Date.now() - _resusStartTime) / 1000);
+    const h = Math.floor(elapsed / 3600);
+    const m = Math.floor((elapsed % 3600) / 60);
+    const s = elapsed % 60;
+    const display = h > 0
+      ? `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`
+      : `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    document.getElementById('resusTimerDisplay').textContent = display;
+  }
+
+  function stopResusTimer(outcome) {
+    if (!_resusStartTime) return;
+    if (_resusInterval) { clearInterval(_resusInterval); _resusInterval = null; }
+    _resusEndTime = new Date();
+    tickResusTimer(); // final update
+    const elapsed = Math.floor((_resusEndTime - _resusStartTime) / 1000);
+    const h = Math.floor(elapsed / 3600);
+    const m = Math.floor((elapsed % 3600) / 60);
+    const s = elapsed % 60;
+    const durStr = h > 0
+      ? `${h}h ${m}m ${String(s).padStart(2,'0')}s`
+      : `${m}m ${String(s).padStart(2,'0')}s`;
+    const panel = document.getElementById('resusTimerPanel');
+    panel.classList.remove('ended','ended-deceased');
+    if (outcome === 'Deceased') panel.classList.add('ended-deceased');
+    else panel.classList.add('ended');
+    document.getElementById('resusTimerDot').style.animation = 'none';
+    document.getElementById('resusTimerLabelText').textContent = 'Resuscitation Ended';
+    document.getElementById('resusEndChip').textContent = 'End: ' + _resusEndTime.toTimeString().slice(0,5);
+    document.getElementById('resusEndChip').style.display = '';
+    document.getElementById('resusDurationChip').textContent = 'Duration: ' + durStr;
+    document.getElementById('resusDurationChip').style.display = '';
+    const outcomeChip = document.getElementById('resusOutcomeChip');
+    outcomeChip.textContent = outcome === 'ROSC' ? '✅ ROSC' : '🔴 Deceased';
+    outcomeChip.className = 'resus-outcome-chip' + (outcome === 'Deceased' ? ' deceased' : '');
+    outcomeChip.style.display = '';
+  }
+
   // ── CPR Timer ──
   let cprInterval = null;
   let cprSecondsLeft = 120;
@@ -2740,6 +2886,7 @@
     addCycleEntry(cprCycleCount, cprCycleStartTime, null);
     updateCPRDisplay();
     cprInterval = setInterval(tickCPR, 1000);
+    startResusTimer();
     logEvent('dot-cpr', `<strong>CPR Started</strong> — ${now.toTimeString().slice(0,5)}, Cycle 1 begins`);
   }
 
